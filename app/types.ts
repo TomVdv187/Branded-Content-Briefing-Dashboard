@@ -29,8 +29,18 @@ export interface ContentBrief {
   
   // Additional Requirements
   deadline: string;
+  budget: string;
+  guaranteedPageviews: number;
   revisionNotes?: string;
   referenceUrls?: string[];
+}
+
+export interface SEOSuggestions {
+  suggestedKeywords: string[];
+  suggestedMetaDescription: string;
+  keywordDifficulty: { [keyword: string]: 'Low' | 'Medium' | 'High' };
+  searchVolume: { [keyword: string]: number };
+  competitorAnalysis: string[];
 }
 
 export interface GeneratedContent {
@@ -43,6 +53,7 @@ export interface GeneratedContent {
   seoTitle: string;
   keywords: string[];
   slug: string;
+  seoSuggestions: SEOSuggestions;
   
   // Social Media Versions
   socialPosts: {

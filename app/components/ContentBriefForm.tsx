@@ -29,11 +29,14 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
     doNotMention: [],
     mustInclude: [],
     deadline: '',
+    budget: '5K - 10K',
+    guaranteedPageviews: 10000,
   });
 
   const [keywordInput, setKeywordInput] = useState('');
   const [doNotMentionInput, setDoNotMentionInput] = useState('');
   const [mustIncludeInput, setMustIncludeInput] = useState('');
+  const [seoSuggestions, setSeoSuggestions] = useState<string[]>([]);
 
   const contentTypes = [
     { value: 'article', label: 'News Article', description: 'Professional news or industry article' },
@@ -137,6 +140,63 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
         socialPlatforms: prev.socialPlatforms.filter(p => p !== platform)
       }));
     }
+  };
+
+  const generateSEOSuggestions = () => {
+    // Generate intelligent SEO suggestions based on topic, industry, and content type
+    const topicKeywords = generateKeywordsFromTopic(brief.topic, brief.industry, brief.contentType);
+    setSeoSuggestions(topicKeywords);
+  };
+
+  const generateKeywordsFromTopic = (topic: string, industry: string, contentType: string): string[] => {
+    const baseKeywords = [];
+    
+    // Extract words from topic
+    const topicWords = topic.toLowerCase().split(' ').filter(word => word.length > 2);
+    
+    // Add topic-based keywords
+    baseKeywords.push(...topicWords);
+    baseKeywords.push(topic.toLowerCase());
+    
+    // Add industry-specific keywords
+    baseKeywords.push(industry.toLowerCase());
+    baseKeywords.push(`${industry.toLowerCase()} solutions`);
+    baseKeywords.push(`${industry.toLowerCase()} trends`);
+    
+    // Add content-type specific keywords
+    const contentModifiers = {
+      'article': ['guide', 'analysis', 'insights', 'review'],
+      'blog-post': ['tips', 'how to', 'best practices', 'tutorial'],
+      'case-study': ['success story', 'results', 'case study', 'implementation'],
+      'press-release': ['announcement', 'news', 'launch', 'update'],
+      'landing-page': ['solution', 'service', 'benefits', 'features']
+    };
+    
+    const modifiers = contentModifiers[contentType as keyof typeof contentModifiers] || ['guide', 'tips'];
+    modifiers.forEach(modifier => {
+      baseKeywords.push(`${topic.toLowerCase()} ${modifier}`);
+      baseKeywords.push(`${industry.toLowerCase()} ${modifier}`);
+    });
+    
+    // Add long-tail keywords
+    baseKeywords.push(`best ${topic.toLowerCase()} for ${industry.toLowerCase()}`);
+    baseKeywords.push(`${topic.toLowerCase()} ${industry.toLowerCase()} 2024`);
+    baseKeywords.push(`how to ${topic.toLowerCase()}`);
+    baseKeywords.push(`${topic.toLowerCase()} benefits`);
+    
+    // Remove duplicates and return top suggestions
+    return Array.from(new Set(baseKeywords)).filter(keyword => keyword.length > 3).slice(0, 8);
+  };
+
+  const addSuggestedKeyword = (keyword: string) => {
+    if (!brief.keywords.includes(keyword)) {
+      setBrief(prev => ({
+        ...prev,
+        keywords: [...prev.keywords, keyword]
+      }));
+    }
+    // Remove from suggestions
+    setSeoSuggestions(prev => prev.filter(s => s !== keyword));
   };
 
   return (
@@ -356,7 +416,17 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
           </div>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Keywords</label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium text-gray-700">Keywords</label>
+              <button
+                type="button"
+                onClick={() => generateSEOSuggestions()}
+                className="btn-secondary text-sm flex items-center gap-2"
+              >
+                <Globe size={14} />
+                Get SEO Suggestions
+              </button>
+            </div>
             <div className="flex gap-2 mb-2">
               <input
                 type="text"
@@ -374,6 +444,27 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
                 <Plus size={16} />
               </button>
             </div>
+            
+            {/* SEO Keyword Suggestions */}
+            {seoSuggestions.length > 0 && (
+              <div className="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <h4 className="text-sm font-medium text-blue-900 mb-2">🎯 Suggested Keywords (High Performance)</h4>
+                <div className="flex flex-wrap gap-2">
+                  {seoSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => addSuggestedKeyword(suggestion)}
+                      className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1"
+                    >
+                      <Plus size={12} />
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            
             <div className="flex flex-wrap gap-2">
               {brief.keywords.map((keyword, index) => (
                 <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
@@ -499,7 +590,42 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
             Project Details
           </h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Project Budget *</label>
+              <select
+                className="input-field"
+                value={brief.budget}
+                onChange={(e) => setBrief(prev => ({ ...prev, budget: e.target.value }))}
+                required
+              >
+                <option value="5K - 10K">€5K - €10K</option>
+                <option value="10K - 25K">€10K - €25K</option>
+                <option value="25K - 50K">€25K - €50K</option>
+                <option value="50K - 100K">€50K - €100K</option>
+                <option value="100K - 250K">€100K - €250K</option>
+                <option value="250K+">€250K+</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Guaranteed Pageviews *</label>
+              <select
+                className="input-field"
+                value={brief.guaranteedPageviews}
+                onChange={(e) => setBrief(prev => ({ ...prev, guaranteedPageviews: parseInt(e.target.value) }))}
+                required
+              >
+                <option value={10000}>10,000+ pageviews</option>
+                <option value={25000}>25,000+ pageviews</option>
+                <option value={50000}>50,000+ pageviews</option>
+                <option value={100000}>100,000+ pageviews</option>
+                <option value={250000}>250,000+ pageviews</option>
+                <option value={500000}>500,000+ pageviews</option>
+                <option value={1000000}>1M+ pageviews</option>
+              </select>
+            </div>
+            
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Deadline</label>
               <input

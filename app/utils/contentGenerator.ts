@@ -1,4 +1,4 @@
-import { ContentBrief, GeneratedContent } from '../types';
+import { ContentBrief, GeneratedContent, SEOSuggestions } from '../types';
 
 export function generateContent(brief: ContentBrief): GeneratedContent {
   // Generate different content based on content type
@@ -29,6 +29,7 @@ function generateArticle(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -51,6 +52,7 @@ function generateBlogPost(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -73,6 +75,7 @@ function generateSocialPosts(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -95,6 +98,7 @@ function generateNewsletter(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -117,6 +121,7 @@ function generateProductDescription(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -139,6 +144,7 @@ function generatePressRelease(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -161,6 +167,7 @@ function generateCaseStudy(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -183,6 +190,7 @@ function generateLandingPage(brief: ContentBrief): GeneratedContent {
     seoTitle: generateSEOTitle(brief, title),
     keywords: brief.keywords,
     slug: generateSlug(title),
+    seoSuggestions: generateSEOSuggestions(brief, title),
     socialPosts,
     excerpt: generateExcerpt(content),
     callToAction: generateCTA(brief),
@@ -645,6 +653,173 @@ function calculateReadingTime(content: string): string {
   const wordCount = content.split(' ').length;
   const minutes = Math.ceil(wordCount / wordsPerMinute);
   return `${minutes} min read`;
+}
+
+// SEO Suggestions Generation
+function generateSEOSuggestions(brief: ContentBrief, title: string): SEOSuggestions {
+  const suggestedKeywords = generateAdvancedKeywords(brief);
+  const suggestedMetaDescription = generateOptimizedMetaDescription(brief, title);
+  const keywordDifficulty = calculateKeywordDifficulty(suggestedKeywords);
+  const searchVolume = estimateSearchVolume(suggestedKeywords, brief);
+  const competitorAnalysis = generateCompetitorInsights(brief);
+
+  return {
+    suggestedKeywords,
+    suggestedMetaDescription,
+    keywordDifficulty,
+    searchVolume,
+    competitorAnalysis
+  };
+}
+
+function generateAdvancedKeywords(brief: ContentBrief): string[] {
+  const keywords = [];
+  
+  // Primary topic keywords
+  const topicWords = brief.topic.toLowerCase().split(' ');
+  keywords.push(brief.topic.toLowerCase());
+  
+  // Industry-specific keywords
+  keywords.push(`${brief.industry.toLowerCase()}`);
+  keywords.push(`${brief.industry.toLowerCase()} ${brief.topic.toLowerCase()}`);
+  
+  // Intent-based keywords based on content type
+  const intentKeywords: { [key: string]: string[] } = {
+    'article': ['guide', 'complete guide', 'ultimate guide', 'comprehensive'],
+    'blog-post': ['how to', 'tips', 'best practices', 'tutorial', 'step by step'],
+    'case-study': ['success story', 'case study', 'results', 'ROI'],
+    'product-description': ['best', 'top', 'review', 'features', 'benefits'],
+    'press-release': ['news', 'announcement', 'launch', 'update'],
+    'social-posts': ['trending', 'viral', 'engagement', 'social', 'share'],
+    'newsletter': ['insights', 'trends', 'update', 'roundup'],
+    'landing-page': ['solution', 'service', 'benefits', 'why choose']
+  };
+  
+  const intents = intentKeywords[brief.contentType] || ['guide', 'tips'];
+  intents.forEach(intent => {
+    keywords.push(`${intent} ${brief.topic.toLowerCase()}`);
+    keywords.push(`${brief.topic.toLowerCase()} ${intent}`);
+    keywords.push(`${brief.industry.toLowerCase()} ${intent}`);
+  });
+  
+  // Long-tail keywords
+  keywords.push(`best ${brief.topic.toLowerCase()} for ${brief.industry.toLowerCase()}`);
+  keywords.push(`${brief.topic.toLowerCase()} ${brief.industry.toLowerCase()} 2024`);
+  keywords.push(`why ${brief.topic.toLowerCase()} matters`);
+  keywords.push(`${brief.topic.toLowerCase()} benefits for ${brief.industry.toLowerCase()}`);
+  
+  // Target audience specific keywords
+  if (brief.targetAudience) {
+    const audienceKeywords = brief.targetAudience.toLowerCase().split(' ').slice(0, 3);
+    audienceKeywords.forEach(aud => {
+      if (aud.length > 3) {
+        keywords.push(`${brief.topic.toLowerCase()} for ${aud}`);
+      }
+    });
+  }
+  
+  // High-value commercial keywords based on budget
+  const budgetLevel = getBudgetLevel(brief.budget);
+  if (budgetLevel === 'high') {
+    keywords.push(`premium ${brief.topic.toLowerCase()}`);
+    keywords.push(`enterprise ${brief.topic.toLowerCase()}`);
+    keywords.push(`professional ${brief.topic.toLowerCase()} services`);
+  }
+  
+  // Remove duplicates and short keywords
+  return Array.from(new Set(keywords))
+    .filter(keyword => keyword.length > 3 && !keyword.includes('undefined'))
+    .slice(0, 12);
+}
+
+function generateOptimizedMetaDescription(brief: ContentBrief, title: string): string {
+  // Create compelling meta description based on guaranteed pageviews and value prop
+  const pageviewsText = brief.guaranteedPageviews >= 100000 ? 
+    `Proven to drive ${(brief.guaranteedPageviews / 1000).toLocaleString()}K+ pageviews.` : 
+    `Optimized for maximum engagement.`;
+  
+  const industryValue = `${brief.industry} professionals trust our ${brief.contentType.replace('-', ' ')} content.`;
+  
+  const actionText = brief.contentType === 'landing-page' ? 
+    'Get started today!' : 
+    'Read the full analysis.';
+  
+  const metaDesc = `${brief.mainMessage.substring(0, 80)}... ${pageviewsText} ${industryValue} ${actionText}`;
+  
+  // Ensure it's under 160 characters
+  return metaDesc.length > 160 ? metaDesc.substring(0, 157) + '...' : metaDesc;
+}
+
+function calculateKeywordDifficulty(keywords: string[]): { [keyword: string]: 'Low' | 'Medium' | 'High' } {
+  const difficulty: { [keyword: string]: 'Low' | 'Medium' | 'High' } = {};
+  
+  keywords.forEach(keyword => {
+    const wordCount = keyword.split(' ').length;
+    const hasNumbers = /\d/.test(keyword);
+    
+    if (wordCount >= 4 || hasNumbers || keyword.includes('how to') || keyword.includes('best')) {
+      difficulty[keyword] = 'Low';
+    } else if (wordCount === 3) {
+      difficulty[keyword] = 'Medium';
+    } else {
+      difficulty[keyword] = 'High';
+    }
+  });
+  
+  return difficulty;
+}
+
+function estimateSearchVolume(keywords: string[], brief: ContentBrief): { [keyword: string]: number } {
+  const volume: { [keyword: string]: number } = {};
+  
+  const industryMultiplier = getIndustryMultiplier(brief.industry);
+  
+  keywords.forEach(keyword => {
+    const wordCount = keyword.split(' ').length;
+    let baseVolume = 1000;
+    
+    // Adjust based on keyword characteristics
+    if (keyword.includes(brief.topic.toLowerCase())) baseVolume *= 2;
+    if (keyword.includes('how to')) baseVolume *= 1.5;
+    if (keyword.includes('best')) baseVolume *= 1.8;
+    if (keyword.includes('guide')) baseVolume *= 1.3;
+    if (wordCount >= 4) baseVolume *= 0.7; // Long-tail has lower volume but higher intent
+    
+    volume[keyword] = Math.round(baseVolume * industryMultiplier);
+  });
+  
+  return volume;
+}
+
+function generateCompetitorInsights(brief: ContentBrief): string[] {
+  return [
+    `Focus on long-tail keywords for ${brief.industry} to avoid high competition`,
+    `Content length of ${brief.wordCount}+ words performs better in ${brief.industry}`,
+    `Include industry-specific case studies and data points`,
+    `Target semantic keywords related to ${brief.topic}`,
+    `Optimize for featured snippets with structured content`
+  ];
+}
+
+function getBudgetLevel(budget: string): 'low' | 'medium' | 'high' {
+  if (budget.includes('100K') || budget.includes('250K+')) return 'high';
+  if (budget.includes('25K') || budget.includes('50K')) return 'medium';
+  return 'low';
+}
+
+function getIndustryMultiplier(industry: string): number {
+  const multipliers: { [key: string]: number } = {
+    'technology': 1.5,
+    'healthcare': 1.3,
+    'finance': 1.4,
+    'education': 1.2,
+    'retail': 1.6,
+    'manufacturing': 1.1,
+    'consulting': 1.2
+  };
+  
+  const industryLower = industry.toLowerCase();
+  return multipliers[industryLower] || 1.0;
 }
 
 // Additional content generation functions for specialized content types

@@ -92,7 +92,7 @@ export default function Home() {
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
                 Transform your content brief into ready-to-publish articles, blog posts, social media content, and more. 
-                Reduce production costs by 70% and eliminate hours of manual writing work.
+                Reduce production costs by 70% and eliminate hours of manual writing work with guaranteed pageview performance.
               </p>
               
               {/* Key Benefits */}
@@ -125,8 +125,8 @@ export default function Home() {
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                     <Sparkles className="text-orange-600" size={24} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Cost Reduction</h3>
-                  <p className="text-sm text-gray-600">Cut content production costs by 70-80% vs manual creation</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">Guaranteed Performance</h3>
+                  <p className="text-sm text-gray-600">10K-1M+ pageviews guaranteed with AI-optimized SEO and keywords</p>
                 </div>
               </div>
             </div>
