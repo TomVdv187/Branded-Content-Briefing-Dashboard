@@ -1,28 +1,71 @@
-export interface BriefingData {
-  publisherName: string;
-  publisherType: string;
-  currentChallenges: string;
+export interface ContentBrief {
+  // Client Information
+  clientName: string;
+  brandName: string;
+  industry: string;
+  
+  // Content Requirements
+  contentType: 'article' | 'blog-post' | 'social-posts' | 'newsletter' | 'product-description' | 'press-release' | 'case-study' | 'landing-page';
+  topic: string;
+  mainMessage: string;
   targetAudience: string;
-  contentTypes: string[];
-  monetizationMethods: string[];
-  currentTools: string;
-  desiredOutcomes: string;
-  timeframe: string;
-  budget: string;
-  additionalRequirements: string;
+  keywords: string[];
+  
+  // Content Specifications
+  tone: 'professional' | 'casual' | 'friendly' | 'authoritative' | 'conversational' | 'technical' | 'persuasive';
+  wordCount: number;
+  language: string;
+  
+  // SEO & Distribution
+  seoFocus: string;
+  metaDescription?: string;
+  includeImages: boolean;
+  socialPlatforms: string[];
+  
+  // Brand Guidelines
+  brandVoice: string;
+  doNotMention: string[];
+  mustInclude: string[];
+  
+  // Additional Requirements
+  deadline: string;
+  revisionNotes?: string;
+  referenceUrls?: string[];
 }
 
-export interface BlueprintSection {
+export interface GeneratedContent {
+  // Main Content
   title: string;
   content: string;
+  metaDescription: string;
+  
+  // SEO Elements
+  seoTitle: string;
+  keywords: string[];
+  slug: string;
+  
+  // Social Media Versions
+  socialPosts: {
+    platform: string;
+    content: string;
+    hashtags: string[];
+  }[];
+  
+  // Additional Formats
+  excerpt: string;
+  callToAction: string;
+  
+  // Metadata
+  wordCount: number;
+  readingTime: string;
+  generatedAt: Date;
+  contentType: string;
 }
 
-export interface GeneratedBlueprint {
-  executiveSummary: string;
-  coreFunctionalities: string;
-  technicalArchitecture: string;
-  userJourney: string;
-  revenueImpact: string;
-  implementationRoadmap: string;
-  riskMitigation: string;
+export interface ContentBatch {
+  batchId: string;
+  briefs: ContentBrief[];
+  generatedContent: GeneratedContent[];
+  status: 'pending' | 'generating' | 'completed' | 'error';
+  progress: number;
 }
