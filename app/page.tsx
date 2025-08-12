@@ -91,7 +91,7 @@ export default function Home() {
                 Generate Professional Content Instantly
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                Transform your content brief into ready-to-publish articles, blog posts, social media content, and more. 
+                Just paste your client briefing - our AI auto-fills all fields and generates ready-to-publish content. 
                 Reduce production costs by 70% and eliminate hours of manual writing work with guaranteed pageview performance.
               </p>
               
@@ -99,10 +99,10 @@ export default function Home() {
               <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-12">
                 <div className="bg-white rounded-lg p-6 shadow-sm border">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <Rocket className="text-blue-600" size={24} />
+                    <Brain className="text-blue-600" size={24} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Instant Content</h3>
-                  <p className="text-sm text-gray-600">Generate articles, blogs, and social posts in under 5 minutes</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">Smart Auto-Fill</h3>
+                  <p className="text-sm text-gray-600">Paste client briefs - AI extracts all info and fills forms automatically</p>
                 </div>
                 
                 <div className="bg-white rounded-lg p-6 shadow-sm border">
