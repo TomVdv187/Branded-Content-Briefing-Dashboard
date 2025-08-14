@@ -5,6 +5,7 @@ import ContentBriefForm from './components/ContentBriefForm';
 import GeneratedContentDisplay from './components/GeneratedContentDisplay';
 import { ContentBrief, GeneratedContent } from './types';
 import { generateContent } from './utils/contentGenerator';
+import { generateStoryContent } from './utils/storyContentGenerator';
 import { Sparkles, ArrowLeft, Brain, Zap, FileText, Target, Rocket } from 'lucide-react';
 
 export default function Home() {
@@ -179,7 +180,7 @@ export default function Home() {
                 <div>
                   <h3 className="text-green-800 font-semibold">Content Generated Successfully!</h3>
                   <p className="text-green-700 text-sm">
-                    Your {briefData.contentType} content for {briefData.brandName} is ready for review and publishing.
+                    Your content for {briefData.brand.name} is ready for review and publishing.
                   </p>
                 </div>
               </div>

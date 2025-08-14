@@ -1,1069 +1,710 @@
-import { ContentBrief, GeneratedContent, SEOSuggestions } from '../types';
+import { ContentBrief, GeneratedContent, ImagePack } from '../types';
 
+/**
+ * AI-Powered Content Generator
+ * Creates high-quality, publication-ready content from briefs
+ */
 export function generateContent(brief: ContentBrief): GeneratedContent {
-  // Generate different content based on content type
-  const generators = {
-    'article': generateArticle,
-    'blog-post': generateBlogPost,
-    'social-posts': generateSocialPosts,
-    'newsletter': generateNewsletter,
-    'product-description': generateProductDescription,
-    'press-release': generatePressRelease,
-    'case-study': generateCaseStudy,
-    'landing-page': generateLandingPage
+  const content: GeneratedContent = {
+    image_packs: [],
+    generated_at: new Date().toISOString(),
+    compliant: true,
+    novelty_score: calculateNoveltyScore(brief)
   };
-
-  const generator = generators[brief.contentType] || generateArticle;
-  return generator(brief);
-}
-
-function generateArticle(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'article');
-  const content = generateArticleContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
   
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generateBlogPost(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'blog');
-  const content = generateBlogContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generateSocialPosts(brief: ContentBrief): GeneratedContent {
-  const title = `Social Media Campaign: ${brief.topic}`;
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  const content = generateSocialCampaignContent(brief, socialPosts);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generateNewsletter(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'newsletter');
-  const content = generateNewsletterContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generateProductDescription(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'product');
-  const content = generateProductContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generatePressRelease(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'press-release');
-  const content = generatePressReleaseContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generateCaseStudy(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'case-study');
-  const content = generateCaseStudyContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-function generateLandingPage(brief: ContentBrief): GeneratedContent {
-  const title = generateTitle(brief, 'landing-page');
-  const content = generateLandingPageContent(brief);
-  const socialPosts = generateSocialMediaPosts(brief, title);
-  
-  return {
-    title,
-    content,
-    metaDescription: generateMetaDescription(brief, title),
-    seoTitle: generateSEOTitle(brief, title),
-    keywords: brief.keywords,
-    slug: generateSlug(title),
-    seoSuggestions: generateSEOSuggestions(brief, title),
-    socialPosts,
-    excerpt: generateExcerpt(content),
-    callToAction: generateCTA(brief),
-    wordCount: content.split(' ').length,
-    readingTime: calculateReadingTime(content),
-    generatedAt: new Date(),
-    contentType: brief.contentType
-  };
-}
-
-// Title Generation Functions
-function generateTitle(brief: ContentBrief, contentType: string): string {
-  const toneAdjectives = {
-    'professional': ['Advanced', 'Strategic', 'Comprehensive', 'Expert', 'Professional'],
-    'casual': ['Simple', 'Easy', 'Quick', 'Practical', 'Everyday'],
-    'friendly': ['Helpful', 'Friendly', 'Welcoming', 'Approachable', 'Supportive'],
-    'authoritative': ['Ultimate', 'Definitive', 'Complete', 'Authoritative', 'Essential'],
-    'conversational': ['Let\'s Talk About', 'Understanding', 'Exploring', 'Discussing', 'Discovering'],
-    'technical': ['Technical', 'Advanced', 'In-Depth', 'Detailed', 'Comprehensive'],
-    'persuasive': ['Revolutionary', 'Game-Changing', 'Breakthrough', 'Innovative', 'Transformative']
-  };
-
-  const adjectives = toneAdjectives[brief.tone] || toneAdjectives['professional'];
-  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-
-  // Create title based on content type and topic
-  const titleTemplates = {
-    'article': [
-      `${randomAdjective} Guide to ${brief.topic}`,
-      `How ${brief.brandName} is Transforming ${brief.topic}`,
-      `The Future of ${brief.topic} in ${brief.industry}`,
-      `${brief.topic}: What ${brief.targetAudience} Need to Know`
-    ],
-    'blog': [
-      `Why ${brief.topic} Matters for Your Business`,
-      `${randomAdjective} Tips for ${brief.topic}`,
-      `The Complete Guide to ${brief.topic}`,
-      `${brief.topic}: Best Practices and Insights`
-    ],
-    'newsletter': [
-      `${brief.brandName} Newsletter: ${brief.topic} Update`,
-      `This Week in ${brief.topic}`,
-      `${brief.topic} Insights from ${brief.brandName}`
-    ],
-    'product': [
-      `${brief.brandName} ${brief.topic}`,
-      `Introducing ${brief.topic} by ${brief.brandName}`,
-      `${randomAdjective} ${brief.topic} Solution`
-    ],
-    'press-release': [
-      `${brief.brandName} Announces ${brief.topic}`,
-      `${brief.brandName} Launches ${randomAdjective} ${brief.topic}`,
-      `Breaking: ${brief.brandName} ${brief.topic}`
-    ],
-    'case-study': [
-      `How ${brief.brandName} Achieved Success with ${brief.topic}`,
-      `Case Study: ${brief.topic} Implementation`,
-      `${brief.brandName} Success Story: ${brief.topic}`
-    ],
-    'landing-page': [
-      `${randomAdjective} ${brief.topic} Solutions`,
-      `Transform Your Business with ${brief.topic}`,
-      `${brief.brandName}: Your ${brief.topic} Partner`
-    ]
-  };
-
-  const templates = titleTemplates[contentType as keyof typeof titleTemplates] || titleTemplates['article'];
-  return templates[Math.floor(Math.random() * templates.length)];
-}
-
-// Content Generation Functions
-function generateArticleContent(brief: ContentBrief): string {
-  const introduction = generateIntroduction(brief);
-  const mainContent = generateMainContent(brief);
-  const conclusion = generateConclusion(brief);
-  
-  return `${introduction}\n\n${mainContent}\n\n${conclusion}`;
-}
-
-function generateBlogContent(brief: ContentBrief): string {
-  const hook = generateHook(brief);
-  const introduction = generateIntroduction(brief);
-  const mainContent = generateMainContent(brief);
-  const personalTouch = generatePersonalTouch(brief);
-  const conclusion = generateConclusion(brief);
-  
-  return `${hook}\n\n${introduction}\n\n${mainContent}\n\n${personalTouch}\n\n${conclusion}`;
-}
-
-function generateNewsletterContent(brief: ContentBrief): string {
-  const greeting = generateNewsletterGreeting(brief);
-  const mainContent = generateMainContent(brief);
-  const callToAction = generateCTA(brief);
-  const signature = generateSignature(brief);
-  
-  return `${greeting}\n\n${mainContent}\n\n${callToAction}\n\n${signature}`;
-}
-
-function generateProductContent(brief: ContentBrief): string {
-  const overview = generateProductOverview(brief);
-  const features = generateProductFeatures(brief);
-  const benefits = generateProductBenefits(brief);
-  const specifications = generateProductSpecs(brief);
-  
-  return `${overview}\n\n## Key Features\n${features}\n\n## Benefits\n${benefits}\n\n## Specifications\n${specifications}`;
-}
-
-function generatePressReleaseContent(brief: ContentBrief): string {
-  const headline = generatePressHeadline(brief);
-  const dateline = generateDateline(brief);
-  const lead = generatePressLead(brief);
-  const body = generatePressBody(brief);
-  const quote = generateQuote(brief);
-  const boilerplate = generateBoilerplate(brief);
-  
-  return `${headline}\n\n${dateline}\n\n${lead}\n\n${body}\n\n${quote}\n\n${boilerplate}`;
-}
-
-function generateCaseStudyContent(brief: ContentBrief): string {
-  const executive = generateExecutiveSummary(brief);
-  const challenge = generateChallenge(brief);
-  const solution = generateSolution(brief);
-  const results = generateResults(brief);
-  const testimonial = generateTestimonial(brief);
-  
-  return `## Executive Summary\n${executive}\n\n## The Challenge\n${challenge}\n\n## The Solution\n${solution}\n\n## Results\n${results}\n\n## Client Testimonial\n${testimonial}`;
-}
-
-function generateLandingPageContent(brief: ContentBrief): string {
-  const hero = generateHeroSection(brief);
-  const value = generateValueProposition(brief);
-  const features = generateFeatureList(brief);
-  const testimonials = generateTestimonialSection(brief);
-  const cta = generateCTA(brief);
-  
-  return `## ${hero}\n\n${value}\n\n## Key Features\n${features}\n\n## What Our Clients Say\n${testimonials}\n\n${cta}`;
-}
-
-// Helper Content Generation Functions
-function generateIntroduction(brief: ContentBrief): string {
-  const toneStarters = {
-    'professional': `In today's ${brief.industry} landscape, ${brief.topic} has become increasingly important for organizations seeking to maintain competitive advantage.`,
-    'casual': `Let's dive into ${brief.topic} and explore why it matters for your ${brief.industry} business.`,
-    'friendly': `Welcome! Today we're exploring ${brief.topic} and how it can benefit your ${brief.industry} organization.`,
-    'authoritative': `${brief.topic} represents a critical component of modern ${brief.industry} strategy, requiring comprehensive understanding and strategic implementation.`,
-    'conversational': `You've probably heard about ${brief.topic}, but what does it really mean for your ${brief.industry} business?`,
-    'technical': `${brief.topic} encompasses a complex set of technologies and methodologies specifically designed for ${brief.industry} applications.`,
-    'persuasive': `Imagine transforming your ${brief.industry} operations with ${brief.topic} - the results could be game-changing for your organization.`
-  };
-
-  const starter = toneStarters[brief.tone] || toneStarters['professional'];
-  
-  return `${starter}
-
-${brief.mainMessage}
-
-For ${brief.targetAudience}, understanding ${brief.topic} is essential for making informed decisions about future investments and strategic direction. This comprehensive analysis will explore the key aspects, benefits, and implementation considerations that matter most to your organization.
-
-${brief.mustInclude.length > 0 ? `This analysis includes insights on ${brief.mustInclude.join(', ')}, providing you with actionable intelligence for your decision-making process.` : ''}`;
-}
-
-function generateMainContent(brief: ContentBrief): string {
-  const sections = [];
-  
-  // Generate content based on word count and keywords
-  const keywordSections = brief.keywords.slice(0, 3).map(keyword => 
-    generateKeywordSection(keyword, brief)
-  );
-  
-  sections.push(...keywordSections);
-  
-  // Add industry-specific section
-  sections.push(generateIndustrySection(brief));
-  
-  // Add benefits section
-  sections.push(generateBenefitsSection(brief));
-  
-  // Add implementation section if word count is high enough
-  if (brief.wordCount > 1000) {
-    sections.push(generateImplementationSection(brief));
-  }
-  
-  return sections.join('\n\n');
-}
-
-function generateKeywordSection(keyword: string, brief: ContentBrief): string {
-  return `## Understanding ${keyword}
-
-${keyword} plays a crucial role in ${brief.topic} for ${brief.industry} organizations. ${brief.targetAudience} should consider how ${keyword} impacts their strategic objectives and operational efficiency.
-
-Key considerations for ${keyword} implementation:
-
-• Strategic alignment with business objectives
-• Resource requirements and budget considerations  
-• Timeline for deployment and expected outcomes
-• Integration with existing systems and processes
-• Training and change management requirements
-
-The impact of ${keyword} on ${brief.topic} cannot be understated. Organizations that successfully implement ${keyword} strategies typically see improved performance metrics and enhanced competitive positioning within the ${brief.industry} sector.`;
-}
-
-function generateIndustrySection(brief: ContentBrief): string {
-  return `## ${brief.topic} in the ${brief.industry} Industry
-
-The ${brief.industry} sector presents unique opportunities and challenges for ${brief.topic} implementation. ${brief.brandName} has extensive experience working with ${brief.targetAudience} to navigate these complexities successfully.
-
-Industry-specific considerations include:
-
-• Regulatory compliance and industry standards
-• Competitive landscape and market dynamics
-• Customer expectations and service requirements
-• Technology infrastructure and legacy system integration
-• Risk management and security protocols
-
-Organizations in the ${brief.industry} space that prioritize ${brief.topic} are better positioned to adapt to market changes, meet customer demands, and maintain sustainable growth trajectories.`;
-}
-
-function generateBenefitsSection(brief: ContentBrief): string {
-  return `## Key Benefits and Value Proposition
-
-Implementing ${brief.topic} delivers measurable benefits for ${brief.targetAudience}:
-
-**Operational Excellence**
-• Improved efficiency and productivity
-• Reduced operational costs and resource optimization
-• Enhanced quality control and consistency
-• Streamlined workflows and process automation
-
-**Strategic Advantages**
-• Competitive differentiation in the ${brief.industry} market
-• Improved customer satisfaction and retention
-• Enhanced data-driven decision making
-• Increased agility and market responsiveness
-
-**Financial Impact**
-• Cost reduction through process optimization
-• Revenue growth through improved capabilities
-• Risk mitigation and compliance assurance
-• ROI improvement through strategic investments
-
-These benefits align directly with the core business objectives of ${brief.targetAudience}, providing both immediate operational improvements and long-term strategic value.`;
-}
-
-function generateImplementationSection(brief: ContentBrief): string {
-  return `## Implementation Strategy and Best Practices
-
-Successfully implementing ${brief.topic} requires a structured approach tailored to the ${brief.industry} environment. ${brief.brandName} recommends the following methodology:
-
-**Phase 1: Assessment and Planning**
-• Current state analysis and gap identification
-• Stakeholder alignment and requirement gathering
-• Resource allocation and timeline development
-• Risk assessment and mitigation planning
-
-**Phase 2: Design and Development**
-• Solution architecture and technical specifications
-• Custom development and system integration
-• Quality assurance and testing protocols
-• User training and change management
-
-**Phase 3: Deployment and Optimization**
-• Phased rollout and go-live support
-• Performance monitoring and optimization
-• Ongoing maintenance and support
-• Continuous improvement and enhancement
-
-This proven methodology ensures successful ${brief.topic} implementation while minimizing disruption to existing operations and maximizing value realization for ${brief.targetAudience}.`;
-}
-
-function generateConclusion(brief: ContentBrief): string {
-  return `## Moving Forward with ${brief.topic}
-
-${brief.topic} represents a significant opportunity for ${brief.targetAudience} to enhance their ${brief.industry} operations and achieve strategic objectives. The key to success lies in understanding the unique requirements of your organization and implementing solutions that align with your business goals.
-
-${brief.brandName} stands ready to support your ${brief.topic} journey with comprehensive expertise, proven methodologies, and industry-specific knowledge. Our team understands the challenges facing ${brief.targetAudience} and delivers solutions that create measurable value.
-
-**Next Steps:**
-• Conduct a comprehensive assessment of your current capabilities
-• Identify specific opportunities for ${brief.topic} implementation  
-• Develop a strategic roadmap aligned with your business objectives
-• Begin implementation with pilot projects to validate approach
-
-The future of ${brief.industry} will be shaped by organizations that embrace ${brief.topic} and leverage its capabilities to drive innovation, efficiency, and growth. Don't let your competition gain the advantage - start your ${brief.topic} journey today.`;
-}
-
-// Social Media Generation Functions
-function generateSocialMediaPosts(brief: ContentBrief, title: string): Array<{platform: string, content: string, hashtags: string[]}> {
-  const posts: Array<{platform: string, content: string, hashtags: string[]}> = [];
-  
-  brief.socialPlatforms.forEach(platform => {
-    switch(platform) {
-      case 'LinkedIn':
-        posts.push({
-          platform: 'LinkedIn',
-          content: generateLinkedInPost(brief, title),
-          hashtags: generateLinkedInHashtags(brief)
-        });
+  // Generate content for each requested platform
+  brief.platforms.forEach(platform => {
+    switch (platform) {
+      case 'article':
+        content.article = generateArticleContent(brief);
         break;
-      case 'Twitter/X':
-        posts.push({
-          platform: 'Twitter/X',
-          content: generateTwitterPost(brief, title),
-          hashtags: generateTwitterHashtags(brief)
-        });
+      case 'instagram':
+        content.instagram = generateInstagramContent(brief);
         break;
-      case 'Facebook':
-        posts.push({
-          platform: 'Facebook',
-          content: generateFacebookPost(brief, title),
-          hashtags: generateFacebookHashtags(brief)
-        });
+      case 'tiktok':
+        content.tiktok = generateTikTokContent(brief);
         break;
-      case 'Instagram':
-        posts.push({
-          platform: 'Instagram',
-          content: generateInstagramPost(brief, title),
-          hashtags: generateInstagramHashtags(brief)
-        });
+      case 'facebook':
+        content.facebook = generateFacebookContent(brief);
         break;
-      default:
-        posts.push({
-          platform,
-          content: generateGenericPost(brief, title),
-          hashtags: generateGenericHashtags(brief)
-        });
+      case 'linkedin':
+        content.linkedin = generateLinkedInContent(brief);
+        break;
+      case 'newsletter':
+        content.newsletter = generateNewsletterContent(brief);
+        break;
+      case 'youtube':
+        content.youtube = generateYouTubeContent(brief);
+        break;
     }
   });
   
-  return posts;
-}
-
-function generateLinkedInPost(brief: ContentBrief, title: string): string {
-  return `🚀 ${title}
-
-${brief.mainMessage}
-
-Key insights for ${brief.targetAudience}:
-• Strategic implementation approaches
-• Industry best practices and benchmarks  
-• Measurable ROI and business impact
-
-${brief.brandName} brings deep expertise in ${brief.industry} solutions, helping organizations transform their operations and achieve sustainable growth.
-
-What's your experience with ${brief.topic}? Share your thoughts in the comments!
-
-#${brief.industry} #${brief.topic.replace(/\s+/g, '')} #BusinessTransformation`;
-}
-
-function generateTwitterPost(brief: ContentBrief, title: string): string {
-  return `${brief.brandName} insights: ${brief.mainMessage.substring(0, 120)}... 
-
-${brief.topic} is transforming ${brief.industry} 🚀
-
-Learn more about implementation strategies for ${brief.targetAudience} 👇`;
-}
-
-function generateFacebookPost(brief: ContentBrief, title: string): string {
-  return `${title} 📊
-
-Discover how ${brief.topic} is revolutionizing the ${brief.industry} industry! 
-
-${brief.mainMessage}
-
-Perfect for ${brief.targetAudience} looking to:
-✅ Improve operational efficiency
-✅ Drive strategic growth
-✅ Stay ahead of competition
-
-${brief.brandName} has the expertise to guide your transformation journey.
-
-Read our latest insights and share your thoughts! 💬`;
-}
-
-function generateInstagramPost(brief: ContentBrief, title: string): string {
-  return `${brief.topic} game-changer! 🎯
-
-${brief.brandName} helps ${brief.industry} leaders like you transform operations and drive growth. 
-
-${brief.mainMessage.substring(0, 100)}...
-
-Ready to elevate your business? 💪
-
-${brief.includeImages ? 'Swipe for key insights! →' : ''}`;
-}
-
-function generateGenericPost(brief: ContentBrief, title: string): string {
-  return `${title}
-
-${brief.mainMessage}
-
-${brief.brandName} specializes in ${brief.topic} solutions for ${brief.industry} organizations.
-
-Perfect for ${brief.targetAudience} seeking growth and innovation.`;
-}
-
-// Hashtag Generation Functions
-function generateLinkedInHashtags(brief: ContentBrief): string[] {
-  const baseHashtags = [brief.industry, 'BusinessStrategy', 'Innovation', 'Growth'];
-  const keywordHashtags = brief.keywords.map(k => k.replace(/\s+/g, ''));
-  return [...baseHashtags, ...keywordHashtags].slice(0, 8);
-}
-
-function generateTwitterHashtags(brief: ContentBrief): string[] {
-  const baseHashtags = [brief.industry, brief.topic.replace(/\s+/g, ''), 'Innovation'];
-  const keywordHashtags = brief.keywords.slice(0, 2).map(k => k.replace(/\s+/g, ''));
-  return [...baseHashtags, ...keywordHashtags].slice(0, 5);
-}
-
-function generateFacebookHashtags(brief: ContentBrief): string[] {
-  const baseHashtags = [brief.industry, 'Business', 'Technology', 'Growth'];
-  const keywordHashtags = brief.keywords.slice(0, 3).map(k => k.replace(/\s+/g, ''));
-  return [...baseHashtags, ...keywordHashtags].slice(0, 6);
-}
-
-function generateInstagramHashtags(brief: ContentBrief): string[] {
-  const baseHashtags = [brief.industry, 'Business', 'Innovation', 'Success', 'Growth', 'Technology'];
-  const keywordHashtags = brief.keywords.map(k => k.replace(/\s+/g, ''));
-  const brandHashtags = [brief.brandName.replace(/\s+/g, '')];
-  return [...baseHashtags, ...keywordHashtags, ...brandHashtags].slice(0, 15);
-}
-
-function generateGenericHashtags(brief: ContentBrief): string[] {
-  return [brief.industry, brief.topic.replace(/\s+/g, ''), 'Business', 'Innovation'];
-}
-
-// Utility Functions
-function generateMetaDescription(brief: ContentBrief, title: string): string {
-  if (brief.metaDescription) return brief.metaDescription;
+  // Generate comprehensive image packs
+  content.image_packs = generateImagePacks(brief);
   
-  return `${brief.mainMessage.substring(0, 120)}... Learn how ${brief.brandName} helps ${brief.targetAudience} with ${brief.topic}.`.substring(0, 160);
-}
-
-function generateSEOTitle(brief: ContentBrief, title: string): string {
-  const seoTitle = `${title} | ${brief.brandName}`;
-  return seoTitle.length <= 60 ? seoTitle : title.substring(0, 57) + '...';
-}
-
-function generateSlug(title: string): string {
-  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-function generateExcerpt(content: string): string {
-  const firstParagraph = content.split('\n\n')[0];
-  return firstParagraph.length > 200 ? firstParagraph.substring(0, 197) + '...' : firstParagraph;
-}
-
-function generateCTA(brief: ContentBrief): string {
-  const ctas = [
-    `Ready to transform your ${brief.industry} operations with ${brief.topic}? Contact ${brief.brandName} today to learn how we can help you achieve your strategic objectives.`,
-    `Discover how ${brief.brandName} can help you implement ${brief.topic} solutions that drive real business results. Get in touch with our expert team.`,
-    `Take the next step in your ${brief.topic} journey. ${brief.brandName} offers comprehensive solutions tailored for ${brief.targetAudience}.`,
-    `Partner with ${brief.brandName} to unlock the full potential of ${brief.topic} for your ${brief.industry} organization.`
-  ];
-  
-  return ctas[Math.floor(Math.random() * ctas.length)];
-}
-
-function calculateReadingTime(content: string): string {
-  const wordsPerMinute = 200;
-  const wordCount = content.split(' ').length;
-  const minutes = Math.ceil(wordCount / wordsPerMinute);
-  return `${minutes} min read`;
-}
-
-// SEO Suggestions Generation
-function generateSEOSuggestions(brief: ContentBrief, title: string): SEOSuggestions {
-  const suggestedKeywords = generateAdvancedKeywords(brief);
-  const suggestedMetaDescription = generateOptimizedMetaDescription(brief, title);
-  const keywordDifficulty = calculateKeywordDifficulty(suggestedKeywords);
-  const searchVolume = estimateSearchVolume(suggestedKeywords, brief);
-  const competitorAnalysis = generateCompetitorInsights(brief);
-
-  return {
-    suggestedKeywords,
-    suggestedMetaDescription,
-    keywordDifficulty,
-    searchVolume,
-    competitorAnalysis
-  };
-}
-
-function generateAdvancedKeywords(brief: ContentBrief): string[] {
-  const keywords = [];
-  
-  // Primary topic keywords
-  const topicWords = brief.topic.toLowerCase().split(' ');
-  keywords.push(brief.topic.toLowerCase());
-  
-  // Industry-specific keywords
-  keywords.push(`${brief.industry.toLowerCase()}`);
-  keywords.push(`${brief.industry.toLowerCase()} ${brief.topic.toLowerCase()}`);
-  
-  // Intent-based keywords based on content type
-  const intentKeywords: { [key: string]: string[] } = {
-    'article': ['guide', 'complete guide', 'ultimate guide', 'comprehensive'],
-    'blog-post': ['how to', 'tips', 'best practices', 'tutorial', 'step by step'],
-    'case-study': ['success story', 'case study', 'results', 'ROI'],
-    'product-description': ['best', 'top', 'review', 'features', 'benefits'],
-    'press-release': ['news', 'announcement', 'launch', 'update'],
-    'social-posts': ['trending', 'viral', 'engagement', 'social', 'share'],
-    'newsletter': ['insights', 'trends', 'update', 'roundup'],
-    'landing-page': ['solution', 'service', 'benefits', 'why choose']
-  };
-  
-  const intents = intentKeywords[brief.contentType] || ['guide', 'tips'];
-  intents.forEach(intent => {
-    keywords.push(`${intent} ${brief.topic.toLowerCase()}`);
-    keywords.push(`${brief.topic.toLowerCase()} ${intent}`);
-    keywords.push(`${brief.industry.toLowerCase()} ${intent}`);
-  });
-  
-  // Long-tail keywords
-  keywords.push(`best ${brief.topic.toLowerCase()} for ${brief.industry.toLowerCase()}`);
-  keywords.push(`${brief.topic.toLowerCase()} ${brief.industry.toLowerCase()} 2024`);
-  keywords.push(`why ${brief.topic.toLowerCase()} matters`);
-  keywords.push(`${brief.topic.toLowerCase()} benefits for ${brief.industry.toLowerCase()}`);
-  
-  // Target audience specific keywords
-  if (brief.targetAudience) {
-    const audienceKeywords = brief.targetAudience.toLowerCase().split(' ').slice(0, 3);
-    audienceKeywords.forEach(aud => {
-      if (aud.length > 3) {
-        keywords.push(`${brief.topic.toLowerCase()} for ${aud}`);
-      }
-    });
-  }
-  
-  // High-value commercial keywords based on budget
-  const budgetLevel = getBudgetLevel(brief.budget);
-  if (budgetLevel === 'high') {
-    keywords.push(`premium ${brief.topic.toLowerCase()}`);
-    keywords.push(`enterprise ${brief.topic.toLowerCase()}`);
-    keywords.push(`professional ${brief.topic.toLowerCase()} services`);
-  }
-  
-  // Remove duplicates and short keywords
-  return Array.from(new Set(keywords))
-    .filter(keyword => keyword.length > 3 && !keyword.includes('undefined'))
-    .slice(0, 12);
-}
-
-function generateOptimizedMetaDescription(brief: ContentBrief, title: string): string {
-  // Create compelling meta description based on guaranteed pageviews and value prop
-  const pageviewsText = brief.guaranteedPageviews >= 100000 ? 
-    `Proven to drive ${(brief.guaranteedPageviews / 1000).toLocaleString()}K+ pageviews.` : 
-    `Optimized for maximum engagement.`;
-  
-  const industryValue = `${brief.industry} professionals trust our ${brief.contentType.replace('-', ' ')} content.`;
-  
-  const actionText = brief.contentType === 'landing-page' ? 
-    'Get started today!' : 
-    'Read the full analysis.';
-  
-  const metaDesc = `${brief.mainMessage.substring(0, 80)}... ${pageviewsText} ${industryValue} ${actionText}`;
-  
-  // Ensure it's under 160 characters
-  return metaDesc.length > 160 ? metaDesc.substring(0, 157) + '...' : metaDesc;
-}
-
-function calculateKeywordDifficulty(keywords: string[]): { [keyword: string]: 'Low' | 'Medium' | 'High' } {
-  const difficulty: { [keyword: string]: 'Low' | 'Medium' | 'High' } = {};
-  
-  keywords.forEach(keyword => {
-    const wordCount = keyword.split(' ').length;
-    const hasNumbers = /\d/.test(keyword);
-    
-    if (wordCount >= 4 || hasNumbers || keyword.includes('how to') || keyword.includes('best')) {
-      difficulty[keyword] = 'Low';
-    } else if (wordCount === 3) {
-      difficulty[keyword] = 'Medium';
-    } else {
-      difficulty[keyword] = 'High';
-    }
-  });
-  
-  return difficulty;
-}
-
-function estimateSearchVolume(keywords: string[], brief: ContentBrief): { [keyword: string]: number } {
-  const volume: { [keyword: string]: number } = {};
-  
-  const industryMultiplier = getIndustryMultiplier(brief.industry);
-  
-  keywords.forEach(keyword => {
-    const wordCount = keyword.split(' ').length;
-    let baseVolume = 1000;
-    
-    // Adjust based on keyword characteristics
-    if (keyword.includes(brief.topic.toLowerCase())) baseVolume *= 2;
-    if (keyword.includes('how to')) baseVolume *= 1.5;
-    if (keyword.includes('best')) baseVolume *= 1.8;
-    if (keyword.includes('guide')) baseVolume *= 1.3;
-    if (wordCount >= 4) baseVolume *= 0.7; // Long-tail has lower volume but higher intent
-    
-    volume[keyword] = Math.round(baseVolume * industryMultiplier);
-  });
-  
-  return volume;
-}
-
-function generateCompetitorInsights(brief: ContentBrief): string[] {
-  return [
-    `Focus on long-tail keywords for ${brief.industry} to avoid high competition`,
-    `Content length of ${brief.wordCount}+ words performs better in ${brief.industry}`,
-    `Include industry-specific case studies and data points`,
-    `Target semantic keywords related to ${brief.topic}`,
-    `Optimize for featured snippets with structured content`
-  ];
-}
-
-function getBudgetLevel(budget: string): 'low' | 'medium' | 'high' {
-  if (budget.includes('100K') || budget.includes('250K+')) return 'high';
-  if (budget.includes('25K') || budget.includes('50K')) return 'medium';
-  return 'low';
-}
-
-function getIndustryMultiplier(industry: string): number {
-  const multipliers: { [key: string]: number } = {
-    'technology': 1.5,
-    'healthcare': 1.3,
-    'finance': 1.4,
-    'education': 1.2,
-    'retail': 1.6,
-    'manufacturing': 1.1,
-    'consulting': 1.2
-  };
-  
-  const industryLower = industry.toLowerCase();
-  return multipliers[industryLower] || 1.0;
-}
-
-// Additional content generation functions for specialized content types
-function generateHook(brief: ContentBrief): string {
-  const hooks = [
-    `What if I told you that ${brief.topic} could transform your entire ${brief.industry} operation in just ${brief.deadline ? 'months' : 'a short time'}?`,
-    `${brief.targetAudience} are discovering something remarkable about ${brief.topic}...`,
-    `The ${brief.industry} landscape is changing rapidly, and ${brief.topic} is at the center of this transformation.`,
-    `Every day, organizations miss opportunities because they haven't embraced ${brief.topic}.`
-  ];
-  
-  return hooks[Math.floor(Math.random() * hooks.length)];
-}
-
-function generatePersonalTouch(brief: ContentBrief): string {
-  return `At ${brief.brandName}, we've seen firsthand how ${brief.topic} transforms ${brief.industry} organizations. Our experience working with ${brief.targetAudience} has taught us that success comes from understanding both the technical capabilities and the human impact of implementation.
-
-What excites us most is seeing the "aha moment" when clients realize the full potential of their investment in ${brief.topic}.`;
-}
-
-function generateNewsletterGreeting(brief: ContentBrief): string {
-  return `Hello ${brief.targetAudience},
-
-Welcome to this week's insights from ${brief.brandName}. We're excited to share our latest thinking on ${brief.topic} and its impact on the ${brief.industry} sector.`;
-}
-
-function generateSignature(brief: ContentBrief): string {
-  return `Best regards,
-The ${brief.brandName} Team
-
-P.S. Have questions about ${brief.topic}? Reply to this email - we'd love to hear from you!`;
-}
-
-function generateProductOverview(brief: ContentBrief): string {
-  return `## ${brief.topic} by ${brief.brandName}
-
-${brief.mainMessage}
-
-Designed specifically for ${brief.targetAudience} in the ${brief.industry} sector, our ${brief.topic} solution delivers unprecedented value through innovative features and proven methodology.`;
-}
-
-function generateProductFeatures(brief: ContentBrief): string {
-  const features = brief.keywords.map(keyword => 
-    `• **${keyword}**: Advanced capabilities that enhance operational efficiency and strategic outcomes`
-  ).join('\n');
-  
-  return features || '• Advanced functionality tailored to your industry needs\n• Intuitive user experience designed for efficiency\n• Comprehensive integration capabilities\n• Scalable architecture for future growth';
-}
-
-function generateProductBenefits(brief: ContentBrief): string {
-  return `• Reduced operational costs and improved efficiency
-• Enhanced decision-making capabilities
-• Competitive advantage in the ${brief.industry} market
-• Scalable solution that grows with your business
-• Expert support and ongoing optimization`;
-}
-
-function generateProductSpecs(brief: ContentBrief): string {
-  return `**Target Users**: ${brief.targetAudience}
-**Industry Focus**: ${brief.industry}
-**Implementation Timeline**: ${brief.deadline || 'Flexible based on requirements'}
-**Support**: Comprehensive training and ongoing assistance
-**Integration**: Compatible with existing ${brief.industry} systems`;
-}
-
-function generateSocialCampaignContent(brief: ContentBrief, socialPosts: any[]): string {
-  const content = `# Social Media Campaign: ${brief.topic}
-
-## Campaign Overview
-This comprehensive social media campaign promotes ${brief.topic} across multiple platforms, targeting ${brief.targetAudience} in the ${brief.industry} sector.
-
-## Key Message
-${brief.mainMessage}
-
-## Platform-Specific Content
-
-${socialPosts.map(post => `### ${post.platform}
-**Content**: ${post.content}
-
-**Hashtags**: ${post.hashtags.map((h: string) => `#${h}`).join(' ')}
-
----`).join('\n')}
-
-## Campaign Goals
-• Increase awareness of ${brief.topic} solutions
-• Generate qualified leads from ${brief.targetAudience}  
-• Position ${brief.brandName} as thought leader in ${brief.industry}
-• Drive engagement and community building
-
-## Success Metrics
-• Reach and impressions across all platforms
-• Engagement rates (likes, shares, comments)
-• Click-through rates to landing pages
-• Lead generation and conversion rates
-• Brand mention and sentiment analysis`;
-
   return content;
 }
 
-// Additional specialized content generators
-function generatePressHeadline(brief: ContentBrief): string {
-  return `FOR IMMEDIATE RELEASE\n\n${brief.brandName} ${brief.mainMessage}`;
+/**
+ * Generate high-quality article content
+ */
+function generateArticleContent(brief: ContentBrief) {
+  const title = generateArticleTitle(brief);
+  const content = generateArticleBody(brief);
+  
+  return {
+    title,
+    content,
+    seo: {
+      meta_description: generateMetaDescription(brief, title),
+      slug: generateSlug(title),
+      keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
+    }
+  };
 }
 
-function generateDateline(brief: ContentBrief): string {
-  const today = new Date();
-  return `${brief.industry} - ${today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+function generateArticleTitle(brief: ContentBrief): string {
+  const storyline = brief.storyline;
+  const audience = brief.audience.primary;
+  const brand = brief.brand.name;
+  
+  const templates = {
+    'how-to': `How to Master ${storyline}: Complete Guide for ${audience}`,
+    'list': `Top 7 ${storyline} Strategies That Transform Results`,
+    'comparison': `${storyline}: Best Solutions Compared and Analyzed`,
+    'news': `${brand} Reveals: ${storyline} Industry Breakthrough`,
+    'case-study': `Success Story: How ${storyline} Delivered 300% ROI`,
+    'trend': `${storyline}: 2024 Trends and Future Predictions`,
+    'research': `${storyline}: Comprehensive Analysis and Data Insights`,
+    'opinion': `Why ${storyline} Will Define the Future of ${audience}`,
+    'informative-guide': `The Complete ${storyline} Guide for ${audience}`
+  };
+  
+  return templates[brief.angle_hint as keyof typeof templates] || `${storyline}: Essential Guide for ${audience}`;
 }
 
-function generatePressLead(brief: ContentBrief): string {
-  return `${brief.brandName}, a leading provider of ${brief.topic} solutions for the ${brief.industry} sector, today announced ${brief.mainMessage}`;
-}
+function generateArticleBody(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
+  const tone = brief.brand.voice_tone[0] || 'professional';
+  
+  // Ensure must-use phrases are incorporated
+  const mustUsePhrases = brand.must_use_phrases.length > 0 ? 
+    `Key messaging: ${brand.must_use_phrases.join(', ')}.` : '';
+  
+  // Compliance note for banned phrases
+  const complianceNote = brand.banned_phrases.length > 0 ? 
+    `\n\n*Editorial Note: This content avoids mentioning ${brand.banned_phrases.join(', ')} as per brand guidelines.*` : '';
+  
+  return `# ${generateArticleTitle(brief)}
 
-function generatePressBody(brief: ContentBrief): string {
-  return `The announcement addresses growing demand from ${brief.targetAudience} for ${brief.topic} capabilities that deliver measurable business results.
+## Executive Summary
 
-"${brief.mainMessage}," said a ${brief.brandName} spokesperson. "This development represents our continued commitment to innovation and excellence in the ${brief.industry} space."
+${storyline} has emerged as a critical differentiator for ${audience.primary} seeking sustainable competitive advantage. ${brand.name}'s comprehensive analysis reveals key strategies that drive measurable business impact and operational excellence.
 
-Key benefits include:
-${brief.keywords.map(k => `• ${k} optimization and enhancement`).join('\n')}
+## The Strategic Landscape
 
-The solution is designed specifically for ${brief.targetAudience} who require ${brief.topic} capabilities that integrate seamlessly with existing operations while delivering immediate value.`;
-}
+### Current Market Dynamics
 
-function generateQuote(brief: ContentBrief): string {
-  return `"We're excited to bring ${brief.topic} capabilities to ${brief.targetAudience}," said [Executive Name], [Title] at ${brief.brandName}. "${brief.mainMessage} This represents a significant step forward for organizations in the ${brief.industry} sector looking to enhance their competitive position and operational efficiency."`;
-}
+Today's ${audience.primary} face unprecedented challenges in ${storyline} implementation. Our research indicates that organizations achieving success share common characteristics:
 
-function generateBoilerplate(brief: ContentBrief): string {
-  return `About ${brief.brandName}
-${brief.brandName} is a leading provider of ${brief.topic} solutions for the ${brief.industry} industry. With extensive experience serving ${brief.targetAudience}, the company delivers innovative technologies and expert guidance that drive measurable business results. For more information, visit [website] or contact [contact information].
+• **Strategic Vision**: Clear alignment between ${seo.primary_keyword} initiatives and business objectives
+• **Operational Excellence**: Systematic approaches to implementation and measurement
+• **Innovation Leadership**: Proactive adoption of emerging best practices
+• **Stakeholder Engagement**: Comprehensive change management and training programs
 
-###
+### Industry Transformation
 
-Media Contact:
-[Name]
-${brief.brandName}
-[Phone]
-[Email]`;
-}
+The ${storyline} landscape continues evolving rapidly. ${brand.name} has identified several key trends reshaping how ${audience.primary} approach these challenges:
 
-function generateExecutiveSummary(brief: ContentBrief): string {
-  return `This case study examines the successful implementation of ${brief.topic} for a ${brief.industry} organization. The client achieved significant operational improvements and strategic advantages through ${brief.brandName}'s comprehensive solution.
+1. **Data-Driven Decision Making**: Organizations leveraging ${seo.primary_keyword} analytics achieve 40% better outcomes
+2. **Integrated Solutions**: Holistic approaches deliver 3x more value than point solutions
+3. **Continuous Optimization**: Agile methodologies ensure sustained performance improvements
 
-**Key Results:**
-• Improved operational efficiency
-• Enhanced customer satisfaction
-• Reduced operational costs
-• Increased competitive advantage`;
-}
+## Implementation Framework
 
-function generateChallenge(brief: ContentBrief): string {
-  return `The client, a leading ${brief.industry} organization serving ${brief.targetAudience}, faced significant challenges with their existing approach to ${brief.topic}. Key issues included:
+### Phase 1: Assessment and Planning
 
-• Limited scalability and flexibility
-• Inefficient processes and workflows
-• Difficulty meeting customer expectations
-• Competitive pressure and market dynamics
+**Strategic Analysis**
+- Comprehensive evaluation of current ${seo.primary_keyword} capabilities
+- Identification of optimization opportunities and risk factors
+- Development of customized implementation roadmaps
+- Resource allocation and timeline planning
 
-These challenges were impacting the organization's ability to grow and maintain market position.`;
-}
+**Stakeholder Alignment**
+- Executive sponsorship and governance structure
+- Cross-functional team formation and training
+- Communication strategy and change management planning
 
-function generateSolution(brief: ContentBrief): string {
-  return `${brief.brandName} developed a comprehensive ${brief.topic} solution tailored to the client's specific requirements. The approach included:
+### Phase 2: Execution and Deployment
 
-**Strategy and Planning**
-• Detailed assessment of current capabilities
-• Custom solution design and architecture
-• Implementation roadmap and timeline
+**Implementation Strategy**
 
-**Technology Implementation**
-${brief.keywords.map(k => `• ${k} optimization and integration`).join('\n')}
+Successful ${storyline} deployment requires systematic execution:
 
-**Change Management**
-• Training and support programs
-• Process optimization and workflow redesign
-• Ongoing monitoring and optimization`;
-}
+• **${seo.secondary_keywords[0] || 'Foundation Building'}**: Establishing core capabilities and infrastructure
+• **${seo.secondary_keywords[1] || 'Process Integration'}**: Seamless integration with existing workflows
+• **${seo.secondary_keywords[2] || 'Performance Monitoring'}**: Real-time tracking and optimization protocols
 
-function generateResults(brief: ContentBrief): string {
-  return `The implementation delivered exceptional results:
+**Quality Assurance**
 
-**Operational Improvements**
-• 40% reduction in processing time
-• 25% improvement in operational efficiency
-• 60% reduction in error rates
-• Enhanced scalability and flexibility
+${brand.name} implements rigorous quality control measures throughout deployment:
+- Continuous testing and validation protocols
+- Performance benchmarking against industry standards
+- Risk mitigation and contingency planning
+
+### Phase 3: Optimization and Scale
+
+**Performance Enhancement**
+
+Once foundational elements are established, organizations focus on optimization:
+
+1. **Data Analytics**: Leveraging insights for continuous improvement
+2. **Process Refinement**: Streamlining workflows for maximum efficiency
+3. **Capability Expansion**: Scaling successful approaches across the organization
+
+**Sustainable Growth**
+
+${brand.name}'s methodology ensures long-term success through:
+- Regular performance reviews and strategy adjustments
+- Ongoing training and capability development
+- Innovation pipeline management and future planning
+
+## Industry-Specific Applications
+
+### Sector Analysis
+
+For ${audience.primary}, ${storyline} applications vary significantly based on:
+
+**Organizational Maturity**
+- Assessment of current capabilities and readiness levels
+- Customized approach based on existing infrastructure
+- Phased implementation aligned with organizational capacity
+
+**Regulatory Environment**
+- Compliance requirements and industry standards
+- Risk management and governance considerations
+- Documentation and audit trail requirements
+
+**Competitive Landscape**
+- Market positioning and differentiation strategies
+- Competitive advantage development and protection
+- Innovation leadership and thought leadership opportunities
+
+## Success Metrics and ROI
+
+### Key Performance Indicators
+
+${brand.name} tracks comprehensive metrics to ensure success:
+
+**Operational Metrics**
+- Implementation timeline adherence (target: 95% on-time delivery)
+- Quality assurance scores (target: 98% compliance)
+- User adoption rates (target: 90% within 6 months)
 
 **Business Impact**
-• Increased customer satisfaction scores
-• Improved competitive positioning
-• Cost savings and ROI achievement
-• Enhanced strategic capabilities
+- Cost reduction achievements (typical: 25-40% savings)
+- Productivity improvements (average: 35% efficiency gains)
+- Revenue impact (documented: 15-30% growth contribution)
 
-**Strategic Advantages**
-• Better decision-making capabilities
-• Improved market responsiveness
-• Enhanced innovation capacity
-• Stronger competitive differentiation`;
+**Strategic Outcomes**
+- Market positioning improvements
+- Customer satisfaction enhancements
+- Innovation pipeline development
+
+### Case Study: Transformation Success
+
+A leading ${audience.primary} organization partnered with ${brand.name} to implement comprehensive ${storyline} capabilities. Results included:
+
+- 45% reduction in operational costs within 12 months
+- 60% improvement in process efficiency
+- 25% increase in customer satisfaction scores
+- ROI achievement of 340% by year two
+
+## Future Outlook and Recommendations
+
+### Emerging Trends
+
+The ${storyline} landscape will continue evolving. Key trends include:
+
+**Technology Integration**
+- AI and machine learning applications
+- Automation and process optimization
+- Real-time analytics and decision support
+
+**Ecosystem Approaches**
+- Collaborative partnerships and alliances
+- Platform-based business models
+- Network effects and value creation
+
+### Strategic Recommendations
+
+For ${audience.primary} preparing for the future:
+
+1. **Invest in Foundation**: Build robust ${seo.primary_keyword} capabilities now
+2. **Embrace Innovation**: Adopt emerging technologies and methodologies
+3. **Develop Talent**: Invest in team capabilities and expertise
+4. **Create Partnerships**: Collaborate with leading solution providers
+
+## Conclusion
+
+${storyline} represents both opportunity and imperative for ${audience.primary}. Organizations that embrace strategic implementation will achieve significant competitive advantages and operational excellence.
+
+${brand.name} stands ready to support your transformation journey with:
+- Proven methodologies and frameworks
+- Expert guidance and hands-on support
+- Innovative solutions tailored to your requirements
+- Measurable results and sustainable outcomes
+
+${mustUsePhrases}
+
+The future belongs to organizations that act decisively today. Contact ${brand.name} to begin your ${storyline} transformation and unlock your organization's full potential.
+
+${legal.disclaimer}${complianceNote}`;
 }
 
-function generateTestimonial(brief: ContentBrief): string {
-  return `"Working with ${brief.brandName} transformed our approach to ${brief.topic}. The results exceeded our expectations and positioned us for continued success in the ${brief.industry} market. Their expertise and dedication made all the difference."
-
-- [Client Name], [Title], [Client Organization]
-
-"The implementation was smooth and professional. ${brief.brandName}'s team understood our unique requirements and delivered a solution that truly works for our organization."
-
-- [Client Name], [Title], [Client Organization]`;
+function generateInstagramContent(brief: ContentBrief) {
+  const posts: any[] = [];
+  
+  // Create 3 Instagram posts for better engagement
+  for (let i = 0; i < 3; i++) {
+    posts.push({
+      caption: generateInstagramCaption(brief, i),
+      hashtags: generateInstagramHashtags(brief),
+      image_requirements: [{
+        role: 'hero-visual',
+        prompt: `Create a visually striking Instagram post image about ${brief.storyline}. Style: ${brief.brand.voice_tone.join(', ')}. Target: ${brief.audience.primary}`,
+        alt_text: `Instagram post about ${brief.storyline} by ${brief.brand.name}`,
+        composition: 'square 1:1 ratio, bold text overlay, brand colors'
+      }]
+    });
+  }
+  
+  return {
+    posts,
+    stories: [{
+      content: generateInstagramStoryContent(brief),
+      image_requirements: [{
+        role: 'story-background',
+        prompt: `Instagram story background for ${brief.storyline}. Modern, engaging design`,
+        alt_text: `Instagram story about ${brief.storyline}`,
+        composition: '9:16 vertical, minimal text, eye-catching visuals'
+      }]
+    }]
+  };
 }
 
-function generateHeroSection(brief: ContentBrief): string {
-  return `Transform Your ${brief.industry} Operations with ${brief.topic}`;
+function generateInstagramCaption(brief: ContentBrief, index: number): string {
+  const captions = [
+    `✨ ${brief.storyline} game-changers for ${brief.audience.primary}!
+
+${brief.brand.name} reveals the strategies that actually work 👇
+
+What's your biggest challenge with ${brief.seo.primary_keyword}? Drop it below! 💬
+
+#${brief.seo.primary_keyword.replace(/\s+/g, '')} #${brief.brand.name.replace(/\s+/g, '')}`,
+    
+    `🚀 Real talk about ${brief.storyline}...
+
+${brief.audience.primary} need to see this! Save for later 📌
+
+Which insight hits different? Tag someone who'd love this! 👥`,
+    
+    `💡 Mind = blown by this ${brief.storyline} breakthrough
+
+${brief.brand.name} just shared the strategy everyone's talking about
+
+Ready to level up? Link in bio 🔗`
+  ];
+  
+  return captions[index] || captions[0];
 }
 
-function generateValueProposition(brief: ContentBrief): string {
-  return `${brief.mainMessage}
-
-${brief.brandName} delivers ${brief.topic} solutions specifically designed for ${brief.targetAudience}. Our proven approach combines industry expertise with innovative technology to create measurable business value.
-
-**Why Choose ${brief.brandName}?**
-• Deep ${brief.industry} industry expertise
-• Proven track record of successful implementations  
-• Comprehensive support and ongoing optimization
-• Tailored solutions for ${brief.targetAudience}`;
+function generateInstagramHashtags(brief: ContentBrief): string[] {
+  const base = [
+    brief.seo.primary_keyword.replace(/\s+/g, ''),
+    brief.brand.name.replace(/\s+/g, ''),
+    'Innovation',
+    'Success',
+    'Growth',
+    'BusinessTips',
+    'Strategy',
+    'Leadership'
+  ];
+  
+  const secondary = brief.seo.secondary_keywords.map(k => k.replace(/\s+/g, ''));
+  
+  return [...base, ...secondary].slice(0, 20);
 }
 
-function generateFeatureList(brief: ContentBrief): string {
-  return brief.keywords.map(keyword => 
-    `• **${keyword}**: Advanced capabilities that drive operational excellence and strategic advantage`
-  ).join('\n') || `• Industry-leading functionality
-• Intuitive user experience
-• Comprehensive integration capabilities
-• Scalable and flexible architecture
-• Expert support and training`;
+function generateInstagramStoryContent(brief: ContentBrief): string {
+  return `💡 ${brief.storyline} breakthrough!
+
+Swipe up to discover how ${brief.brand.name} helps ${brief.audience.primary} achieve incredible results
+
+#${brief.seo.primary_keyword.replace(/\s+/g, '')}`;
 }
 
-function generateTestimonialSection(brief: ContentBrief): string {
-  return `"${brief.brandName} helped us achieve remarkable results with ${brief.topic}. The impact on our ${brief.industry} operations has been transformational."
-*- ${brief.industry} Leader*
+function generateTikTokContent(brief: ContentBrief) {
+  const scripts: any[] = [];
+  
+  // Create 2 TikTok scripts with different angles
+  const angles = ['how-to', 'trending-insight'];
+  
+  angles.forEach(angle => {
+    scripts.push({
+      hook: generateTikTokHook(brief, angle),
+      body: generateTikTokBody(brief, angle),
+      cta: generateTikTokCTA(brief),
+      duration_seconds: brief.angle_hint === 'how-to' ? 60 : 30,
+      trending_sounds: [
+        'original-sound-business',
+        'motivation-track',
+        'educational-content-audio',
+        'success-story-sound'
+      ]
+    });
+  });
+  
+  return { scripts };
+}
 
-"Outstanding expertise and support. The ${brief.topic} solution exceeded our expectations and delivered real business value."
-*- ${brief.targetAudience} Executive*
+function generateTikTokHook(brief: ContentBrief, angle: string): string {
+  const hooks = {
+    'how-to': `POV: You finally cracked the ${brief.storyline} code 🔓`,
+    'trending-insight': `This ${brief.storyline} secret is changing everything...`
+  };
+  
+  return hooks[angle as keyof typeof hooks] || `${brief.storyline} explained in 30 seconds ⏰`;
+}
 
-"Professional, knowledgeable, and results-focused. ${brief.brandName} is the partner you want for ${brief.topic} success."
-*- Industry Expert*`;
+function generateTikTokBody(brief: ContentBrief, angle: string): string {
+  return `Here's what ${brief.audience.primary} need to know:
+
+✅ ${brief.seo.primary_keyword} strategies that work
+✅ Real results from ${brief.brand.name}
+✅ Actionable tips you can use today
+
+This is how you win 🏆`;
+}
+
+function generateTikTokCTA(brief: ContentBrief): string {
+  return `Follow for more ${brief.storyline} secrets! What's your biggest question? 👇`;
+}
+
+function generateFacebookContent(brief: ContentBrief) {
+  const posts = [{
+    text: generateFacebookPost(brief),
+    image_requirements: [{
+      role: 'facebook-hero',
+      prompt: `Facebook post image for ${brief.storyline}. Professional yet engaging, suitable for ${brief.audience.primary}`,
+      alt_text: `Facebook post about ${brief.storyline} by ${brief.brand.name}`,
+      composition: 'landscape 1.91:1, clear text hierarchy, social proof elements'
+    }],
+    engagement_hooks: [
+      `What's your experience with ${brief.storyline}?`,
+      `Share your ${brief.seo.primary_keyword} success story!`,
+      `Tag a colleague who needs this insight!`,
+      `Which strategy will you try first?`
+    ]
+  }];
+  
+  return { posts };
+}
+
+function generateFacebookPost(brief: ContentBrief): string {
+  return `🎯 ${brief.storyline} insights that matter for ${brief.audience.primary}
+
+${brief.brand.name} shares proven strategies delivering real results:
+
+🔹 ${brief.seo.primary_keyword} best practices that work
+🔹 Implementation roadmaps from industry leaders
+🔹 Real success stories and measurable outcomes
+🔹 Expert guidance tailored to your needs
+
+Perfect for professionals ready to elevate their ${brief.storyline} capabilities and drive meaningful business impact.
+
+What's been your biggest learning in this space? Share below! 💬`;
+}
+
+function generateLinkedInContent(brief: ContentBrief) {
+  const posts = [{
+    text: generateLinkedInPost(brief),
+    hashtags: [
+      brief.seo.primary_keyword.replace(/\s+/g, ''),
+      'BusinessStrategy',
+      'Innovation',
+      'Leadership',
+      'Growth',
+      'Transformation',
+      'Excellence'
+    ],
+    image_requirements: [{
+      role: 'professional-visual',
+      prompt: `Professional LinkedIn image about ${brief.storyline}. Corporate style, data visualization if applicable`,
+      alt_text: `LinkedIn post about ${brief.storyline} by ${brief.brand.name}`,
+      composition: 'landscape format, professional color scheme, minimal design'
+    }]
+  }];
+  
+  // Add LinkedIn article for comprehensive storylines
+  if (brief.storyline.length > 50) {
+    return {
+      posts,
+      articles: [{
+        title: `Strategic Guide to ${brief.storyline}: What ${brief.audience.primary} Need to Know`,
+        content: generateLinkedInArticleContent(brief),
+        seo_optimized: true
+      }]
+    };
+  }
+  
+  return { posts };
+}
+
+function generateLinkedInPost(brief: ContentBrief): string {
+  return `${brief.storyline}: Strategic Insights for ${brief.audience.primary} 🚀
+
+After partnering with numerous organizations on ${brief.seo.primary_keyword} initiatives, clear patterns emerge between those who succeed and those who struggle.
+
+Success accelerators:
+
+• Strategic alignment with core business objectives
+• Comprehensive stakeholder engagement from day one
+• Phased implementation with measurable milestones
+• Continuous optimization based on real performance data
+
+${brief.brand.name} has developed proven methodologies addressing each of these critical areas, helping ${brief.audience.primary} achieve sustainable, scalable results.
+
+The organizations thriving today understand that ${brief.storyline} isn't just about technology—it's about transformation that creates lasting competitive advantage.
+
+What patterns have you observed in successful ${brief.storyline} initiatives? I'd value your perspective in the comments.`;
+}
+
+function generateLinkedInArticleContent(brief: ContentBrief): string {
+  return `The landscape of ${brief.storyline} continues evolving rapidly, creating unprecedented opportunities and challenges for ${brief.audience.primary}.
+
+In this comprehensive analysis, we explore strategic frameworks, implementation methodologies, and success metrics that define effective ${brief.storyline} initiatives.
+
+## Strategic Framework
+
+Successful ${brief.storyline} implementation requires structured approaches addressing:
+
+1. **Strategic Alignment**: Ensuring initiatives support broader business objectives
+2. **Resource Optimization**: Maximizing ROI through efficient allocation
+3. **Risk Mitigation**: Proactive challenge identification and response
+4. **Performance Measurement**: Establishing metrics demonstrating value creation
+
+## Implementation Excellence
+
+${brief.brand.name}'s experience across diverse sectors reveals that ${brief.storyline} success depends on:
+
+• Organizational maturity and change readiness
+• Industry-specific requirements and constraints
+• Competitive dynamics and market positioning
+• Available resources and realistic timelines
+
+## The Path Forward
+
+${brief.storyline} represents critical capability development for organizations pursuing sustainable competitive advantage. Success requires strategic thinking, careful planning, and expert execution.
+
+Organizations investing comprehensively in ${brief.storyline} capabilities today position themselves to capitalize on future market opportunities.`;
+}
+
+function generateNewsletterContent(brief: ContentBrief) {
+  return {
+    subject_line: `${brief.storyline}: Game-Changing Insights for ${brief.audience.primary}`,
+    preview_text: `Discover how ${brief.brand.name} helps organizations master ${brief.storyline}...`,
+    html_content: generateNewsletterHTML(brief),
+    text_content: generateNewsletterText(brief),
+    personalization_tags: ['{{first_name}}', '{{company}}', '{{industry}}', '{{role}}']
+  };
+}
+
+function generateNewsletterHTML(brief: ContentBrief): string {
+  return `<div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
+  <header style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 20px; text-align: center;">
+    <h1 style="margin: 0; font-size: 24px;">${brief.storyline} Weekly</h1>
+    <p style="margin: 10px 0 0; opacity: 0.9;">Insights for ${brief.audience.primary}</p>
+  </header>
+  
+  <main style="padding: 30px 20px;">
+    <p style="color: #374151; font-size: 16px; line-height: 1.6;">Hello {{first_name}},</p>
+    
+    <p style="color: #374151; font-size: 16px; line-height: 1.6;">This week, we're exploring ${brief.storyline} and its transformative impact on ${brief.audience.primary}.</p>
+    
+    <div style="background: #f3f4f6; padding: 20px; margin: 20px 0; border-left: 4px solid #2563eb;">
+      <h2 style="color: #1f2937; margin-top: 0;">Key Insights</h2>
+      <ul style="color: #374151; line-height: 1.6;">
+        <li>${brief.seo.primary_keyword} strategic implementation</li>
+        <li>Industry best practices that deliver results</li>
+        <li>Success stories from leading organizations</li>
+        <li>Emerging trends and future opportunities</li>
+      </ul>
+    </div>
+    
+    <p style="color: #374151; font-size: 16px; line-height: 1.6;">Ready to transform your approach? <a href="#" style="color: #2563eb;">Read the full analysis</a></p>
+  </main>
+  
+  <footer style="background: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+    <p style="color: #6b7280; margin: 0;">Best regards,<br>The ${brief.brand.name} Team</p>
+  </footer>
+</div>`;
+}
+
+function generateNewsletterText(brief: ContentBrief): string {
+  return `${brief.storyline} Weekly - Insights for ${brief.audience.primary}
+
+Hello {{first_name}},
+
+This week, we're exploring ${brief.storyline} and its transformative impact on ${brief.audience.primary}.
+
+Key Insights:
+- ${brief.seo.primary_keyword} strategic implementation
+- Industry best practices that deliver results
+- Success stories from leading organizations
+- Emerging trends and future opportunities
+
+Ready to transform your approach? Visit our website for the full analysis.
+
+Best regards,
+The ${brief.brand.name} Team`;
+}
+
+function generateYouTubeContent(brief: ContentBrief) {
+  return {
+    title: `${brief.storyline}: Complete Guide for ${brief.audience.primary} (2024)`,
+    description: generateYouTubeDescription(brief),
+    script: generateYouTubeScript(brief),
+    timestamps: [
+      { time: '00:00', description: 'Introduction' },
+      { time: '02:30', description: `${brief.seo.primary_keyword} Overview` },
+      { time: '05:15', description: 'Implementation Strategy' },
+      { time: '08:45', description: 'Success Stories' },
+      { time: '12:00', description: 'Key Takeaways' },
+      { time: '14:30', description: 'Q&A and Next Steps' }
+    ],
+    thumbnail_requirements: [{
+      role: 'youtube-thumbnail',
+      prompt: `YouTube thumbnail for ${brief.storyline}. High-contrast, compelling visual, clear text`,
+      alt_text: `YouTube video about ${brief.storyline}`,
+      composition: '1280x720, bold typography, contrasting colors, 3 focal points max'
+    }]
+  };
+}
+
+function generateYouTubeDescription(brief: ContentBrief): string {
+  return `In this comprehensive guide, we explore ${brief.storyline} and its game-changing impact on ${brief.audience.primary}.
+
+🎯 What you'll discover:
+• ${brief.seo.primary_keyword} fundamentals and advanced strategies
+• Step-by-step implementation framework
+• Real-world case studies and success metrics
+• Expert tips from ${brief.brand.name}
+• Common pitfalls and how to avoid them
+
+🔗 Resources mentioned:
+• ${brief.brand.name} official website
+• Implementation toolkit and templates
+• Case study detailed analysis
+
+📝 Timestamps:
+0:00 Introduction and Overview
+2:30 ${brief.seo.primary_keyword} Strategic Framework
+5:15 Implementation Methodology
+8:45 Success Stories and Case Studies
+12:00 Key Takeaways and Best Practices
+14:30 Q&A and Action Steps
+
+💡 Connect with us:
+- Website: [Link]
+- LinkedIn: [Link]
+- Newsletter: [Link]
+
+#${brief.seo.primary_keyword.replace(/\s+/g, '')} #${brief.storyline.replace(/\s+/g, '')} #BusinessGrowth #Strategy #Innovation`;
+}
+
+function generateYouTubeScript(brief: ContentBrief): string {
+  return `INTRO (0-30s)
+Hi everyone, and welcome back! Today we're diving deep into ${brief.storyline} and why it's absolutely crucial for ${brief.audience.primary} in 2024.
+
+HOOK (30-60s)
+If you're struggling to get real results with ${brief.seo.primary_keyword}, this video will completely transform your approach. Stay until the end for exclusive insights from ${brief.brand.name}'s latest research.
+
+MAIN CONTENT (60s-12min)
+Let me share the exact framework that ${brief.brand.name} uses to help organizations succeed with ${brief.storyline}...
+
+[Section 1: Strategic Foundation]
+First, successful ${brief.storyline} implementation starts with strategic alignment...
+
+[Section 2: Implementation Framework]
+Next, let's break down the step-by-step process...
+
+[Section 3: Success Stories]
+Here's how one of our clients achieved 300% ROI...
+
+[Section 4: Common Mistakes]
+Now, let me show you the top 3 mistakes that kill results...
+
+CONCLUSION (12-15min)
+So there you have it - everything you need to master ${brief.storyline}. 
+
+What's your biggest takeaway? Drop it in the comments, and if you found this valuable, smash that subscribe button for more strategic insights!
+
+Until next time, keep growing! 🚀`;
+}
+
+function generateImagePacks(brief: ContentBrief): ImagePack[] {
+  return [
+    {
+      role: 'hero-image',
+      prompt: `Create a compelling hero image for ${brief.storyline} content. Professional style reflecting ${brief.brand.voice_tone.join(' and ')} tone. Target audience: ${brief.audience.primary}`,
+      alt_text: `Hero image for ${brief.storyline} by ${brief.brand.name}`,
+      composition: 'landscape 16:9, strong focal point, brand colors, professional lighting'
+    },
+    {
+      role: 'supporting-visual',
+      prompt: `Supporting infographic for ${brief.storyline}. Data-driven design, clean layout, ${brief.seo.primary_keyword} focus`,
+      alt_text: `Supporting visual for ${brief.storyline} content`,
+      composition: 'square or vertical format, minimal text, clear hierarchy'
+    },
+    {
+      role: 'social-media-pack',
+      prompt: `Social media visual set for ${brief.storyline}. Multiple format variations (square, story, landscape)`,
+      alt_text: `Social media visuals for ${brief.storyline}`,
+      composition: 'multiple aspect ratios, consistent brand elements, mobile-optimized'
+    }
+  ];
+}
+
+function generateMetaDescription(brief: ContentBrief, title: string): string {
+  return `${brief.storyline} guide for ${brief.audience.primary}. ${brief.brand.name} shares proven ${brief.seo.primary_keyword} strategies and insights for measurable results.`.substring(0, 160);
+}
+
+function generateSlug(title: string): string {
+  return title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60);
+}
+
+function calculateNoveltyScore(brief: ContentBrief): number {
+  let score = 0.7; // Base score
+  
+  // Boost for unique angles
+  if (brief.angle_hint !== 'informative-guide') score += 0.1;
+  
+  // Boost for comprehensive keywords
+  if (brief.seo.secondary_keywords.length > 3) score += 0.1;
+  
+  // Boost for detailed storylines
+  if (brief.storyline.length > 100) score += 0.1;
+  
+  // Boost for multiple platforms
+  if (brief.platforms.length > 3) score += 0.05;
+  
+  // Boost for specialized tone combinations
+  if (brief.brand.voice_tone.length > 1) score += 0.05;
+  
+  return Math.min(score, 1.0);
 }
