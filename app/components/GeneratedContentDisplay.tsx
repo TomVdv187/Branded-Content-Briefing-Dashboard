@@ -2,9 +2,12 @@
 
 import React, { useState, useRef } from 'react';
 import { GeneratedContent } from '../types';
-import { FileText, Download, Edit3, Copy, Share2, Eye, Hash, Clock, BarChart3, Globe, Image, Play, MessageCircle, Camera } from 'lucide-react';
+import { FileText, Download, Edit3, Copy, Share2, Eye, Hash, Clock, BarChart3, Globe, Image, Play, MessageCircle, Camera, Brain, Zap, Send } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import PerformanceAnalytics from './PerformanceAnalytics';
+import ContentOptimizationSuggestions from './ContentOptimizationSuggestions';
+import PublishingIntegration from './PublishingIntegration';
 
 interface GeneratedContentDisplayProps {
   content: GeneratedContent;
@@ -13,7 +16,7 @@ interface GeneratedContentDisplayProps {
 }
 
 export default function GeneratedContentDisplay({ content, onEdit, onExport }: GeneratedContentDisplayProps) {
-  const [activeTab, setActiveTab] = useState<'article' | 'social' | 'seo' | 'images'>('article');
+  const [activeTab, setActiveTab] = useState<'article' | 'social' | 'seo' | 'analytics' | 'optimize' | 'publish' | 'images'>('article');
   const [isEditing, setIsEditing] = useState(false);
   const [socialPlatform, setSocialPlatform] = useState<'instagram' | 'facebook' | 'linkedin' | 'tiktok' | 'youtube' | 'newsletter'>('instagram');
   const contentRef = useRef<HTMLDivElement>(null);
@@ -373,6 +376,9 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
           <TabButton id="article" label="Article" icon={FileText} />
           <TabButton id="social" label="Social Media" icon={Share2} />
           <TabButton id="seo" label="SEO & Keywords" icon={Hash} />
+          <TabButton id="analytics" label="Performance" icon={BarChart3} />
+          <TabButton id="optimize" label="AI Optimize" icon={Brain} />
+          <TabButton id="publish" label="Publish" icon={Send} />
           <TabButton id="images" label="Image Prompts" icon={Image} />
         </div>
       </div>
@@ -469,6 +475,53 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'analytics' && (
+          <div className="space-y-6">
+            <PerformanceAnalytics 
+              contentId={content.article?.title || 'content-1'}
+              isVisible={activeTab === 'analytics'}
+            />
+          </div>
+        )}
+
+        {activeTab === 'optimize' && (
+          <div className="space-y-6">
+            <ContentOptimizationSuggestions 
+              content={content}
+              isVisible={activeTab === 'optimize'}
+              onApplySuggestion={(suggestionId, updatedContent) => {
+                if (onEdit) onEdit(updatedContent);
+              }}
+            />
+          </div>
+        )}
+
+        {activeTab === 'publish' && (
+          <div className="space-y-6">
+            <PublishingIntegration 
+              content={content}
+              isVisible={activeTab === 'publish'}
+              onPublish={(platforms) => {
+                console.log(`Published to: ${platforms.join(', ')}`);
+                // You could add success notification here
+              }}
+            />
+          </div>
+        )}
+
+        {activeTab === 'publish' && (
+          <div className="space-y-6">
+            <PublishingIntegration 
+              content={content}
+              isVisible={activeTab === 'publish'}
+              onPublish={(platforms) => {
+                console.log(`Published to: ${platforms.join(', ')}`);
+                // You could add success notification here
+              }}
+            />
           </div>
         )}
 
