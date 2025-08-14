@@ -104,7 +104,13 @@ function generateInstagramContent(brief: ContentBrief) {
 }
 
 function generateTikTokContent(brief: ContentBrief) {
-  const scripts = [];
+  const scripts: Array<{
+    hook: string;
+    body: string;
+    cta: string;
+    duration_seconds: number;
+    trending_sounds: string[];
+  }> = [];
   
   // Create 2 TikTok scripts with different angles
   const angles = ['how-to', 'trending-insight'];
