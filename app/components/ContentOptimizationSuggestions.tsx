@@ -223,8 +223,8 @@ export default function ContentOptimizationSuggestions({ content, onApplySuggest
         <div className="flex items-center space-x-3">
           <Brain className="text-purple-600" size={24} />
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">AI Content Optimization</h3>
-            <p className="text-sm text-gray-500">
+            <h3 className="text-lg font-semibold text-white">AI Content Optimization</h3>
+            <p className="text-sm text-slate-400">
               {appliedCount} of {suggestions.length} optimizations applied • +{totalImpactScore}% potential improvement
             </p>
           </div>

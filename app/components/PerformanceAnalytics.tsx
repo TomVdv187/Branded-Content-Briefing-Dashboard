@@ -129,8 +129,8 @@ export default function PerformanceAnalytics({ contentId, isVisible }: Analytics
         <div className="flex items-center space-x-3">
           <BarChart3 className="text-blue-600" size={24} />
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Performance Analytics</h3>
-            <p className="text-sm text-gray-500">Real-time content performance metrics</p>
+            <h3 className="text-lg font-semibold text-white">Performance Analytics</h3>
+            <p className="text-sm text-slate-400">Real-time content performance metrics</p>
           </div>
         </div>
         

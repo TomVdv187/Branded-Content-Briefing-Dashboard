@@ -170,8 +170,8 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
         <div className="flex items-center space-x-3">
           <Send className="text-blue-600" size={24} />
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Publishing & Distribution</h3>
-            <p className="text-sm text-gray-500">Publish to multiple platforms simultaneously</p>
+            <h3 className="text-lg font-semibold text-white">Publishing & Distribution</h3>
+            <p className="text-sm text-slate-400">Publish to multiple platforms simultaneously</p>
           </div>
         </div>
         

@@ -58,13 +58,13 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-3/4 left-1/2 w-64 h-64 bg-indigo-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-slate-600/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-3/4 left-1/2 w-64 h-64 bg-indigo-500/5 rounded-full blur-2xl animate-pulse delay-500"></div>
+        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-gray-500/5 rounded-full blur-3xl animate-pulse delay-700"></div>
       </div>
 
       {/* Grid Pattern */}
@@ -219,19 +219,19 @@ function MainApp() {
                   <div className="text-sm text-slate-400 space-y-3">
                     <div className="flex items-center justify-center space-x-3">
                       <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                      <span>Finding the human story angle</span>
+                      <span className="text-slate-300">Finding the human story angle</span>
                     </div>
                     <div className="flex items-center justify-center space-x-3">
                       <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse animation-delay-200"></div>
-                      <span>Crafting educational narrative</span>
+                      <span className="text-slate-300">Crafting educational narrative</span>
                     </div>
                     <div className="flex items-center justify-center space-x-3">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse animation-delay-400"></div>
-                      <span>Adding authentic character voices</span>
+                      <span className="text-slate-300">Adding authentic character voices</span>
                     </div>
                     <div className="flex items-center justify-center space-x-3">
                       <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse animation-delay-600"></div>
-                      <span>Weaving in brand context naturally</span>
+                      <span className="text-slate-300">Weaving in brand context naturally</span>
                     </div>
                   </div>
                 </div>
@@ -282,7 +282,7 @@ function MainApp() {
             </p>
             <div className="text-slate-500 text-sm">
               <p>© 2024 ContentCraft • AI-Powered Content Creation Platform</p>
-              <p className="mt-2">Built for publishers who value authentic storytelling</p>
+              <p className="mt-2 text-slate-500">Built for publishers who value authentic storytelling</p>
             </div>
           </div>
         </div>
@@ -315,10 +315,10 @@ function AuthenticatedApp({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading StoryForge...</p>
+          <p className="text-slate-300">Loading ContentCraft...</p>
         </div>
       </div>
     );

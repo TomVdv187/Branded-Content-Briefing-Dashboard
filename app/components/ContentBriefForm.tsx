@@ -224,14 +224,14 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20">
-      <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 backdrop-blur-sm text-white p-8 rounded-t-3xl border-b border-white/20">
+    <div className="bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-slate-600/30">
+      <div className="bg-gradient-to-r from-blue-600/30 to-slate-700/30 backdrop-blur-sm text-white p-8 rounded-t-3xl border-b border-slate-600/30">
         <div className="flex items-center space-x-4">
           <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
             <FileText size={32} />
           </div>
           <div>
-            <h2 className="text-3xl font-bold">Content Production Brief</h2>
+            <h2 className="text-3xl font-bold text-white">Content Production Brief</h2>
             <p className="text-slate-300">Generate professional content instantly</p>
           </div>
         </div>
@@ -239,10 +239,10 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
 
       <form onSubmit={handleSubmit} className="p-8 space-y-8">
         {/* Smart Briefing Upload */}
-        <div className="border-l-4 border-blue-400/50 pl-6 bg-blue-500/10 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
+        <div className="border-l-4 border-blue-400/60 pl-6 bg-slate-700/50 backdrop-blur-sm p-8 rounded-2xl border border-slate-600/40">
           <h3 className="text-xl font-bold text-blue-300 mb-4 flex items-center">
             <Sparkles className="mr-3 text-blue-400" size={24} />
-            🚀 Smart Briefing Parser - Auto-Fill Form Fields
+            <span className="text-blue-300">🚀 Smart Briefing Parser - Auto-Fill Form Fields</span>
           </h3>
           <p className="text-slate-300 mb-6 leading-relaxed">
             Upload or paste your client's briefing document. Our AI will automatically extract and fill most form fields, 
@@ -251,7 +251,7 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
           
           <div className="grid md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block text-sm font-medium text-indigo-800 mb-2">
+              <label className="block text-sm font-medium text-blue-300 mb-2">
                 📄 Upload Briefing Document
               </label>
               <input
@@ -262,12 +262,12 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
               />
             </div>
             <div className="flex items-end">
-              <span className="text-indigo-600 text-sm">OR</span>
+              <span className="text-slate-300 text-sm font-medium">OR</span>
             </div>
           </div>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-indigo-800 mb-2">
+            <label className="block text-sm font-medium text-blue-300 mb-2">
               📋 Paste Briefing Content
             </label>
             <textarea
@@ -312,20 +312,20 @@ Message: How AI transforms workplace productivity..."
           </button>
           
           <div className="mt-3 text-xs text-indigo-600">
-            <p>✅ Recognizes major brands (Microsoft, Google, Apple, BMW, etc.) with smart defaults</p>
-            <p>✅ Extracts: Client info, industry, content type, budget, pageviews, keywords, deadlines</p>
-            <p>✅ Auto-suggests tone, brand voice, and SEO settings based on content analysis</p>
+            <p className="text-indigo-300">✅ Recognizes major brands (Microsoft, Google, Apple, BMW, etc.) with smart defaults</p>
+            <p className="text-indigo-300">✅ Extracts: Client info, industry, content type, budget, pageviews, keywords, deadlines</p>
+            <p className="text-indigo-300">✅ Auto-suggests tone, brand voice, and SEO settings based on content analysis</p>
           </div>
         </div>
         {/* Client Information */}
-        <div className="border-l-4 border-blue-500 pl-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <Target className="mr-2 text-blue-600" size={20} />
-            Client & Brand Information
+        <div className="border-l-4 border-blue-400/60 bg-slate-700/30 rounded-2xl p-6 pl-4">
+          <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+            <Target className="mr-3 text-blue-400" size={24} />
+            <span className="text-white">Client & Brand Information</span>
           </h3>
           <div className="grid md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Brand Name *</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Brand Name *</label>
               <input
                 type="text"
                 className="input-field"
@@ -336,7 +336,7 @@ Message: How AI transforms workplace productivity..."
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Primary Audience *</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Primary Audience *</label>
               <input
                 type="text"
                 className="input-field"
@@ -347,7 +347,7 @@ Message: How AI transforms workplace productivity..."
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Storyline/Topic *</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Storyline/Topic *</label>
               <input
                 type="text"
                 className="input-field"
@@ -361,15 +361,15 @@ Message: How AI transforms workplace productivity..."
         </div>
 
         {/* Content Requirements */}
-        <div className="border-l-4 border-green-500 pl-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <FileText className="mr-2 text-green-600" size={20} />
-            Content Requirements
+        <div className="border-l-4 border-green-400/60 bg-slate-700/30 rounded-2xl p-6 pl-4">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+            <FileText className="mr-2 text-green-400" size={20} />
+            <span className="text-white">Content Requirements</span>
           </h3>
           
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Platforms *</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Platforms *</label>
               <div className="grid grid-cols-2 gap-2">
                 {['article', 'instagram', 'facebook', 'linkedin', 'tiktok', 'youtube', 'newsletter'].map(platform => (
                   <label key={platform} className="flex items-center space-x-2">
@@ -383,15 +383,15 @@ Message: How AI transforms workplace productivity..."
                           setBrief(prev => ({ ...prev, platforms: prev.platforms.filter(p => p !== platform) }));
                         }
                       }}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-white/30 text-blue-400 focus:ring-blue-400 bg-white/10"
                     />
-                    <span className="text-sm text-gray-700 capitalize">{platform}</span>
+                    <span className="text-sm text-slate-300 capitalize">{platform}</span>
                   </label>
                 ))}
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Language/Locale</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Language/Locale</label>
               <select
                 className="input-field"
                 value={brief.audience.locale}
@@ -410,7 +410,7 @@ Message: How AI transforms workplace productivity..."
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Primary Keyword/SEO Focus *</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Primary Keyword/SEO Focus *</label>
               <input
                 type="text"
                 className="input-field"
@@ -422,7 +422,7 @@ Message: How AI transforms workplace productivity..."
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Brand Voice & Tone</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Brand Voice & Tone</label>
               <select
                 className="input-field"
                 value={brief.brand.voice_tone[0] || 'professional'}
@@ -437,7 +437,7 @@ Message: How AI transforms workplace productivity..."
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Content Angle</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Content Angle</label>
               <select
                 className="input-field"
                 value={brief.angle_hint}
@@ -459,15 +459,15 @@ Message: How AI transforms workplace productivity..."
 
 
         {/* SEO & Keywords */}
-        <div className="border-l-4 border-orange-500 pl-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="border-l-4 border-orange-400/60 bg-slate-700/30 rounded-2xl p-6 pl-4">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
             <Globe className="mr-2 text-orange-600" size={20} />
-            SEO & Keywords
+            <span className="text-white">SEO & Keywords</span>
           </h3>
           
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Reading Level</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Reading Level</label>
               <select
                 className="input-field"
                 value={brief.audience.reading_level}
@@ -483,7 +483,7 @@ Message: How AI transforms workplace productivity..."
 
           <div className="mt-4">
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-sm font-medium text-gray-700">Keywords</label>
+              <label className="block text-sm font-medium text-slate-300">Keywords</label>
               <button
                 type="button"
                 onClick={() => generateSEOSuggestions()}
@@ -513,15 +513,15 @@ Message: How AI transforms workplace productivity..."
             
             {/* SEO Keyword Suggestions */}
             {seoSuggestions.length > 0 && (
-              <div className="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                <h4 className="text-sm font-medium text-blue-900 mb-2">🎯 Suggested Keywords (High Performance)</h4>
+              <div className="mb-3 p-3 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                <h4 className="text-sm font-medium text-blue-300 mb-2">🎯 Suggested Keywords (High Performance)</h4>
                 <div className="flex flex-wrap gap-2">
                   {seoSuggestions.map((suggestion, index) => (
                     <button
                       key={index}
                       type="button"
                       onClick={() => addSuggestedKeyword(suggestion)}
-                      className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1"
+                      className="bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1"
                     >
                       <Plus size={12} />
                       {suggestion}
@@ -533,7 +533,7 @@ Message: How AI transforms workplace productivity..."
             
             <div className="flex flex-wrap gap-2">
               {brief.seo.secondary_keywords.map((keyword, index) => (
-                <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                <span key={index} className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                   {keyword}
                   <button type="button" onClick={() => removeKeyword(keyword)}>
                     <X size={14} />
@@ -546,12 +546,12 @@ Message: How AI transforms workplace productivity..."
 
 
         {/* Content Guidelines */}
-        <div className="border-l-4 border-red-500 pl-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Content Guidelines</h3>
+        <div className="border-l-4 border-red-400/60 bg-slate-700/30 rounded-2xl p-6 pl-4">
+          <h3 className="text-lg font-semibold text-white mb-4">Content Guidelines</h3>
           
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Must Include</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Must Include</label>
               <div className="flex gap-2 mb-2">
                 <input
                   type="text"
@@ -571,7 +571,7 @@ Message: How AI transforms workplace productivity..."
               </div>
               <div className="flex flex-wrap gap-2">
                 {brief.brand.must_use_phrases.map((item, index) => (
-                  <span key={index} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                  <span key={index} className="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                     {item}
                     <button type="button" onClick={() => removeMustInclude(item)}>
                       <X size={14} />
@@ -582,7 +582,7 @@ Message: How AI transforms workplace productivity..."
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Do Not Mention</label>
+              <label className="block text-sm font-medium text-slate-300 mb-2">Do Not Mention</label>
               <div className="flex gap-2 mb-2">
                 <input
                   type="text"
@@ -602,7 +602,7 @@ Message: How AI transforms workplace productivity..."
               </div>
               <div className="flex flex-wrap gap-2">
                 {brief.brand.banned_phrases.map((item, index) => (
-                  <span key={index} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                  <span key={index} className="bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                     {item}
                     <button type="button" onClick={() => removeDoNotMention(item)}>
                       <X size={14} />
@@ -615,14 +615,14 @@ Message: How AI transforms workplace productivity..."
         </div>
 
         {/* Legal & Compliance */}
-        <div className="border-l-4 border-purple-500 pl-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="border-l-4 border-purple-400/60 bg-slate-700/30 rounded-2xl p-6 pl-4">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
             <Palette className="mr-2 text-purple-600" size={20} />
-            Legal & Compliance
+            <span className="text-white">Legal & Compliance</span>
           </h3>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Legal Disclaimer (Optional)</label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Legal Disclaimer (Optional)</label>
             <textarea
               className="textarea-field"
               value={brief.legal.disclaimer}
