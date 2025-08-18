@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthContext';
 import { PLAN_LIMITS } from '../components/PlanGate';
+import { useSubscription } from './useSubscription';
 
 interface UsageData {
   monthlyGenerations: number;
@@ -11,6 +12,7 @@ interface UsageData {
 
 export function useUsageTracking() {
   const { user } = useAuth();
+  const { subscription, isActivePaidPlan } = useSubscription();
   const [usage, setUsage] = useState<UsageData>({
     monthlyGenerations: 0,
     lastResetDate: new Date().toISOString()
@@ -60,14 +62,17 @@ export function useUsageTracking() {
   const canGenerate = () => {
     if (!user) return false;
     
-    const limits = PLAN_LIMITS[user.plan];
+    // Use subscription plan if available, fallback to user plan
+    const effectivePlan = subscription.status === 'active' ? subscription.plan : user.plan;
+    const limits = PLAN_LIMITS[effectivePlan];
     return usage.monthlyGenerations < limits.monthlyGenerations;
   };
 
   const getRemainingGenerations = () => {
     if (!user) return 0;
     
-    const limits = PLAN_LIMITS[user.plan];
+    const effectivePlan = subscription.status === 'active' ? subscription.plan : user.plan;
+    const limits = PLAN_LIMITS[effectivePlan];
     if (limits.monthlyGenerations === Infinity) return Infinity;
     
     return Math.max(0, limits.monthlyGenerations - usage.monthlyGenerations);
@@ -76,10 +81,21 @@ export function useUsageTracking() {
   const getUsagePercentage = () => {
     if (!user) return 0;
     
-    const limits = PLAN_LIMITS[user.plan];
+    const effectivePlan = subscription.status === 'active' ? subscription.plan : user.plan;
+    const limits = PLAN_LIMITS[effectivePlan];
     if (limits.monthlyGenerations === Infinity) return 0;
     
     return (usage.monthlyGenerations / limits.monthlyGenerations) * 100;
+  };
+
+  const getEffectivePlan = () => {
+    if (!user) return 'free';
+    return subscription.status === 'active' ? subscription.plan : user.plan;
+  };
+
+  const getPlanFeatures = () => {
+    const effectivePlan = getEffectivePlan();
+    return PLAN_LIMITS[effectivePlan];
   };
 
   return {
@@ -87,6 +103,9 @@ export function useUsageTracking() {
     incrementUsage,
     canGenerate,
     getRemainingGenerations,
-    getUsagePercentage
+    getUsagePercentage,
+    getEffectivePlan,
+    getPlanFeatures,
+    isActivePaidPlan
   };
 }

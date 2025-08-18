@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { ContentBrief } from '../types';
 import { parseRealWorldBriefing } from '../utils/enhancedBriefingParser';
-import { FileText, Target, Palette, Globe, Calendar, Plus, X, Sparkles, Brain } from 'lucide-react';
+import { FileText, Target, Palette, Globe, Calendar, Plus, X, Sparkles, Brain, Lock } from 'lucide-react';
+import { useUsageTracking } from '../hooks/useUsageTracking';
 
 interface ContentBriefFormProps {
   onSubmit: (brief: ContentBrief) => void;
@@ -11,6 +12,7 @@ interface ContentBriefFormProps {
 }
 
 export default function ContentBriefForm({ onSubmit, loading }: ContentBriefFormProps) {
+  const { getPlanFeatures, getEffectivePlan } = useUsageTracking();
   const [brief, setBrief] = useState<ContentBrief>({
     brand: {
       name: '',
@@ -371,23 +373,40 @@ Message: How AI transforms workplace productivity..."
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">Platforms *</label>
               <div className="grid grid-cols-2 gap-2">
-                {['article', 'instagram', 'facebook', 'linkedin', 'tiktok', 'youtube', 'newsletter'].map(platform => (
-                  <label key={platform} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={brief.platforms.includes(platform as any)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setBrief(prev => ({ ...prev, platforms: [...prev.platforms, platform as any] }));
-                        } else {
-                          setBrief(prev => ({ ...prev, platforms: prev.platforms.filter(p => p !== platform) }));
-                        }
-                      }}
-                      className="rounded border-white/30 text-blue-400 focus:ring-blue-400 bg-white/10"
-                    />
-                    <span className="text-sm text-slate-300 capitalize">{platform}</span>
-                  </label>
-                ))}
+                {['article', 'instagram', 'facebook', 'linkedin', 'tiktok', 'youtube', 'newsletter'].map(platform => {
+                  const planFeatures = getPlanFeatures();
+                  const isAvailable = planFeatures.platforms.includes(platform as any);
+                  const effectivePlan = getEffectivePlan();
+                  
+                  return (
+                    <label key={platform} className={`flex items-center space-x-2 ${!isAvailable ? 'opacity-60' : ''}`}>
+                      <input
+                        type="checkbox"
+                        checked={brief.platforms.includes(platform as any)}
+                        disabled={!isAvailable}
+                        onChange={(e) => {
+                          if (e.target.checked && isAvailable) {
+                            setBrief(prev => ({ ...prev, platforms: [...prev.platforms, platform as any] }));
+                          } else {
+                            setBrief(prev => ({ ...prev, platforms: prev.platforms.filter(p => p !== platform) }));
+                          }
+                        }}
+                        className="rounded border-white/30 text-blue-400 focus:ring-blue-400 bg-white/10 disabled:opacity-50"
+                      />
+                      <span className="text-sm text-slate-300 capitalize flex items-center">
+                        {platform}
+                        {!isAvailable && (
+                          <div className="ml-2 flex items-center">
+                            <Lock className="text-yellow-400" size={14} />
+                            <span className="text-yellow-400 text-xs ml-1">
+                              {effectivePlan === 'free' ? 'Pro+' : 'Enterprise'}
+                            </span>
+                          </div>
+                        )}
+                      </span>
+                    </label>
+                  );
+                })}
               </div>
             </div>
             <div>

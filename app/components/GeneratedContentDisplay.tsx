@@ -2,12 +2,14 @@
 
 import React, { useState, useRef } from 'react';
 import { GeneratedContent } from '../types';
-import { FileText, Download, Edit3, Copy, Share2, Eye, Hash, Clock, BarChart3, Globe, Image, Play, MessageCircle, Camera, Brain, Zap, Send } from 'lucide-react';
+import { FileText, Download, Edit3, Copy, Share2, Eye, Hash, Clock, BarChart3, Globe, Image, Play, MessageCircle, Camera, Brain, Zap, Send, Lock } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PerformanceAnalytics from './PerformanceAnalytics';
 import ContentOptimizationSuggestions from './ContentOptimizationSuggestions';
 import PublishingIntegration from './PublishingIntegration';
+import PlanGate from './PlanGate';
+import { useUsageTracking } from '../hooks/useUsageTracking';
 
 interface GeneratedContentDisplayProps {
   content: GeneratedContent;
@@ -16,10 +18,14 @@ interface GeneratedContentDisplayProps {
 }
 
 export default function GeneratedContentDisplay({ content, onEdit, onExport }: GeneratedContentDisplayProps) {
+  const { getPlanFeatures, getEffectivePlan } = useUsageTracking();
   const [activeTab, setActiveTab] = useState<'article' | 'social' | 'seo' | 'analytics' | 'optimize' | 'publish' | 'images'>('article');
   const [isEditing, setIsEditing] = useState(false);
   const [socialPlatform, setSocialPlatform] = useState<'instagram' | 'facebook' | 'linkedin' | 'tiktok' | 'youtube' | 'newsletter'>('instagram');
   const contentRef = useRef<HTMLDivElement>(null);
+  
+  const planFeatures = getPlanFeatures();
+  const effectivePlan = getEffectivePlan();
 
   const formatContent = (text: string) => {
     return text.split('\n').map((line, index) => {
@@ -71,6 +77,12 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
   };
 
   const exportToPDF = async () => {
+    // Check if PDF export is available in current plan
+    if (!planFeatures.exportFormats.includes('pdf')) {
+      alert(`PDF export is available in ${effectivePlan === 'free' ? 'Professional' : 'Enterprise'} plans. Please upgrade to access this feature.`);
+      return;
+    }
+
     if (contentRef.current) {
       const canvas = await html2canvas(contentRef.current);
       const imgData = canvas.toDataURL('image/png');
@@ -97,19 +109,30 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
     }
   };
 
-  const TabButton = ({ id, label, icon: Icon }: { id: string, label: string, icon: React.ComponentType<any> }) => (
-    <button
-      onClick={() => setActiveTab(id as any)}
-      className={`flex items-center space-x-2 px-4 py-3 font-medium rounded-lg transition-colors ${
-        activeTab === id
-          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-          : 'text-slate-300 hover:text-white hover:bg-white/10'
-      }`}
-    >
-      <Icon size={18} />
-      <span className="text-white">{label}</span>
-    </button>
-  );
+  const TabButton = ({ id, label, icon: Icon }: { id: string, label: string, icon: React.ComponentType<any> }) => {
+    // Check if this feature is available for the current plan
+    const isRestricted = (id === 'analytics' && !planFeatures.analytics) || 
+                        (id === 'optimize' && effectivePlan === 'free') || 
+                        (id === 'publish' && effectivePlan === 'free');
+    
+    return (
+      <button
+        onClick={() => !isRestricted && setActiveTab(id as any)}
+        disabled={isRestricted}
+        className={`flex items-center space-x-2 px-4 py-3 font-medium rounded-lg transition-colors ${
+          activeTab === id
+            ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+            : isRestricted
+            ? 'text-slate-500 cursor-not-allowed opacity-60'
+            : 'text-slate-300 hover:text-white hover:bg-white/10'
+        }`}
+      >
+        <Icon size={18} />
+        <span className="text-white">{label}</span>
+        {isRestricted && <Lock size={14} className="text-yellow-400" />}
+      </button>
+    );
+  };
 
   const renderSocialContent = () => {
     const platforms = [
@@ -361,10 +384,16 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
             </div>
             <button
               onClick={exportToPDF}
-              className="flex items-center space-x-2 bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-colors"
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                planFeatures.exportFormats.includes('pdf')
+                  ? 'bg-white/20 text-white hover:bg-white/30'
+                  : 'bg-gray-500/20 text-gray-400 cursor-not-allowed opacity-60'
+              }`}
+              disabled={!planFeatures.exportFormats.includes('pdf')}
             >
               <Download size={16} />
               <span>Export PDF</span>
+              {!planFeatures.exportFormats.includes('pdf') && <Lock size={14} className="text-yellow-400" />}
             </button>
           </div>
         </div>
@@ -480,48 +509,41 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
 
         {activeTab === 'analytics' && (
           <div className="space-y-6">
-            <PerformanceAnalytics 
-              contentId={content.article?.title || 'content-1'}
-              isVisible={activeTab === 'analytics'}
-            />
+            <PlanGate requiredPlan="professional" feature="Performance Analytics">
+              <PerformanceAnalytics 
+                contentId={content.article?.title || 'content-1'}
+                isVisible={activeTab === 'analytics'}
+              />
+            </PlanGate>
           </div>
         )}
 
         {activeTab === 'optimize' && (
           <div className="space-y-6">
-            <ContentOptimizationSuggestions 
-              content={content}
-              isVisible={activeTab === 'optimize'}
-              onApplySuggestion={(suggestionId, updatedContent) => {
-                if (onEdit) onEdit(updatedContent);
-              }}
-            />
+            <PlanGate requiredPlan="professional" feature="AI Content Optimization">
+              <ContentOptimizationSuggestions 
+                content={content}
+                isVisible={activeTab === 'optimize'}
+                onApplySuggestion={(suggestionId, updatedContent) => {
+                  if (onEdit) onEdit(updatedContent);
+                }}
+              />
+            </PlanGate>
           </div>
         )}
 
         {activeTab === 'publish' && (
           <div className="space-y-6">
-            <PublishingIntegration 
-              content={content}
-              isVisible={activeTab === 'publish'}
-              onPublish={(platforms) => {
-                console.log(`Published to: ${platforms.join(', ')}`);
-                // You could add success notification here
-              }}
-            />
-          </div>
-        )}
-
-        {activeTab === 'publish' && (
-          <div className="space-y-6">
-            <PublishingIntegration 
-              content={content}
-              isVisible={activeTab === 'publish'}
-              onPublish={(platforms) => {
-                console.log(`Published to: ${platforms.join(', ')}`);
-                // You could add success notification here
-              }}
-            />
+            <PlanGate requiredPlan="professional" feature="Multi-Platform Publishing">
+              <PublishingIntegration 
+                content={content}
+                isVisible={activeTab === 'publish'}
+                onPublish={(platforms) => {
+                  console.log(`Published to: ${platforms.join(', ')}`);
+                  // You could add success notification here
+                }}
+              />
+            </PlanGate>
           </div>
         )}
 

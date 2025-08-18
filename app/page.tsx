@@ -88,11 +88,34 @@ function MainApp() {
             <div className="flex items-center space-x-4">
               {/* Usage Indicator */}
               {user?.plan === 'free' && (
-                <div className="flex items-center space-x-2 bg-yellow-500/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-yellow-500/20">
-                  <BarChart3 className="text-yellow-400" size={16} />
-                  <span className="text-yellow-300 text-sm font-medium">
+                <div className={`flex items-center space-x-2 backdrop-blur-sm px-3 py-2 rounded-lg border ${
+                  getRemainingGenerations() <= 1 
+                    ? 'bg-red-500/10 border-red-500/20' 
+                    : getRemainingGenerations() <= 2
+                    ? 'bg-yellow-500/10 border-yellow-500/20'
+                    : 'bg-blue-500/10 border-blue-500/20'
+                }`}>
+                  <BarChart3 className={
+                    getRemainingGenerations() <= 1 
+                      ? 'text-red-400' 
+                      : getRemainingGenerations() <= 2
+                      ? 'text-yellow-400'
+                      : 'text-blue-400'
+                  } size={16} />
+                  <span className={`text-sm font-medium ${
+                    getRemainingGenerations() <= 1 
+                      ? 'text-red-300' 
+                      : getRemainingGenerations() <= 2
+                      ? 'text-yellow-300'
+                      : 'text-blue-300'
+                  }`}>
                     {getRemainingGenerations()} left
                   </span>
+                  {getRemainingGenerations() <= 1 && (
+                    <span className="text-xs text-red-200 bg-red-500/20 px-2 py-1 rounded">
+                      Upgrade now!
+                    </span>
+                  )}
                 </div>
               )}
               
