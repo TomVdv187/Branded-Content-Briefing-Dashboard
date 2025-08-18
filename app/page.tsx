@@ -46,58 +46,73 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-3/4 left-1/2 w-64 h-64 bg-indigo-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-700"></div>
+      </div>
+
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="relative z-10 bg-white/5 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg">
-                <Rocket className="text-white" size={24} />
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg">
+                <Rocket className="text-white" size={28} />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">StoryForge</h1>
-                <p className="text-sm text-gray-500">AI-Powered Content Creation for Publishers</p>
+                <h1 className="text-2xl font-bold text-white">StoryForge</h1>
+                <p className="text-sm text-slate-400">AI-Powered Content Creation for Publishers</p>
               </div>
             </div>
             
             {/* User Menu */}
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-gray-700">
-                <User size={16} />
-                <span className="text-sm">{user?.name}</span>
-                <span className={`px-2 py-1 text-xs rounded-full ${
-                  user?.plan === 'enterprise' ? 'bg-purple-100 text-purple-800' :
-                  user?.plan === 'professional' ? 'bg-blue-100 text-blue-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
-                  {user?.plan}
-                </span>
+              <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
+                <div className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-lg">
+                  <User className="text-white" size={16} />
+                </div>
+                <div>
+                  <span className="text-white text-sm font-medium">{user?.name}</span>
+                  <span className={`ml-2 px-2 py-1 text-xs rounded-full font-medium ${
+                    user?.plan === 'enterprise' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
+                    user?.plan === 'professional' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
+                    'bg-slate-500/20 text-slate-300 border border-slate-500/30'
+                  }`}>
+                    {user?.plan}
+                  </span>
+                </div>
               </div>
               <button
                 onClick={logout}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+                className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20 hover:border-white/30"
               >
-                <LogOut size={16} />
-                <span className="text-sm">Logout</span>
+                <LogOut size={18} />
+                <span className="text-sm font-medium">Logout</span>
               </button>
             </div>
             
             {currentStep === 'content' && (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
                 <button
                   onClick={handleNewBrief}
-                  className="flex items-center space-x-2 btn-secondary"
+                  className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20 text-slate-300 hover:text-white hover:border-white/30 transition-all"
                 >
                   <FileText size={16} />
-                  <span>New Content</span>
+                  <span className="text-sm font-medium">New Content</span>
                 </button>
                 <button
                   onClick={handleBackToBriefing}
-                  className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors"
+                  className="flex items-center space-x-2 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-blue-500/30 text-blue-300 hover:text-blue-200 hover:border-blue-400/30 transition-all"
                 >
                   <ArrowLeft size={16} />
-                  <span>Back to Brief</span>
+                  <span className="text-sm font-medium">Back to Brief</span>
                 </button>
               </div>
             )}
@@ -105,56 +120,63 @@ function MainApp() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {currentStep === 'briefing' && (
           <>
             {/* Hero Section */}
-            <div className="text-center mb-12">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <Rocket className="text-blue-600" size={40} />
-                <Zap className="text-yellow-500" size={36} />
-                <FileText className="text-green-600" size={32} />
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center space-x-4 mb-6">
+                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center">
+                  <Rocket className="text-blue-400" size={32} />
+                </div>
+                <div className="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center">
+                  <Zap className="text-yellow-400" size={32} />
+                </div>
+                <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center">
+                  <FileText className="text-green-400" size={32} />
+                </div>
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Transform Briefings into Compelling Stories
+              <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Transform Briefings into 
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"> Compelling Stories</span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              <p className="text-xl text-slate-300 max-w-4xl mx-auto mb-12 leading-relaxed">
                 Paste any campaign briefing and watch StoryForge create engaging, educational articles that readers actually want to read. 
                 Our AI transforms promotional content into authentic storytelling that builds trust and drives engagement.
               </p>
               
               {/* Key Benefits */}
-              <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-12">
-                <div className="bg-white rounded-lg p-6 shadow-sm border">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <Brain className="text-blue-600" size={24} />
+              <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Brain className="text-blue-400" size={28} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Instant Brief Analysis</h3>
-                  <p className="text-sm text-gray-600">Paste any briefing - StoryForge extracts key insights and builds story angles automatically</p>
+                  <h3 className="font-bold text-white mb-3 text-lg">Instant Brief Analysis</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">Paste any briefing - StoryForge extracts key insights and builds story angles automatically</p>
                 </div>
                 
-                <div className="bg-white rounded-lg p-6 shadow-sm border">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <Target className="text-green-600" size={24} />
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Target className="text-green-400" size={28} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Story-First SEO</h3>
-                  <p className="text-sm text-gray-600">SEO optimization that doesn't sacrifice storytelling - rank higher with engaging content</p>
+                  <h3 className="font-bold text-white mb-3 text-lg">Story-First SEO</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">SEO optimization that doesn't sacrifice storytelling - rank higher with engaging content</p>
                 </div>
                 
-                <div className="bg-white rounded-lg p-6 shadow-sm border">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <Brain className="text-purple-600" size={24} />
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Brain className="text-purple-400" size={28} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Multi-Platform Stories</h3>
-                  <p className="text-sm text-gray-600">Adapt your story for articles, social media, newsletters - all with consistent narrative</p>
+                  <h3 className="font-bold text-white mb-3 text-lg">Multi-Platform Stories</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">Adapt your story for articles, social media, newsletters - all with consistent narrative</p>
                 </div>
                 
-                <div className="bg-white rounded-lg p-6 shadow-sm border">
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <Sparkles className="text-orange-600" size={24} />
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
+                  <div className="w-14 h-14 bg-orange-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Sparkles className="text-orange-400" size={28} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Authentic Engagement</h3>
-                  <p className="text-sm text-gray-600">Stories people actually want to read - build trust and long-term audience relationships</p>
+                  <h3 className="font-bold text-white mb-3 text-lg">Authentic Engagement</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">Stories people actually want to read - build trust and long-term audience relationships</p>
                 </div>
               </div>
             </div>
@@ -163,30 +185,30 @@ function MainApp() {
             <ContentBriefForm onSubmit={handleBriefSubmit} loading={loading} />
             
             {loading && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+                <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-12 max-w-md mx-4 text-center border border-white/20 shadow-2xl">
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-400 mx-auto mb-6"></div>
+                  <h3 className="text-2xl font-bold text-white mb-4">
                     Generating Your Content
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-slate-300 mb-8 leading-relaxed">
                     StoryForge is crafting your educational story from the briefing...
                   </p>
-                  <div className="text-sm text-gray-500">
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                  <div className="text-sm text-slate-400 space-y-3">
+                    <div className="flex items-center justify-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                       <span>Finding the human story angle</span>
                     </div>
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse animation-delay-200"></div>
+                    <div className="flex items-center justify-center space-x-3">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse animation-delay-200"></div>
                       <span>Crafting educational narrative</span>
                     </div>
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse animation-delay-400"></div>
+                    <div className="flex items-center justify-center space-x-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse animation-delay-400"></div>
                       <span>Adding authentic character voices</span>
                     </div>
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse animation-delay-600"></div>
+                    <div className="flex items-center justify-center space-x-3">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse animation-delay-600"></div>
                       <span>Weaving in brand context naturally</span>
                     </div>
                   </div>
@@ -199,14 +221,14 @@ function MainApp() {
         {currentStep === 'content' && briefData && generatedContent && (
           <>
             {/* Success Message */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <Sparkles className="text-green-600" size={16} />
+            <div className="bg-green-500/10 backdrop-blur-sm border border-green-500/30 rounded-2xl p-6 mb-8">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-green-500/20 rounded-2xl flex items-center justify-center">
+                  <Sparkles className="text-green-400" size={24} />
                 </div>
                 <div>
-                  <h3 className="text-green-800 font-semibold">Content Generated Successfully!</h3>
-                  <p className="text-green-700 text-sm">
+                  <h3 className="text-green-300 font-bold text-lg">Content Generated Successfully!</h3>
+                  <p className="text-green-200/80">
                     Your content for {briefData.brand.name} is ready for review and publishing.
                   </p>
                 </div>
@@ -224,15 +246,22 @@ function MainApp() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-500">
-            <p className="text-sm">
-              © 2024 StoryForge • AI-Powered Content Creation Platform
-            </p>
-            <p className="text-xs mt-2">
+      <footer className="relative z-10 bg-white/5 backdrop-blur-xl border-t border-white/10 mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
+                <Rocket className="text-white" size={20} />
+              </div>
+              <span className="text-xl font-bold text-white">StoryForge</span>
+            </div>
+            <p className="text-slate-400 mb-6 max-w-2xl mx-auto leading-relaxed">
               Transform promotional content into authentic stories that build trust and drive genuine engagement
             </p>
+            <div className="text-slate-500 text-sm">
+              <p>© 2024 StoryForge • AI-Powered Content Creation Platform</p>
+              <p className="mt-2">Built for publishers who value authentic storytelling</p>
+            </div>
           </div>
         </div>
       </footer>

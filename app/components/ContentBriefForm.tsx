@@ -224,25 +224,27 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-t-xl">
-        <div className="flex items-center space-x-3">
-          <FileText size={28} />
+    <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20">
+      <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 backdrop-blur-sm text-white p-8 rounded-t-3xl border-b border-white/20">
+        <div className="flex items-center space-x-4">
+          <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
+            <FileText size={32} />
+          </div>
           <div>
-            <h2 className="text-2xl font-bold">Content Production Brief</h2>
-            <p className="text-blue-100">Generate professional content instantly</p>
+            <h2 className="text-3xl font-bold">Content Production Brief</h2>
+            <p className="text-slate-300">Generate professional content instantly</p>
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-8">
+      <form onSubmit={handleSubmit} className="p-8 space-y-8">
         {/* Smart Briefing Upload */}
-        <div className="border-l-4 border-indigo-500 pl-4 bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold text-indigo-900 mb-4 flex items-center">
-            <Sparkles className="mr-2 text-indigo-600" size={20} />
+        <div className="border-l-4 border-blue-400/50 pl-6 bg-blue-500/10 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
+          <h3 className="text-xl font-bold text-blue-300 mb-4 flex items-center">
+            <Sparkles className="mr-3 text-blue-400" size={24} />
             🚀 Smart Briefing Parser - Auto-Fill Form Fields
           </h3>
-          <p className="text-indigo-700 mb-4 text-sm">
+          <p className="text-slate-300 mb-6 leading-relaxed">
             Upload or paste your client's briefing document. Our AI will automatically extract and fill most form fields, 
             including client info, industry, content type, budget, and requirements.
           </p>
