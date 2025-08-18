@@ -37,42 +37,65 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
   // Check if wallet is already connected on component mount
   useEffect(() => {
     const checkWalletConnection = async () => {
-      console.log('🔍 Checking existing wallet connection...');
+      console.log('🔍 Starting wallet connection check...');
       console.log('🔍 Window available:', typeof window !== 'undefined');
       console.log('🔍 Ethereum available:', typeof window !== 'undefined' && typeof window.ethereum !== 'undefined');
       
-      // First check localStorage for previous connection state
-      const storedConnected = localStorage.getItem('contentcraft_wallet_connected');
-      const storedAddress = localStorage.getItem('contentcraft_wallet_address');
-      console.log('💾 Stored connection state:', { storedConnected, storedAddress });
-      
       if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
         try {
+          // Check if MetaMask is unlocked
+          console.log('🔄 Checking if MetaMask is unlocked...');
+          const isUnlocked = await window.ethereum._metamask?.isUnlocked?.() || true;
+          console.log('🔓 MetaMask unlocked status:', isUnlocked);
+          
           console.log('🔄 Requesting existing accounts...');
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-          console.log('📄 Current MetaMask accounts:', accounts);
+          console.log('📄 eth_accounts response:', accounts);
+          console.log('📄 Accounts length:', accounts?.length || 0);
           
-          if (accounts.length > 0) {
+          if (accounts && accounts.length > 0) {
             // MetaMask has connected accounts
             setWalletConnected(true);
             setWalletAddress(accounts[0]);
             localStorage.setItem('contentcraft_wallet_connected', 'true');
             localStorage.setItem('contentcraft_wallet_address', accounts[0]);
             console.log('✅ Wallet auto-connected:', accounts[0]);
-          } else if (storedConnected === 'true' && storedAddress) {
-            // Previous connection but no current accounts - user likely disconnected
-            console.log('⚠️ Previous connection found but no current accounts - clearing stored state');
-            localStorage.removeItem('contentcraft_wallet_connected');
-            localStorage.removeItem('contentcraft_wallet_address');
-            setWalletConnected(false);
-            setWalletAddress('');
           } else {
-            console.log('ℹ️ No existing wallet connection found');
-            setWalletConnected(false);
-            setWalletAddress('');
+            // No accounts returned
+            console.log('❌ No accounts returned from eth_accounts');
+            console.log('🔍 Checking if this is a permissions issue...');
+            
+            // Try to get the current account another way
+            try {
+              const selectedAddress = window.ethereum.selectedAddress;
+              console.log('📍 ethereum.selectedAddress:', selectedAddress);
+              
+              if (selectedAddress) {
+                setWalletConnected(true);
+                setWalletAddress(selectedAddress);
+                localStorage.setItem('contentcraft_wallet_connected', 'true');
+                localStorage.setItem('contentcraft_wallet_address', selectedAddress);
+                console.log('✅ Wallet connected via selectedAddress:', selectedAddress);
+              } else {
+                setWalletConnected(false);
+                setWalletAddress('');
+                localStorage.removeItem('contentcraft_wallet_connected');
+                localStorage.removeItem('contentcraft_wallet_address');
+                console.log('ℹ️ No wallet connection found');
+              }
+            } catch (selectedAddressError) {
+              console.log('❌ Error checking selectedAddress:', selectedAddressError);
+              setWalletConnected(false);
+              setWalletAddress('');
+            }
           }
-        } catch (error) {
-          console.error('❌ Error checking wallet connection:', error);
+        } catch (error: any) {
+          console.error('❌ Error during wallet connection check:', error);
+          console.log('❌ Error details:', {
+            name: error?.name,
+            message: error?.message,
+            code: error?.code
+          });
           setWalletConnected(false);
           setWalletAddress('');
         }
@@ -85,7 +108,7 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
 
     if (isOpen) {
       // Add a small delay to ensure DOM is ready
-      setTimeout(checkWalletConnection, 100);
+      setTimeout(checkWalletConnection, 500);
     }
   }, [isOpen]);
 
@@ -175,21 +198,12 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
     }
 
     try {
+      // Always request accounts - this will either return existing connected accounts
+      // or prompt the user to connect if not already connected
       console.log('🔄 Requesting account access...');
-      
-      // First check if accounts are already available (for already connected wallets)
-      const existingAccounts = await window.ethereum.request({ method: 'eth_accounts' });
-      console.log('📋 Existing accounts check:', existingAccounts);
-      
-      let accounts = existingAccounts;
-      
-      // If no existing accounts, request connection
-      if (accounts.length === 0) {
-        console.log('🔄 No existing accounts, requesting new connection...');
-        accounts = await window.ethereum.request({ 
-          method: 'eth_requestAccounts' 
-        });
-      }
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
       
       console.log('📄 Final accounts received:', accounts);
       
@@ -537,7 +551,31 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                         <div>Wallet Address: {walletAddress || 'None'}</div>
                         <div>Window Available: {typeof window !== 'undefined' ? '✅' : '❌'}</div>
                         <div>Ethereum Available: {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' ? '✅' : '❌'}</div>
+                        {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' && (
+                          <div>Selected Address: {window.ethereum.selectedAddress || 'None'}</div>
+                        )}
                       </div>
+                      
+                      {/* Manual Debug Button */}
+                      {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' && (
+                        <button
+                          onClick={async () => {
+                            try {
+                              console.log('🔍 Manual debug check...');
+                              const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                              console.log('Debug eth_accounts result:', accounts);
+                              console.log('Debug selectedAddress:', window.ethereum.selectedAddress);
+                              alert(`Accounts: ${JSON.stringify(accounts)}\nSelected: ${window.ethereum.selectedAddress}`);
+                            } catch (err: any) {
+                              console.error('Debug check failed:', err);
+                              alert(`Error: ${err?.message || 'Unknown error'}`);
+                            }
+                          }}
+                          className="mt-2 text-xs text-blue-400 underline hover:text-blue-300"
+                        >
+                          🔍 Debug Connection
+                        </button>
+                      )}
                     </div>
                     
                     {typeof window !== 'undefined' && typeof window.ethereum === 'undefined' && (

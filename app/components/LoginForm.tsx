@@ -218,22 +218,6 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
                   )}
                 </button>
 
-                {/* Quick Access Button */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEmail('demo@contentcraft.com');
-                    setPassword('password');
-                    // Auto-submit after a moment
-                    setTimeout(() => {
-                      login('demo@contentcraft.com', 'password', false);
-                    }, 100);
-                  }}
-                  className="w-full mt-3 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-xl font-medium border border-white/20 hover:border-white/30 transition-all flex items-center justify-center space-x-2"
-                >
-                  <Zap size={16} />
-                  <span>Quick Demo Access</span>
-                </button>
               </form>
 
               {/* Toggle Login/Register */}
