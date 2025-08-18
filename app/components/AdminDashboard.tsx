@@ -60,7 +60,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
       const userActivities = activityData.filter((a: UserActivity) => a.userId === activity.userId);
       const latestActivity = userActivities[0]; // Activities are stored with newest first
       if (latestActivity.userId === activity.userId) {
-        planCounts[latestActivity.plan]++;
+        planCounts[latestActivity.plan as keyof typeof planCounts]++;
       }
     });
 
@@ -71,7 +71,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
     activityData.forEach((activity: UserActivity) => {
       if (!userPlans.has(activity.userId)) {
         userPlans.set(activity.userId, activity.plan);
-        uniquePlanCounts[activity.plan]++;
+        uniquePlanCounts[activity.plan as keyof typeof uniquePlanCounts]++;
       }
     });
 
