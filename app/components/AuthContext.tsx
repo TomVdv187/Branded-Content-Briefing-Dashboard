@@ -35,34 +35,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     
     // Simulate API call - replace with real authentication
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Demo users for different plans
-    const demoUsers: Record<string, User> = {
-      'demo@storyforge.com': {
-        id: '1',
-        email: 'demo@storyforge.com',
-        name: 'Demo User',
-        plan: 'professional'
-      },
-      'free@storyforge.com': {
-        id: '2',
-        email: 'free@storyforge.com',
-        name: 'Free User',
-        plan: 'free'
-      },
-      'enterprise@storyforge.com': {
-        id: '3',
-        email: 'enterprise@storyforge.com',
-        name: 'Enterprise User',
-        plan: 'enterprise'
+    // For demo purposes, accept any email/password combination
+    // In production, this would make a real API call to authenticate
+    if (email && password) {
+      // Extract name from email (before @)
+      const name = email.split('@')[0]
+        .split('.')
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
+      
+      // Determine plan based on email domain or default to professional
+      let plan: 'free' | 'professional' | 'enterprise' = 'professional';
+      if (email.includes('enterprise') || email.includes('business')) {
+        plan = 'enterprise';
+      } else if (email.includes('free') || email.includes('trial')) {
+        plan = 'free';
       }
-    };
 
-    const foundUser = demoUsers[email];
-    if (foundUser && password === 'demo123') {
-      setUser(foundUser);
-      localStorage.setItem('storyforge_user', JSON.stringify(foundUser));
+      const user: User = {
+        id: Math.random().toString(36).substr(2, 9),
+        email,
+        name,
+        plan
+      };
+
+      setUser(user);
+      localStorage.setItem('storyforge_user', JSON.stringify(user));
       setIsLoading(false);
       return true;
     }
