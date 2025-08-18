@@ -13,21 +13,23 @@ export function generateProfessionalDutchArticle(brief: ContentBrief): { title: 
 }
 
 function generateDutchNewsTitle(brief: ContentBrief): string {
-  const { storyline, brand } = brief;
+  const { storyline, brand, audience } = brief;
   
-  // Professional Dutch newspaper headlines
-  const templates = [
-    `${brand.name} lanceert ${storyline} voor Nederlandse markt`,
-    `Nieuwe ${storyline}-oplossing van ${brand.name} wint terrein`,
-    `${brand.name} zet in op ${storyline} voor groei`,
-    `Nederlandse consumenten omarmen ${storyline} van ${brand.name}`,
-    `${brand.name} introduceert vernieuwende ${storyline}-aanpak`,
-    `Marktleider ${brand.name} breidt uit met ${storyline}`,
-    `${storyline}: ${brand.name} speelt in op Nederlandse vraag`,
-    `${brand.name} verstevigt positie met ${storyline}-innovatie`
+  // Educational storytelling headlines - focus on trends, insights, human stories
+  const storyTemplates = [
+    `Hoe Nederlandse ${audience.primary} hun dagelijkse routine veranderen`,
+    `De stille revolutie in Nederlandse huiskamers en studiekamers`,
+    `Waarom ${audience.primary} anders denken over technologie`,
+    `De nieuwe realiteit voor Nederlandse studenten en gezinnen`,
+    `Hoe een generatie Nederland digitaal opnieuw uitvindt`,
+    `Het verhaal achter veranderende gewoontes bij ${audience.primary}`,
+    `Nederlandse levensstijl in transitie: een generatie zoekt balans`,
+    `Van chaos naar controle: hoe Nederlandse huishoudens hun dag herwinnen`,
+    `De stille kracht van bewuste technologiekeuzes in Nederland`,
+    `Waarom efficiëntie het nieuwe statussymbool is geworden`
   ];
   
-  return templates[Math.floor(Math.random() * templates.length)];
+  return storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
 }
 
 function generateDutchNewsArticle(brief: ContentBrief): string {

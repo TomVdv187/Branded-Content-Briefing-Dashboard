@@ -1,5 +1,6 @@
 import { ContentBrief, GeneratedContent, ImagePack } from '../types';
 import { generateProfessionalDutchArticle, generateProfessionalFrenchArticle, detectLanguageFromBriefing } from './dutchJournalismGenerator';
+import { generateStorytellingArticle } from './storytellingGenerator';
 
 /**
  * AI-Powered Content Generator
@@ -56,46 +57,44 @@ function generateArticleContent(brief: ContentBrief) {
   
   console.log('🌐 Language detection:', { locale, detectedLang });
   
-  // Generate content based on detected language
+  // Generate storytelling content based on detected language
   if (locale.startsWith('nl') || detectedLang === 'nl-NL') {
-    console.log('📰 Generating Dutch newspaper article');
-    const dutchArticle = generateProfessionalDutchArticle(brief);
+    console.log('📖 Generating Dutch storytelling article');
+    const storyArticle = generateStorytellingArticle(brief, 'nl');
     return {
-      title: dutchArticle.title,
-      content: dutchArticle.content,
+      title: storyArticle.title,
+      content: storyArticle.content,
       seo: {
-        meta_description: generateMetaDescription(brief, dutchArticle.title),
-        slug: generateSlug(dutchArticle.title),
+        meta_description: generateMetaDescription(brief, storyArticle.title),
+        slug: generateSlug(storyArticle.title),
         keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
       }
     };
   }
   
   if (locale.startsWith('fr') || detectedLang === 'fr-FR') {
-    console.log('📰 Generating French newspaper article');
-    const frenchArticle = generateProfessionalFrenchArticle(brief);
+    console.log('📖 Generating French storytelling article');
+    const storyArticle = generateStorytellingArticle(brief, 'fr');
     return {
-      title: frenchArticle.title,
-      content: frenchArticle.content,
+      title: storyArticle.title,
+      content: storyArticle.content,
       seo: {
-        meta_description: generateMetaDescription(brief, frenchArticle.title),
-        slug: generateSlug(frenchArticle.title),
+        meta_description: generateMetaDescription(brief, storyArticle.title),
+        slug: generateSlug(storyArticle.title),
         keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
       }
     };
   }
   
-  // Fallback to English for other languages
-  console.log('📰 Generating English article');
-  const title = generateArticleTitle(brief);
-  const content = generateArticleBody(brief);
-  
+  // Fallback to English storytelling
+  console.log('📖 Generating English storytelling article');
+  const storyArticle = generateStorytellingArticle(brief, 'en');
   return {
-    title,
-    content,
+    title: storyArticle.title,
+    content: storyArticle.content,
     seo: {
-      meta_description: generateMetaDescription(brief, title),
-      slug: generateSlug(title),
+      meta_description: generateMetaDescription(brief, storyArticle.title),
+      slug: generateSlug(storyArticle.title),
       keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
     }
   };
