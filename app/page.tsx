@@ -5,20 +5,29 @@ import ContentBriefForm from './components/ContentBriefForm';
 import GeneratedContentDisplay from './components/GeneratedContentDisplay';
 import LoginForm from './components/LoginForm';
 import PricingPage from './components/PricingPage';
+import PlanGate from './components/PlanGate';
 import { AuthProvider, useAuth } from './components/AuthContext';
+import { useUsageTracking } from './hooks/useUsageTracking';
 import { ContentBrief, GeneratedContent } from './types';
 import { generateContent } from './utils/contentGenerator';
 import { generateStoryContent } from './utils/storyContentGenerator';
-import { Sparkles, ArrowLeft, Brain, Zap, FileText, Target, Rocket, LogOut, User } from 'lucide-react';
+import { Sparkles, ArrowLeft, Brain, Zap, FileText, Target, Rocket, LogOut, User, BarChart3, AlertCircle } from 'lucide-react';
 
 function MainApp() {
   const { user, logout } = useAuth();
+  const { usage, incrementUsage, canGenerate, getRemainingGenerations, getUsagePercentage } = useUsageTracking();
   const [currentStep, setCurrentStep] = useState<'briefing' | 'content'>('briefing');
   const [briefData, setBriefData] = useState<ContentBrief | null>(null);
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleBriefSubmit = async (brief: ContentBrief) => {
+    // Check if user can generate content
+    if (!canGenerate()) {
+      alert(`You've reached your monthly generation limit. Upgrade to Professional for unlimited generations!`);
+      return;
+    }
+
     setLoading(true);
     setBriefData(brief);
     
@@ -28,6 +37,9 @@ function MainApp() {
       setGeneratedContent(content);
       setCurrentStep('content');
       setLoading(false);
+      
+      // Increment usage after successful generation
+      incrementUsage();
     }, 4000);
   };
 
@@ -67,13 +79,23 @@ function MainApp() {
                 <Rocket className="text-white" size={28} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">StoryForge</h1>
+                <h1 className="text-2xl font-bold text-white">ContentCraft</h1>
                 <p className="text-sm text-slate-400">AI-Powered Content Creation for Publishers</p>
               </div>
             </div>
             
             {/* User Menu */}
             <div className="flex items-center space-x-4">
+              {/* Usage Indicator */}
+              {user?.plan === 'free' && (
+                <div className="flex items-center space-x-2 bg-yellow-500/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-yellow-500/20">
+                  <BarChart3 className="text-yellow-400" size={16} />
+                  <span className="text-yellow-300 text-sm font-medium">
+                    {getRemainingGenerations()} left
+                  </span>
+                </div>
+              )}
+              
               <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
                 <div className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-lg">
                   <User className="text-white" size={16} />
@@ -141,7 +163,7 @@ function MainApp() {
                 <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"> Compelling Stories</span>
               </h2>
               <p className="text-xl text-slate-300 max-w-4xl mx-auto mb-12 leading-relaxed">
-                Paste any campaign briefing and watch StoryForge create engaging, educational articles that readers actually want to read. 
+                Paste any campaign briefing and watch ContentCraft create engaging, educational articles that readers actually want to read. 
                 Our AI transforms promotional content into authentic storytelling that builds trust and drives engagement.
               </p>
               
@@ -152,7 +174,7 @@ function MainApp() {
                     <Brain className="text-blue-400" size={28} />
                   </div>
                   <h3 className="font-bold text-white mb-3 text-lg">Instant Brief Analysis</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">Paste any briefing - StoryForge extracts key insights and builds story angles automatically</p>
+                  <p className="text-slate-300 text-sm leading-relaxed">Paste any briefing - ContentCraft extracts key insights and builds story angles automatically</p>
                 </div>
                 
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">
@@ -192,7 +214,7 @@ function MainApp() {
                     Generating Your Content
                   </h3>
                   <p className="text-slate-300 mb-8 leading-relaxed">
-                    StoryForge is crafting your educational story from the briefing...
+                    ContentCraft is crafting your educational story from the briefing...
                   </p>
                   <div className="text-sm text-slate-400 space-y-3">
                     <div className="flex items-center justify-center space-x-3">
@@ -253,13 +275,13 @@ function MainApp() {
               <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
                 <Rocket className="text-white" size={20} />
               </div>
-              <span className="text-xl font-bold text-white">StoryForge</span>
+              <span className="text-xl font-bold text-white">ContentCraft</span>
             </div>
             <p className="text-slate-400 mb-6 max-w-2xl mx-auto leading-relaxed">
               Transform promotional content into authentic stories that build trust and drive genuine engagement
             </p>
             <div className="text-slate-500 text-sm">
-              <p>© 2024 StoryForge • AI-Powered Content Creation Platform</p>
+              <p>© 2024 ContentCraft • AI-Powered Content Creation Platform</p>
               <p className="mt-2">Built for publishers who value authentic storytelling</p>
             </div>
           </div>

@@ -98,7 +98,7 @@ export default function PricingPage({ onBackToLogin }: PricingPageProps) {
                 <Rocket className="text-white" size={28} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">StoryForge</h1>
+                <h1 className="text-2xl font-bold text-white">ContentCraft</h1>
                 <p className="text-sm text-slate-400">Choose Your Plan</p>
               </div>
             </div>
@@ -220,7 +220,7 @@ export default function PricingPage({ onBackToLogin }: PricingPageProps) {
         <div className="mt-24">
           <div className="text-center mb-16">
             <h3 className="text-3xl font-bold text-white mb-4">
-              Why Choose StoryForge?
+              Why Choose ContentCraft?
             </h3>
             <p className="text-slate-300 max-w-2xl mx-auto">
               Join thousands of publishers who've transformed their content strategy with AI-powered storytelling
@@ -294,13 +294,13 @@ export default function PricingPage({ onBackToLogin }: PricingPageProps) {
               <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
                 <Rocket className="text-white" size={20} />
               </div>
-              <span className="text-xl font-bold text-white">StoryForge</span>
+              <span className="text-xl font-bold text-white">ContentCraft</span>
             </div>
             <p className="text-slate-400 mb-6 max-w-2xl mx-auto leading-relaxed">
               Transform promotional content into authentic stories that build trust and drive genuine engagement
             </p>
             <div className="text-slate-500 text-sm">
-              <p>© 2024 StoryForge • AI-Powered Content Creation Platform</p>
+              <p>© 2024 ContentCraft • AI-Powered Content Creation Platform</p>
               <p className="mt-2">Built for publishers who value authentic storytelling</p>
             </div>
           </div>
