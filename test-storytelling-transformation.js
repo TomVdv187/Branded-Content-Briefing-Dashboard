@@ -1,6 +1,6 @@
 // Test storytelling transformation with OnePlus briefing
-const { parseRealWorldBriefing } = require('./app/utils/enhancedBriefingParser.js');
-const { generateContent } = require('./app/utils/contentGenerator.js');
+import { parseRealWorldBriefing } from './app/utils/enhancedBriefingParser.ts';
+import { generateContent } from './app/utils/contentGenerator.ts';
 
 const onePlusBriefing = `OnePlus – Back to School Campagnevoorstel
 Platform: Sudinfo
@@ -127,4 +127,4 @@ try {
   console.error('❌ Error:', error.message);
 }
 
-export {};
+// ES Module export to prevent warnings
