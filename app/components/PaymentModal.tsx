@@ -41,24 +41,45 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
       console.log('🔍 Window available:', typeof window !== 'undefined');
       console.log('🔍 Ethereum available:', typeof window !== 'undefined' && typeof window.ethereum !== 'undefined');
       
+      // First check localStorage for previous connection state
+      const storedConnected = localStorage.getItem('contentcraft_wallet_connected');
+      const storedAddress = localStorage.getItem('contentcraft_wallet_address');
+      console.log('💾 Stored connection state:', { storedConnected, storedAddress });
+      
       if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
         try {
           console.log('🔄 Requesting existing accounts...');
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-          console.log('📄 Existing accounts:', accounts);
+          console.log('📄 Current MetaMask accounts:', accounts);
           
           if (accounts.length > 0) {
+            // MetaMask has connected accounts
             setWalletConnected(true);
             setWalletAddress(accounts[0]);
-            console.log('✅ Wallet already connected:', accounts[0]);
+            localStorage.setItem('contentcraft_wallet_connected', 'true');
+            localStorage.setItem('contentcraft_wallet_address', accounts[0]);
+            console.log('✅ Wallet auto-connected:', accounts[0]);
+          } else if (storedConnected === 'true' && storedAddress) {
+            // Previous connection but no current accounts - user likely disconnected
+            console.log('⚠️ Previous connection found but no current accounts - clearing stored state');
+            localStorage.removeItem('contentcraft_wallet_connected');
+            localStorage.removeItem('contentcraft_wallet_address');
+            setWalletConnected(false);
+            setWalletAddress('');
           } else {
             console.log('ℹ️ No existing wallet connection found');
+            setWalletConnected(false);
+            setWalletAddress('');
           }
         } catch (error) {
           console.error('❌ Error checking wallet connection:', error);
+          setWalletConnected(false);
+          setWalletAddress('');
         }
       } else {
         console.log('ℹ️ MetaMask not available for auto-connection check');
+        setWalletConnected(false);
+        setWalletAddress('');
       }
     };
 
@@ -76,10 +97,14 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
         if (accounts.length > 0) {
           setWalletConnected(true);
           setWalletAddress(accounts[0]);
+          localStorage.setItem('contentcraft_wallet_connected', 'true');
+          localStorage.setItem('contentcraft_wallet_address', accounts[0]);
           console.log('✅ Account changed to:', accounts[0]);
         } else {
           setWalletConnected(false);
           setWalletAddress('');
+          localStorage.removeItem('contentcraft_wallet_connected');
+          localStorage.removeItem('contentcraft_wallet_address');
           console.log('❌ Wallet disconnected via account change');
         }
       };
@@ -152,27 +177,40 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
     try {
       console.log('🔄 Requesting account access...');
       
-      // Request account access
-      const accounts = await window.ethereum.request({ 
-        method: 'eth_requestAccounts' 
-      });
+      // First check if accounts are already available (for already connected wallets)
+      const existingAccounts = await window.ethereum.request({ method: 'eth_accounts' });
+      console.log('📋 Existing accounts check:', existingAccounts);
       
-      console.log('📄 Accounts received:', accounts);
+      let accounts = existingAccounts;
+      
+      // If no existing accounts, request connection
+      if (accounts.length === 0) {
+        console.log('🔄 No existing accounts, requesting new connection...');
+        accounts = await window.ethereum.request({ 
+          method: 'eth_requestAccounts' 
+        });
+      }
+      
+      console.log('📄 Final accounts received:', accounts);
       
       if (accounts.length > 0) {
         setWalletConnected(true);
         setWalletAddress(accounts[0]);
         console.log('✅ Wallet connected successfully:', accounts[0]);
         
-        // Check if we're on the right network (optional)
+        // Check network
         try {
           const chainId = await window.ethereum.request({ method: 'eth_chainId' });
           console.log('🌐 Connected to network:', chainId);
+          
+          // Store connection state in localStorage for persistence
+          localStorage.setItem('contentcraft_wallet_connected', 'true');
+          localStorage.setItem('contentcraft_wallet_address', accounts[0]);
         } catch (networkError) {
           console.log('⚠️ Could not get network info:', networkError);
         }
       } else {
-        throw new Error('No accounts found');
+        throw new Error('No accounts found after connection attempt');
       }
     } catch (error: any) {
       console.error('❌ Failed to connect wallet:', error);
@@ -185,6 +223,8 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
         alert('Connection request already pending. Please check your MetaMask extension.');
       } else if (error.message && error.message.includes('User rejected')) {
         alert('Connection rejected by user. Please try again and approve the connection.');
+      } else if (error.message && error.message.includes('User denied')) {
+        alert('Connection denied by user. Please try again and approve the connection.');
       } else {
         alert(`Failed to connect wallet: ${error.message || 'Unknown error'}. Please make sure MetaMask is unlocked and try again.`);
       }
@@ -194,7 +234,9 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
   const disconnectWallet = () => {
     setWalletConnected(false);
     setWalletAddress('');
-    console.log('Wallet disconnected by user');
+    localStorage.removeItem('contentcraft_wallet_connected');
+    localStorage.removeItem('contentcraft_wallet_address');
+    console.log('✅ Wallet disconnected by user');
   };
 
   const refreshWalletConnection = async () => {
@@ -208,14 +250,20 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
         if (accounts.length > 0) {
           setWalletConnected(true);
           setWalletAddress(accounts[0]);
+          localStorage.setItem('contentcraft_wallet_connected', 'true');
+          localStorage.setItem('contentcraft_wallet_address', accounts[0]);
           console.log('✅ Wallet connection refreshed:', accounts[0]);
         } else {
           setWalletConnected(false);
           setWalletAddress('');
+          localStorage.removeItem('contentcraft_wallet_connected');
+          localStorage.removeItem('contentcraft_wallet_address');
           console.log('❌ No accounts found during refresh');
         }
       } catch (error) {
         console.error('❌ Error refreshing wallet connection:', error);
+        setWalletConnected(false);
+        setWalletAddress('');
       }
     } else {
       console.log('❌ MetaMask not available for refresh');
