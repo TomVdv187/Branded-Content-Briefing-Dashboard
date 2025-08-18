@@ -33,6 +33,7 @@ export default function PerformanceAnalytics({ contentId, isVisible }: Analytics
   
   const [isLoading, setIsLoading] = useState(false);
   const [timeframe, setTimeframe] = useState<'24h' | '7d' | '30d'>('24h');
+  const [demoMode, setDemoMode] = useState(false);
 
   useEffect(() => {
     if (isVisible && contentId) {
@@ -43,20 +44,39 @@ export default function PerformanceAnalytics({ contentId, isVisible }: Analytics
   const simulateMetricsLoad = () => {
     setIsLoading(true);
     
-    // Simulate API call for real metrics
+    // TODO: Replace with real analytics API calls
+    // Example integrations:
+    // - Google Analytics 4 API
+    // - Adobe Analytics
+    // - Custom analytics endpoint
     setTimeout(() => {
-      const mockMetrics: PerformanceMetrics = {
-        pageviews: Math.floor(Math.random() * 150000) + 25000,
-        engagement_rate: Math.floor(Math.random() * 40) + 45, // 45-85%
-        conversion_rate: Math.floor(Math.random() * 8) + 2, // 2-10%
-        revenue_per_mille: Math.floor(Math.random() * 15) + 8, // $8-23 RPM
-        social_shares: Math.floor(Math.random() * 5000) + 1500,
-        avg_time_on_page: Math.floor(Math.random() * 180) + 120, // 2-5 minutes
-        bounce_rate: Math.floor(Math.random() * 25) + 25, // 25-50%
-        seo_score: Math.floor(Math.random() * 15) + 85 // 85-100
-      };
+      if (demoMode) {
+        // Demo data for presentations/demos only
+        const mockMetrics: PerformanceMetrics = {
+          pageviews: Math.floor(Math.random() * 150000) + 25000,
+          engagement_rate: Math.floor(Math.random() * 40) + 45,
+          conversion_rate: Math.floor(Math.random() * 8) + 2,
+          revenue_per_mille: Math.floor(Math.random() * 15) + 8,
+          social_shares: Math.floor(Math.random() * 5000) + 1500,
+          avg_time_on_page: Math.floor(Math.random() * 180) + 120,
+          bounce_rate: Math.floor(Math.random() * 25) + 25,
+          seo_score: Math.floor(Math.random() * 15) + 85
+        };
+        setMetrics(mockMetrics);
+      } else {
+        // Real mode - show empty state until connected
+        setMetrics({
+          pageviews: 0,
+          engagement_rate: 0,
+          conversion_rate: 0,
+          revenue_per_mille: 0,
+          social_shares: 0,
+          avg_time_on_page: 0,
+          bounce_rate: 0,
+          seo_score: 0
+        });
+      }
       
-      setMetrics(mockMetrics);
       setIsLoading(false);
     }, 1500);
   };
@@ -114,7 +134,20 @@ export default function PerformanceAnalytics({ contentId, isVisible }: Analytics
           </div>
         </div>
         
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
+          <label className="flex items-center space-x-2 text-sm">
+            <input
+              type="checkbox"
+              checked={demoMode}
+              onChange={(e) => {
+                setDemoMode(e.target.checked);
+                if (isVisible) simulateMetricsLoad();
+              }}
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span className="text-gray-600">Demo Mode</span>
+          </label>
+          
           <select
             value={timeframe}
             onChange={(e) => setTimeframe(e.target.value as typeof timeframe)}
@@ -136,6 +169,43 @@ export default function PerformanceAnalytics({ contentId, isVisible }: Analytics
               <div className="h-3 bg-gray-200 rounded"></div>
             </div>
           ))}
+        </div>
+      ) : metrics.pageviews === 0 ? (
+        <div className="text-center py-12">
+          <BarChart3 size={64} className="mx-auto text-gray-300 mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">No Analytics Data Available</h3>
+          <p className="text-gray-600 mb-6 max-w-md mx-auto">
+            Connect your analytics platform to see real performance metrics for your content.
+          </p>
+          
+          <div className="bg-blue-50 rounded-lg p-6 max-w-2xl mx-auto text-left">
+            <h4 className="font-semibold text-blue-900 mb-3">How to Connect Real Analytics:</h4>
+            <div className="space-y-2 text-sm text-blue-800">
+              <div className="flex items-start space-x-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
+                <span><strong>Google Analytics:</strong> Connect GA4 API for pageviews, engagement, bounce rate</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
+                <span><strong>Social Media APIs:</strong> Facebook, Instagram, LinkedIn APIs for social metrics</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
+                <span><strong>Ad Revenue:</strong> Google AdSense or your ad network for RPM data</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
+                <span><strong>SEO Tools:</strong> SEMrush, Ahrefs, or Google Search Console for SEO scores</span>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+              <p className="text-xs text-yellow-800">
+                <strong>Note:</strong> Enable "Demo Mode" above to show sample data for presentations or testing purposes. 
+                In production, connect your real analytics APIs for accurate performance tracking.
+              </p>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
