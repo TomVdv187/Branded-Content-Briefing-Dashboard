@@ -21,14 +21,10 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
     e.preventDefault();
     setError('');
     
-    if (isLogin) {
-      const success = await login(email, password);
-      if (!success) {
-        setError('Invalid email or password');
-      }
-    } else {
-      // Handle registration - for now, just show message
-      setError('Registration coming soon! Please contact sales@storyforge.com');
+    // Both login and registration use the same logic for demo purposes
+    const success = await login(email, password);
+    if (!success) {
+      setError('Please enter both email and password');
     }
   };
 
@@ -253,21 +249,6 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
                 </p>
               </div>
 
-              {/* Demo Access */}
-              <div className="mt-8 p-6 bg-blue-500/10 backdrop-blur-sm rounded-2xl border border-blue-500/20">
-                <div className="flex items-center space-x-2 mb-3">
-                  <Sparkles className="text-blue-400" size={16} />
-                  <span className="text-blue-300 font-medium text-sm">Quick Access</span>
-                </div>
-                <p className="text-slate-300 text-sm mb-3">
-                  Use any email and password to access StoryForge instantly!
-                </p>
-                <div className="text-slate-400 text-xs space-y-1">
-                  <p><strong>Try:</strong> demo@storyforge.com / password</p>
-                  <p><strong>Or:</strong> test@company.com / 123456</p>
-                  <p className="text-blue-300 mt-2">Any combination works!</p>
-                </div>
-              </div>
 
               {/* Pricing Link */}
               <div className="mt-6 text-center">

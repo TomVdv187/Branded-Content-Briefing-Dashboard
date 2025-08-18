@@ -35,11 +35,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     
     // Simulate API call - replace with real authentication
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1200));
     
-    // For demo purposes, accept any email/password combination
+    // For demo purposes, accept any non-empty email/password combination
     // In production, this would make a real API call to authenticate
-    if (email && password) {
+    if (email.trim() && password.trim()) {
       // Extract name from email (before @)
       const name = email.split('@')[0]
         .split('.')
@@ -48,15 +48,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Determine plan based on email domain or default to professional
       let plan: 'free' | 'professional' | 'enterprise' = 'professional';
-      if (email.includes('enterprise') || email.includes('business')) {
+      if (email.toLowerCase().includes('enterprise') || email.toLowerCase().includes('business')) {
         plan = 'enterprise';
-      } else if (email.includes('free') || email.includes('trial')) {
+      } else if (email.toLowerCase().includes('free') || email.toLowerCase().includes('trial')) {
         plan = 'free';
       }
 
       const user: User = {
         id: Math.random().toString(36).substr(2, 9),
-        email,
+        email: email.trim(),
         name,
         plan
       };
