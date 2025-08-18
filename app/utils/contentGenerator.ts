@@ -1,5 +1,5 @@
 import { ContentBrief, GeneratedContent, ImagePack } from '../types';
-import { generateProfessionalDutchArticle, detectLanguageFromBriefing } from './dutchJournalismGenerator';
+import { generateProfessionalDutchArticle, generateProfessionalFrenchArticle, detectLanguageFromBriefing } from './dutchJournalismGenerator';
 
 /**
  * AI-Powered Content Generator
@@ -50,12 +50,15 @@ export function generateContent(brief: ContentBrief): GeneratedContent {
  * Generate high-quality article content
  */
 function generateArticleContent(brief: ContentBrief) {
-  // Check if content should be in Dutch
-  const isDutch = brief.audience.locale.startsWith('nl') || 
-                  brief.audience.locale.startsWith('be') ||
-                  detectLanguageFromBriefing(brief.storyline + ' ' + brief.brand.name) === 'nl-NL';
+  // Detect language for content generation
+  const detectedLang = detectLanguageFromBriefing(brief.storyline + ' ' + brief.brand.name + ' ' + brief.audience.primary);
+  const locale = brief.audience.locale || detectedLang;
   
-  if (isDutch) {
+  console.log('🌐 Language detection:', { locale, detectedLang });
+  
+  // Generate content based on detected language
+  if (locale.startsWith('nl') || detectedLang === 'nl-NL') {
+    console.log('📰 Generating Dutch newspaper article');
     const dutchArticle = generateProfessionalDutchArticle(brief);
     return {
       title: dutchArticle.title,
@@ -68,7 +71,22 @@ function generateArticleContent(brief: ContentBrief) {
     };
   }
   
-  // Fallback to original generation for other languages
+  if (locale.startsWith('fr') || detectedLang === 'fr-FR') {
+    console.log('📰 Generating French newspaper article');
+    const frenchArticle = generateProfessionalFrenchArticle(brief);
+    return {
+      title: frenchArticle.title,
+      content: frenchArticle.content,
+      seo: {
+        meta_description: generateMetaDescription(brief, frenchArticle.title),
+        slug: generateSlug(frenchArticle.title),
+        keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
+      }
+    };
+  }
+  
+  // Fallback to English for other languages
+  console.log('📰 Generating English article');
   const title = generateArticleTitle(brief);
   const content = generateArticleBody(brief);
   

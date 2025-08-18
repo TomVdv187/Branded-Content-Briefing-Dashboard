@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ContentBrief } from '../types';
-import { parseBriefingToStructuredJSON } from '../utils/briefingParser';
+import { parseRealWorldBriefing } from '../utils/enhancedBriefingParser';
 import { FileText, Target, Palette, Globe, Calendar, Plus, X, Sparkles, Brain } from 'lucide-react';
 
 interface ContentBriefFormProps {
@@ -190,7 +190,7 @@ export default function ContentBriefForm({ onSubmit, loading }: ContentBriefForm
     setTimeout(() => {
       try {
         // Use the new CLAUDE.md compliant parser
-        const parsedBrief = parseBriefingToStructuredJSON(briefingDocument);
+        const parsedBrief = parseRealWorldBriefing(briefingDocument);
         
         // Set the parsed brief data
         setBrief(parsedBrief);

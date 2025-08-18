@@ -64,35 +64,108 @@ Het bedrijf verwacht dat ${storyline} een belangrijke bijdrage zal leveren aan d
 export function detectLanguageFromBriefing(briefingText: string): string {
   const text = briefingText.toLowerCase();
   
-  // Dutch language indicators
+  // Dutch language indicators (more comprehensive)
   const dutchIndicators = [
-    'nederlands', 'nederland', 'dutch', 'nl', 
-    'bedrijf', 'organisatie', 'campagne', 'doelgroep',
-    'studenten', 'gezinnen', 'professionals',
-    'verkeer', 'awareness', 'consideration',
-    'productpagina', 'retailpartners', 'pageviews',
-    'sudinfo', 'belgië', 'vlaanderen',
-    'euro', 'tekens', 'geschreven',
-    'garantie', 'hosting', 'website'
+    'nederlands', 'nederland', 'dutch', 'nl', 'campagnevoorstel',
+    'bedrijf', 'organisatie', 'campagne', 'doelgroep', 'campagnefocus',
+    'studenten', 'gezinnen', 'professionals', 'jonge professionals',
+    'verkeer', 'awareness', 'consideration', 'oplossingen',
+    'productpagina', 'retailpartners', 'pageviews', 'blijven verbonden',
+    'sudinfo', 'belgië', 'vlaanderen', 'vlaamse', 'brusselse',
+    'euro', '€', 'tekens', 'geschreven', 'doelstelling',
+    'garantie', 'hosting', 'website', 'detailsbestelling', 'bestelbon',
+    'efficiënt studeren', 'slimme technologie', 'school- en gezinsoplossing',
+    'nederlandse', 'belgische', 'vlaamse', 'brusselse'
   ];
   
   const dutchCount = dutchIndicators.filter(indicator => text.includes(indicator)).length;
   
-  if (dutchCount >= 3) {
+  // French language indicators (comprehensive)
+  const frenchIndicators = [
+    'français', 'france', 'french', 'fr', 'française',
+    'campagne', 'entreprise', 'société', 'marché français',
+    'consommateurs français', 'étudiants', 'familles', 'professionnels',
+    'solution', 'technologie', 'numérique', 'lancement',
+    'stratégie', 'développement', 'distribution', 'partenaires',
+    'analyse', 'recherche', 'étude', 'résultats',
+    'suisse', 'québec', 'belge francophone', 'wallonie'
+  ];
+  
+  const frenchCount = frenchIndicators.filter(indicator => text.includes(indicator)).length;
+  
+  // Determine language based on indicators
+  if (dutchCount >= 2) {
     return 'nl-NL';
   }
   
-  // French indicators
-  const frenchIndicators = ['français', 'france', 'french', 'fr'];
-  if (frenchIndicators.some(indicator => text.includes(indicator))) {
+  if (frenchCount >= 2) {
     return 'fr-FR';
   }
   
   // German indicators
-  const germanIndicators = ['deutsch', 'deutschland', 'german', 'de'];
+  const germanIndicators = ['deutsch', 'deutschland', 'german', 'de', 'österreich', 'schweiz'];
   if (germanIndicators.some(indicator => text.includes(indicator))) {
     return 'de-DE';
   }
   
+  // Spanish indicators
+  const spanishIndicators = ['español', 'españa', 'spanish', 'es', 'mexicano'];
+  if (spanishIndicators.some(indicator => text.includes(indicator))) {
+    return 'es-ES';
+  }
+  
   return 'en-US';
+}
+
+export function generateProfessionalFrenchArticle(brief: ContentBrief): { title: string; content: string } {
+  const title = generateFrenchNewsTitle(brief);
+  const content = generateFrenchNewsArticle(brief);
+  
+  return { title, content };
+}
+
+function generateFrenchNewsTitle(brief: ContentBrief): string {
+  const { storyline, brand } = brief;
+  
+  // Professional French newspaper headlines
+  const templates = [
+    `${brand.name} lance ${storyline} sur le marché français`,
+    `Nouvelle stratégie ${storyline} pour ${brand.name}`,
+    `${brand.name} mise sur ${storyline} pour sa croissance`,
+    `Les consommateurs français adoptent ${storyline} de ${brand.name}`,
+    `${brand.name} révolutionne le secteur avec ${storyline}`,
+    `Innovation : ${brand.name} présente ${storyline}`,
+    `${storyline} : ${brand.name} répond à la demande française`,
+    `${brand.name} renforce sa position avec ${storyline}`
+  ];
+  
+  return templates[Math.floor(Math.random() * templates.length)];
+}
+
+function generateFrenchNewsArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo } = brief;
+  
+  const article = `${brand.name} a officialisé le lancement de ${storyline}, une initiative stratégique destinée à répondre aux attentes spécifiques du marché français. Cette démarche s'inscrit dans une approche ciblée visant ${audience.primary} en quête de solutions technologiques performantes et adaptées.
+
+L'annonce fait suite à une étude de marché approfondie menée par les équipes de ${brand.name} sur plusieurs mois. Les résultats révèlent que les consommateurs français privilégient des produits alliant innovation technologique et simplicité d'utilisation, particulièrement dans le domaine de ${seo.primary_keyword}.
+
+"Le marché français présente des spécificités que nous avons soigneusement analysées", explique un responsable de ${brand.name}. "Notre approche de ${storyline} répond précisément à ces besoins en proposant des solutions qui s'intègrent naturellement dans le quotidien de nos utilisateurs."
+
+La stratégie de déploiement repose sur un partenariat étroit avec les principaux distributeurs et détaillants français. Cette collaboration permettra d'assurer une présence optimale de ${storyline} dans l'ensemble du réseau de distribution, tant physique que numérique.
+
+Les experts du secteur saluent cette initiative de ${brand.name}, soulignant la pertinence de l'approche adoptée. L'entreprise démontre une fois de plus sa capacité à anticiper les évolutions du marché et à proposer des réponses adaptées aux besoins émergents.
+
+Le calendrier de lancement a été soigneusement planifié pour coïncider avec les tendances actuelles du marché. Dans un contexte où la demande pour ${seo.primary_keyword} connaît une croissance soutenue, ${brand.name} positionne ${storyline} comme une réponse innovante et différenciante.
+
+L'accueil réservé par les consommateurs français aux précédentes innovations de ${brand.name} laisse présager un accueil favorable pour ${storyline}. L'entreprise s'appuie sur cette confiance établie pour développer sa présence sur ce marché stratégique.
+
+La phase de déploiement s'étalera sur plusieurs semaines, permettant une montée en puissance progressive et maîtrisée. ${brand.name} privilégie cette approche méthodique pour garantir la qualité de l'expérience utilisateur et l'efficacité de l'accompagnement client.
+
+L'impact de ${storyline} sur la stratégie globale de ${brand.name} en Europe pourrait être significatif. L'entreprise considère ce lancement comme un test majeur pour ses ambitions de développement sur les marchés européens francophones.
+
+Les partenaires commerciaux manifestent leur confiance dans le potentiel de ${storyline}. Plusieurs enseignes de référence ont d'ores et déjà confirmé leur intention de mettre en avant cette offre dans leurs espaces de vente et leurs communications.
+
+Cette initiative s'inscrit dans une démarche plus large de ${brand.name} visant à consolider sa position de leader technologique tout en répondant aux spécificités locales des différents marchés européens.`;
+
+  return article;
 }
