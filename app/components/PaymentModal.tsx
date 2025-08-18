@@ -37,22 +37,34 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
   // Check if wallet is already connected on component mount
   useEffect(() => {
     const checkWalletConnection = async () => {
-      if (typeof window.ethereum !== 'undefined') {
+      console.log('🔍 Checking existing wallet connection...');
+      console.log('🔍 Window available:', typeof window !== 'undefined');
+      console.log('🔍 Ethereum available:', typeof window !== 'undefined' && typeof window.ethereum !== 'undefined');
+      
+      if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
         try {
+          console.log('🔄 Requesting existing accounts...');
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          console.log('📄 Existing accounts:', accounts);
+          
           if (accounts.length > 0) {
             setWalletConnected(true);
             setWalletAddress(accounts[0]);
-            console.log('Wallet already connected:', accounts[0]);
+            console.log('✅ Wallet already connected:', accounts[0]);
+          } else {
+            console.log('ℹ️ No existing wallet connection found');
           }
         } catch (error) {
-          console.error('Error checking wallet connection:', error);
+          console.error('❌ Error checking wallet connection:', error);
         }
+      } else {
+        console.log('ℹ️ MetaMask not available for auto-connection check');
       }
     };
 
     if (isOpen) {
-      checkWalletConnection();
+      // Add a small delay to ensure DOM is ready
+      setTimeout(checkWalletConnection, 100);
     }
   }, [isOpen]);
 
@@ -99,38 +111,61 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
   };
 
   const connectWallet = async () => {
+    console.log('🔍 MetaMask connection attempt started');
+    console.log('🔍 window.ethereum available:', typeof window.ethereum !== 'undefined');
+    console.log('🔍 window.ethereum object:', window.ethereum);
+
     // Check if MetaMask is installed
+    if (typeof window === 'undefined') {
+      console.log('❌ Window object not available (SSR)');
+      alert('Please wait for the page to fully load and try again.');
+      return;
+    }
+
     if (typeof window.ethereum === 'undefined') {
+      console.log('❌ MetaMask not installed');
       alert('MetaMask is not installed. Please install MetaMask from https://metamask.io/ to continue.');
       return;
     }
 
     try {
+      console.log('🔄 Requesting account access...');
+      
       // Request account access
       const accounts = await window.ethereum.request({ 
         method: 'eth_requestAccounts' 
       });
       
+      console.log('📄 Accounts received:', accounts);
+      
       if (accounts.length > 0) {
         setWalletConnected(true);
         setWalletAddress(accounts[0]);
-        console.log('✅ Wallet connected:', accounts[0]);
+        console.log('✅ Wallet connected successfully:', accounts[0]);
         
         // Check if we're on the right network (optional)
-        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-        console.log('Connected to network:', chainId);
+        try {
+          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+          console.log('🌐 Connected to network:', chainId);
+        } catch (networkError) {
+          console.log('⚠️ Could not get network info:', networkError);
+        }
       } else {
         throw new Error('No accounts found');
       }
     } catch (error: any) {
-      console.error('Failed to connect wallet:', error);
+      console.error('❌ Failed to connect wallet:', error);
+      console.log('❌ Error code:', error.code);
+      console.log('❌ Error message:', error.message);
       
       if (error.code === 4001) {
         alert('Connection rejected. Please approve the connection in MetaMask to continue.');
       } else if (error.code === -32002) {
         alert('Connection request already pending. Please check your MetaMask extension.');
+      } else if (error.message && error.message.includes('User rejected')) {
+        alert('Connection rejected by user. Please try again and approve the connection.');
       } else {
-        alert(`Failed to connect wallet: ${error.message || 'Unknown error'}`);
+        alert(`Failed to connect wallet: ${error.message || 'Unknown error'}. Please make sure MetaMask is unlocked and try again.`);
       }
     }
   };

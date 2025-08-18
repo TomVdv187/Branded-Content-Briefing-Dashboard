@@ -46,17 +46,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const adminUsers = JSON.parse(localStorage.getItem('contentcraft_admin_users') || '[]');
         const adminUser = adminUsers.find((admin: any) => admin.email === userData.email.toLowerCase().trim());
         
+        console.log('🔍 Role validation for:', userData.email);
+        console.log('🔍 Admin users in storage:', adminUsers);
+        console.log('🔍 Found admin user:', adminUser);
+        
         if (adminUser) {
           role = adminUser.role;
+          console.log('✅ Role assigned from admin list:', role);
         } else if (userData.email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
           // Fallback: ensure primary admin always has super_admin access
           role = 'super_admin';
+          console.log('✅ Primary admin access granted');
+        } else {
+          console.log('ℹ️ No admin access found, defaulting to user role');
         }
         // If no admin user found and not primary admin, role stays 'user' (default)
       } catch (error) {
+        console.log('❌ Error during role validation:', error);
         // Fallback for primary admin if localStorage fails
         if (userData.email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
           role = 'super_admin';
+          console.log('✅ Primary admin fallback access granted');
         }
         // For all other users, role stays 'user' on error
       }
@@ -114,16 +124,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const adminUsers = JSON.parse(localStorage.getItem('contentcraft_admin_users') || '[]');
         const adminUser = adminUsers.find((admin: any) => admin.email === email.toLowerCase().trim());
         
+        console.log('🔍 LOGIN - Role validation for:', email);
+        console.log('🔍 LOGIN - Admin users in storage:', adminUsers);
+        console.log('🔍 LOGIN - Found admin user:', adminUser);
+        
         if (adminUser) {
           role = adminUser.role;
+          console.log('✅ LOGIN - Role assigned from admin list:', role);
         } else if (email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
           // Fallback: ensure primary admin always has super_admin access
           role = 'super_admin';
+          console.log('✅ LOGIN - Primary admin access granted');
+        } else {
+          console.log('ℹ️ LOGIN - No admin access found, defaulting to user role');
         }
       } catch (error) {
+        console.log('❌ LOGIN - Error during role validation:', error);
         // Fallback for primary admin if localStorage fails
         if (email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
           role = 'super_admin';
+          console.log('✅ LOGIN - Primary admin fallback access granted');
         }
       }
 
