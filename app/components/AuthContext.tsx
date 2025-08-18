@@ -35,18 +35,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (savedUser) {
       let userData = JSON.parse(savedUser);
       
+      // Ensure userData has all required properties
+      if (!userData.role) {
+        userData.role = 'user';
+      }
+      
+      // SECURITY: Revalidate role on every app load to prevent unauthorized access
+      let role: 'user' | 'admin' | 'super_admin' = 'user';
+      try {
+        const adminUsers = JSON.parse(localStorage.getItem('contentcraft_admin_users') || '[]');
+        const adminUser = adminUsers.find((admin: any) => admin.email === userData.email.toLowerCase().trim());
+        
+        if (adminUser) {
+          role = adminUser.role;
+        } else if (userData.email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
+          // Fallback: ensure primary admin always has super_admin access
+          role = 'super_admin';
+        }
+        // If no admin user found and not primary admin, role stays 'user' (default)
+      } catch (error) {
+        // Fallback for primary admin if localStorage fails
+        if (userData.email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
+          role = 'super_admin';
+        }
+        // For all other users, role stays 'user' on error
+      }
+      
+      // Always update role to current validated role
+      userData.role = role;
+      
       // Sync user plan with subscription if available
       if (savedSubscription) {
         try {
           const subscription = JSON.parse(savedSubscription);
           if (subscription.status === 'active' && subscription.plan !== userData.plan) {
             userData.plan = subscription.plan;
-            localStorage.setItem('contentcraft_user', JSON.stringify(userData));
           }
         } catch (error) {
           console.error('Error parsing subscription:', error);
         }
       }
+      
+      // Save updated userData back to localStorage
+      localStorage.setItem('contentcraft_user', JSON.stringify(userData));
       
       setUser(userData);
     }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, CreditCard, Wallet, Check, AlertCircle } from 'lucide-react';
 
 interface PaymentModalProps {
@@ -34,6 +34,51 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
     name: ''
   });
 
+  // Check if wallet is already connected on component mount
+  useEffect(() => {
+    const checkWalletConnection = async () => {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            setWalletConnected(true);
+            setWalletAddress(accounts[0]);
+            console.log('Wallet already connected:', accounts[0]);
+          }
+        } catch (error) {
+          console.error('Error checking wallet connection:', error);
+        }
+      }
+    };
+
+    if (isOpen) {
+      checkWalletConnection();
+    }
+  }, [isOpen]);
+
+  // Listen for account changes
+  useEffect(() => {
+    if (typeof window.ethereum !== 'undefined') {
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length > 0) {
+          setWalletConnected(true);
+          setWalletAddress(accounts[0]);
+          console.log('Account changed to:', accounts[0]);
+        } else {
+          setWalletConnected(false);
+          setWalletAddress('');
+          console.log('Wallet disconnected');
+        }
+      };
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+
+      return () => {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+      };
+    }
+  }, []);
+
   if (!isOpen) return null;
 
   const handleCardPayment = async () => {
@@ -54,31 +99,96 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
   };
 
   const connectWallet = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    // Check if MetaMask is installed
+    if (typeof window.ethereum === 'undefined') {
+      alert('MetaMask is not installed. Please install MetaMask from https://metamask.io/ to continue.');
+      return;
+    }
+
+    try {
+      // Request account access
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+      
+      if (accounts.length > 0) {
         setWalletConnected(true);
         setWalletAddress(accounts[0]);
-      } catch (error) {
-        console.error('Failed to connect wallet:', error);
+        console.log('✅ Wallet connected:', accounts[0]);
+        
+        // Check if we're on the right network (optional)
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        console.log('Connected to network:', chainId);
+      } else {
+        throw new Error('No accounts found');
       }
-    } else {
-      alert('MetaMask is not installed. Please install MetaMask to continue.');
+    } catch (error: any) {
+      console.error('Failed to connect wallet:', error);
+      
+      if (error.code === 4001) {
+        alert('Connection rejected. Please approve the connection in MetaMask to continue.');
+      } else if (error.code === -32002) {
+        alert('Connection request already pending. Please check your MetaMask extension.');
+      } else {
+        alert(`Failed to connect wallet: ${error.message || 'Unknown error'}`);
+      }
     }
   };
 
+  const disconnectWallet = () => {
+    setWalletConnected(false);
+    setWalletAddress('');
+    console.log('Wallet disconnected by user');
+  };
+
   const handleCryptoPayment = async () => {
+    if (!walletConnected || !window.ethereum) {
+      alert('Please connect your wallet first');
+      return;
+    }
+
     setIsProcessing(true);
     
     try {
-      // Simulate crypto transaction
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Define the transaction parameters
+      const transactionParams = {
+        to: '0x742d35Cc6634C0532925a3b8D42C32f4B2fAf111', // Example recipient address
+        from: walletAddress,
+        value: '0x9C9696E85EC00', // ~0.042 ETH in wei (example amount)
+        gas: '0x5208', // 21000 gas limit for simple transfer
+        gasPrice: await window.ethereum.request({ method: 'eth_gasPrice' })
+      };
+
+      console.log('Sending transaction:', transactionParams);
+
+      // Request transaction
+      const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [transactionParams],
+      });
+
+      console.log('✅ Transaction sent:', txHash);
+      
+      // Simulate waiting for confirmation
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       setPaymentStatus('success');
       setTimeout(() => {
         onPaymentSuccess('crypto');
         onClose();
       }, 1500);
-    } catch (error) {
+      
+    } catch (error: any) {
+      console.error('Transaction failed:', error);
+      
+      if (error.code === 4001) {
+        alert('Transaction rejected by user');
+      } else if (error.code === -32603) {
+        alert('Transaction failed: Insufficient funds or network error');
+      } else {
+        alert(`Transaction failed: ${error.message || 'Unknown error'}`);
+      }
+      
       setPaymentStatus('error');
       setIsProcessing(false);
     }
@@ -277,18 +387,57 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                   <Wallet className="text-orange-400 mx-auto mb-4" size={48} />
                   <h4 className="text-xl font-semibold text-white mb-2">Connect Your Wallet</h4>
                   <p className="text-slate-400 mb-6">Connect your MetaMask wallet to continue with crypto payment</p>
+                  
+                  {/* MetaMask Detection Status */}
+                  <div className="mb-6 p-4 bg-slate-700/50 rounded-lg border border-slate-600/30">
+                    <div className="flex items-center justify-center space-x-2 mb-2">
+                      <div className={`w-2 h-2 rounded-full ${
+                        typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' 
+                          ? 'bg-green-400' 
+                          : 'bg-red-400'
+                      }`}></div>
+                      <span className="text-sm text-slate-300">
+                        MetaMask {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' ? 'Detected' : 'Not Found'}
+                      </span>
+                    </div>
+                    {typeof window !== 'undefined' && typeof window.ethereum === 'undefined' && (
+                      <p className="text-xs text-slate-400">
+                        Please install MetaMask from{' '}
+                        <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer" className="text-orange-400 underline">
+                          metamask.io
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                  
                   <button
                     onClick={connectWallet}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl transition-colors"
+                    disabled={typeof window !== 'undefined' && typeof window.ethereum === 'undefined'}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Connect MetaMask
+                    {typeof window !== 'undefined' && typeof window.ethereum === 'undefined' 
+                      ? 'Install MetaMask' 
+                      : 'Connect MetaMask'
+                    }
                   </button>
                 </div>
               ) : (
                 <div className="space-y-6">
                   <div className="bg-slate-700/50 p-4 rounded-xl border border-slate-600/30">
-                    <h4 className="font-semibold text-white mb-2">Wallet Connected</h4>
-                    <p className="text-slate-400 text-sm font-mono">{walletAddress}</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-semibold text-white">Wallet Connected</h4>
+                      <button
+                        onClick={disconnectWallet}
+                        className="text-slate-400 hover:text-white text-sm underline"
+                      >
+                        Disconnect
+                      </button>
+                    </div>
+                    <p className="text-slate-400 text-sm font-mono break-all">{walletAddress}</p>
+                    <div className="flex items-center space-x-2 mt-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span className="text-xs text-green-400">Connected</span>
+                    </div>
                   </div>
 
                   <div className="bg-blue-500/10 p-4 rounded-xl border border-blue-500/20">
