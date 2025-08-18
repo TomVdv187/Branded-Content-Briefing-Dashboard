@@ -21,8 +21,8 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
     e.preventDefault();
     setError('');
     
-    // Both login and registration use the same logic for demo purposes
-    const success = await login(email, password);
+    // Pass isNewUser flag for registration
+    const success = await login(email, password, !isLogin);
     if (!success) {
       setError('Please enter both email and password');
     }
@@ -226,7 +226,7 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
                     setPassword('password');
                     // Auto-submit after a moment
                     setTimeout(() => {
-                      login('demo@contentcraft.com', 'password');
+                      login('demo@contentcraft.com', 'password', false);
                     }, 100);
                   }}
                   className="w-full mt-3 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-xl font-medium border border-white/20 hover:border-white/30 transition-all flex items-center justify-center space-x-2"

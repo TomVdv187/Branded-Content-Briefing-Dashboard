@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useSubscription } from '../hooks/useSubscription';
+import { emailService } from '../services/emailService';
 
 interface User {
   id: string;
@@ -12,7 +13,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string, isNewUser?: boolean) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -49,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string, isNewUser = false): Promise<boolean> => {
     setIsLoading(true);
     
     // Simulate API call - replace with real authentication
@@ -78,6 +79,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name,
         plan
       };
+
+      // Log user activity for admin monitoring
+      const userActivity = {
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        plan: user.plan,
+        action: isNewUser ? 'signup' : 'login',
+        timestamp: new Date().toISOString(),
+        ipAddress: 'N/A', // Would be populated by server in production
+        userAgent: navigator.userAgent
+      };
+
+      // Store activity in localStorage (in production, send to server)
+      const existingActivity = JSON.parse(localStorage.getItem('contentcraft_admin_activity') || '[]');
+      existingActivity.unshift(userActivity); // Add to beginning
+      
+      // Keep only last 100 activities for demo
+      if (existingActivity.length > 100) {
+        existingActivity.splice(100);
+      }
+      
+      localStorage.setItem('contentcraft_admin_activity', JSON.stringify(existingActivity));
+
+      // Send welcome email for new users
+      if (isNewUser) {
+        try {
+          await emailService.sendWelcomeEmail({
+            userName: name,
+            userEmail: email.trim(),
+            planName: plan.charAt(0).toUpperCase() + plan.slice(1),
+            loginUrl: window.location.origin
+          });
+          console.log('✅ Welcome email sent successfully to:', email);
+        } catch (error) {
+          console.error('❌ Failed to send welcome email:', error);
+          // Don't block login if email fails
+        }
+      }
 
       setUser(user);
       localStorage.setItem('contentcraft_user', JSON.stringify(user));
