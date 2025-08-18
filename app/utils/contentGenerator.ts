@@ -1,4 +1,5 @@
 import { ContentBrief, GeneratedContent, ImagePack } from '../types';
+import { generateProfessionalDutchArticle, detectLanguageFromBriefing } from './dutchJournalismGenerator';
 
 /**
  * AI-Powered Content Generator
@@ -49,6 +50,25 @@ export function generateContent(brief: ContentBrief): GeneratedContent {
  * Generate high-quality article content
  */
 function generateArticleContent(brief: ContentBrief) {
+  // Check if content should be in Dutch
+  const isDutch = brief.audience.locale.startsWith('nl') || 
+                  brief.audience.locale.startsWith('be') ||
+                  detectLanguageFromBriefing(brief.storyline + ' ' + brief.brand.name) === 'nl-NL';
+  
+  if (isDutch) {
+    const dutchArticle = generateProfessionalDutchArticle(brief);
+    return {
+      title: dutchArticle.title,
+      content: dutchArticle.content,
+      seo: {
+        meta_description: generateMetaDescription(brief, dutchArticle.title),
+        slug: generateSlug(dutchArticle.title),
+        keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
+      }
+    };
+  }
+  
+  // Fallback to original generation for other languages
   const title = generateArticleTitle(brief);
   const content = generateArticleBody(brief);
   

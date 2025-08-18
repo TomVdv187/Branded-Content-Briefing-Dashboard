@@ -1,4 +1,5 @@
 import { ContentBrief } from '../types';
+import { detectLanguageFromBriefing } from './dutchJournalismGenerator';
 
 /**
  * CLAUDE.md compliant briefing parser
@@ -20,7 +21,7 @@ export function parseBriefingToStructuredJSON(input: string): ContentBrief {
   const audience = {
     primary: extractPrimaryAudience(originalText) || "Target audience",
     reading_level: extractReadingLevel(text) as 'A2' | 'B1' | 'B2' | 'C1',
-    locale: extractLocale(text) || "en-US"
+    locale: detectLanguageFromBriefing(originalText) || extractLocale(text) || "en-US"
   };
   
   // Parse storyline (main topic/message)
