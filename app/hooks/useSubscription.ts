@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { emailService } from '../services/emailService';
 
 export interface Subscription {
   plan: 'free' | 'professional' | 'enterprise';
@@ -30,10 +31,11 @@ export function useSubscription() {
     }
   }, []);
 
-  const upgradeSubscription = (
+  const upgradeSubscription = async (
     plan: 'professional' | 'enterprise',
     paymentMethod: 'card' | 'crypto',
-    transactionId?: string
+    transactionId?: string,
+    userInfo?: { userName: string; userEmail: string }
   ) => {
     const now = new Date();
     const nextBilling = new Date();
@@ -50,6 +52,22 @@ export function useSubscription() {
 
     setSubscription(newSubscription);
     localStorage.setItem('contentcraft_subscription', JSON.stringify(newSubscription));
+    
+    // Send admin notification for payment
+    if (userInfo) {
+      try {
+        await emailService.sendAdminNotification('payment', {
+          userName: userInfo.userName,
+          userEmail: userInfo.userEmail,
+          planName: plan.charAt(0).toUpperCase() + plan.slice(1),
+          transactionId: newSubscription.transactionId,
+          paymentMethod
+        });
+        console.log('✅ Admin notification sent for payment:', userInfo.userEmail);
+      } catch (error) {
+        console.error('❌ Failed to send admin payment notification:', error);
+      }
+    }
     
     return newSubscription;
   };

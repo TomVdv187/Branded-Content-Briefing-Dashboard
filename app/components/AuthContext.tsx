@@ -106,13 +106,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Send welcome email for new users
       if (isNewUser) {
         try {
-          await emailService.sendWelcomeEmail({
+          const emailData = {
             userName: name,
             userEmail: email.trim(),
             planName: plan.charAt(0).toUpperCase() + plan.slice(1),
             loginUrl: window.location.origin
-          });
+          };
+          
+          // Send welcome email to user
+          await emailService.sendWelcomeEmail(emailData);
           console.log('✅ Welcome email sent successfully to:', email);
+          
+          // Send admin notification
+          await emailService.sendAdminNotification('new_signup', emailData);
+          console.log('✅ Admin notification sent for new signup:', email);
         } catch (error) {
           console.error('❌ Failed to send welcome email:', error);
           // Don't block login if email fails

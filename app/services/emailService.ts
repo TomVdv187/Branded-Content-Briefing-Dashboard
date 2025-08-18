@@ -5,7 +5,8 @@ const EMAIL_SERVICE_CONFIG = {
   // For production, you'd use a real email service like SendGrid, Mailgun, or Resend
   apiKey: process.env.NEXT_PUBLIC_EMAIL_API_KEY || 'demo-key',
   fromEmail: 'hello@contentcraft.com',
-  fromName: 'ContentCraft Team'
+  fromName: 'ContentCraft Team',
+  adminEmail: 'tomvdvenne@gmail.com' // Admin notification email
 };
 
 export interface EmailTemplate {
@@ -306,6 +307,37 @@ export class EmailService {
       textContent: `Payment Successful! Your ${emailData.planName} subscription is now active. Transaction ID: ${emailData.transactionId}`
     };
     return this.sendEmail(emailData.userEmail, template);
+  }
+
+  async sendAdminNotification(type: 'new_signup' | 'payment', data: any): Promise<boolean> {
+    const template: EmailTemplate = {
+      subject: type === 'new_signup' 
+        ? `🚀 New ContentCraft Signup: ${data.userName}` 
+        : `💳 New Payment: ${data.planName} Plan`,
+      htmlContent: `
+        <h2>ContentCraft Admin Notification</h2>
+        <p><strong>Event:</strong> ${type === 'new_signup' ? 'New User Signup' : 'New Payment'}</p>
+        <p><strong>User:</strong> ${data.userName} (${data.userEmail})</p>
+        <p><strong>Plan:</strong> ${data.planName}</p>
+        <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+        ${type === 'payment' ? `<p><strong>Transaction ID:</strong> ${data.transactionId}</p>` : ''}
+        <hr>
+        <p>Visit the admin dashboard for more details.</p>
+      `,
+      textContent: `
+ContentCraft Admin Notification
+
+Event: ${type === 'new_signup' ? 'New User Signup' : 'New Payment'}
+User: ${data.userName} (${data.userEmail})
+Plan: ${data.planName}
+Time: ${new Date().toLocaleString()}
+${type === 'payment' ? `Transaction ID: ${data.transactionId}` : ''}
+
+Visit the admin dashboard for more details.
+      `
+    };
+    
+    return this.sendEmail(EMAIL_SERVICE_CONFIG.adminEmail, template);
   }
 }
 
