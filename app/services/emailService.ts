@@ -6,7 +6,7 @@ const EMAIL_SERVICE_CONFIG = {
   apiKey: process.env.NEXT_PUBLIC_EMAIL_API_KEY || 'demo-key',
   fromEmail: 'hello@contentcraft.com',
   fromName: 'ContentCraft Team',
-  adminEmail: 'tomvdvenne|gmail.com' // Admin notification email
+  adminEmail: 'tomvdvenne@gmail.com' // Admin notification email
 };
 
 export interface EmailTemplate {
