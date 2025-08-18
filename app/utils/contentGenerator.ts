@@ -67,199 +67,107 @@ function generateArticleTitle(brief: ContentBrief): string {
   const storyline = brief.storyline;
   const audience = brief.audience.primary;
   const brand = brief.brand.name;
+  const isNL = brief.audience.locale.startsWith('nl');
   
-  const templates = {
-    'how-to': `How to Master ${storyline}: Complete Guide for ${audience}`,
-    'list': `Top 7 ${storyline} Strategies That Transform Results`,
-    'comparison': `${storyline}: Best Solutions Compared and Analyzed`,
-    'news': `${brand} Reveals: ${storyline} Industry Breakthrough`,
-    'case-study': `Success Story: How ${storyline} Delivered 300% ROI`,
-    'trend': `${storyline}: 2024 Trends and Future Predictions`,
-    'research': `${storyline}: Comprehensive Analysis and Data Insights`,
-    'opinion': `Why ${storyline} Will Define the Future of ${audience}`,
-    'informative-guide': `The Complete ${storyline} Guide for ${audience}`
-  };
-  
-  return templates[brief.angle_hint as keyof typeof templates] || `${storyline}: Essential Guide for ${audience}`;
+  if (isNL) {
+    const dutchTemplates = {
+      'how-to': `Nederlandse bedrijven omarmen ${storyline} voor concurrentievoordeel`,
+      'list': `${storyline} transformeert bedrijfsvoering in Nederland`,
+      'comparison': `Marktanalyse toont voordelen ${storyline} voor ${audience}`,
+      'news': `${brand} presenteert doorbraak in ${storyline}`,
+      'case-study': `Succesverhaal: Nederlandse organisatie realiseert 300% ROI met ${storyline}`,
+      'trend': `${storyline} trends bepalen Nederlandse business strategie in 2024`,
+      'research': `Onderzoek: ${storyline} cruciaal voor Nederlandse ${audience}`,
+      'opinion': `Waarom ${storyline} de toekomst van Nederlandse bedrijven bepaalt`,
+      'informative-guide': `Nederlandse organisaties investeren massaal in ${storyline}`
+    };
+    
+    return dutchTemplates[brief.angle_hint as keyof typeof dutchTemplates] || `${storyline} revolutioneert Nederlandse bedrijfsvoering`;
+  } else {
+    const englishTemplates = {
+      'how-to': `Industry Leaders Embrace ${storyline} for Competitive Edge`,
+      'list': `${storyline} Transforms Business Operations Across Sectors`,
+      'comparison': `Market Analysis Reveals ${storyline} Benefits for ${audience}`,
+      'news': `${brand} Announces Breakthrough in ${storyline}`,
+      'case-study': `Case Study: Organization Achieves 300% ROI Through ${storyline}`,
+      'trend': `${storyline} Trends Shape Business Strategy for 2024`,
+      'research': `Research: ${storyline} Critical for ${audience} Success`,
+      'opinion': `Why ${storyline} Will Define the Future of Business`,
+      'informative-guide': `Organizations Invest Heavily in ${storyline} Capabilities`
+    };
+    
+    return englishTemplates[brief.angle_hint as keyof typeof englishTemplates] || `${storyline} Revolutionizes Business Operations`;
+  }
 }
 
 function generateArticleBody(brief: ContentBrief): string {
   const { storyline, brand, audience, seo, legal } = brief;
-  const tone = brief.brand.voice_tone[0] || 'professional';
+  const isNL = brief.audience.locale.startsWith('nl');
   
-  // Ensure must-use phrases are incorporated
-  const mustUsePhrases = brand.must_use_phrases.length > 0 ? 
-    `Key messaging: ${brand.must_use_phrases.join(', ')}.` : '';
+  // Generate professional journalism content based on locale
+  if (isNL) {
+    return generateDutchArticle(brief);
+  } else {
+    return generateEnglishArticle(brief);
+  }
+}
+
+function generateDutchArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
   
-  // Compliance note for banned phrases
-  const complianceNote = brand.banned_phrases.length > 0 ? 
-    `\n\n*Editorial Note: This content avoids mentioning ${brand.banned_phrases.join(', ')} as per brand guidelines.*` : '';
+  // Professional Dutch journalism style - no bullet points, flowing narrative
+  return `${brand.name} heeft een uitgebreide analyse uitgevoerd naar ${storyline} binnen de Nederlandse markt. De bevindingen tonen aan dat organisaties die succesvol zijn in deze sector een duidelijke strategische benadering hanteren.
+
+De huidige marktdynamiek laat zien dat ${audience.primary} geconfronteerd worden met complexe uitdagingen op het gebied van ${seo.primary_keyword}. Nederlandse bedrijven die vooroplopen in deze ontwikkeling onderscheiden zich door hun methodische aanpak en focus op meetbare resultaten.
+
+Volgens onderzoek van ${brand.name} investeren succesvolle organisaties gemiddeld 25% meer in ${storyline} dan hun concurrenten, wat resulteert in aanzienlijk betere prestaties. Deze investering vertaalt zich direct in operationele verbeteringen en concurrentievoordelen.
+
+De transformatie binnen de sector wordt vooral gedreven door technologische vooruitgang en veranderende klantverwachtingen. Organisaties die zich aanpassen aan deze nieuwe realiteit zien hun marktpositie verstevigen, terwijl bedrijven die achterblijven marktaandeel verliezen.
+
+Een opmerkelijk aspect van de Nederlandse markt is de nadruk op duurzaamheid en maatschappelijke verantwoordelijkheid binnen ${storyline} initiatieven. Dit onderscheidt Nederlandse bedrijven van hun internationale concurrenten en creëert unieke kansen voor groei.
+
+${brand.name} heeft samengewerkt met meer dan 150 Nederlandse organisaties om hun ${storyline} capaciteiten te versterken. De resultaten zijn indrukwekkend: gemiddeld realiseren deelnemende bedrijven een ROI van 280% binnen 18 maanden.
+
+De implementatie vereist een gefaseerde benadering waarbij organisaties eerst hun huidige capaciteiten evalueren, vervolgens een strategisch plan ontwikkelen, en ten slotte de uitvoering systematisch aanpakken. Deze methodiek heeft bewezen effectief te zijn in diverse sectoren.
+
+Een belangrijk succesfactor is de betrokkenheid van het senior management. Organisaties waarbij de directie actief betrokken is bij ${storyline} initiatieven behalen systematisch betere resultaten dan bedrijven waar deze betrokkenheid ontbreekt.
+
+De Nederlandse markt toont een sterke voorkeur voor leveranciers die lokale expertise combineren met internationale beste praktijken. ${brand.name} speelt hierop in door lokale teams te combineren met wereldwijde kennis en ervaring.
+
+Kijkend naar de toekomst verwacht ${brand.name} dat ${storyline} een nog centralere rol gaat spelen in de Nederlandse bedrijfsvoering. Organisaties die nu investeren, positioneren zich optimaal voor de komende uitdagingen en kansen.
+
+De expertise van ${brand.name} op het gebied van ${seo.primary_keyword} stelt Nederlandse bedrijven in staat om hun ambities waar te maken. Door proven methodologieën te combineren met lokale marktkennis, wordt duurzame groei en concurrentievoordeel gerealiseerd.
+
+${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
+}
+
+function generateEnglishArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
   
-  return `# ${generateArticleTitle(brief)}
+  // Professional English journalism style - newspaper quality
+  return `Industry analysis reveals that ${storyline} has become a defining factor for success among ${audience.primary} across global markets. ${brand.name}'s comprehensive research demonstrates clear patterns between organizational approach and measurable outcomes.
 
-## Executive Summary
+The current business environment presents unprecedented challenges for companies implementing ${seo.primary_keyword} strategies. Market leaders distinguish themselves through systematic approaches that prioritize sustainable growth over short-term gains.
 
-${storyline} has emerged as a critical differentiator for ${audience.primary} seeking sustainable competitive advantage. ${brand.name}'s comprehensive analysis reveals key strategies that drive measurable business impact and operational excellence.
+Recent data indicates that organizations achieving superior results typically invest 35% more resources in ${storyline} capabilities compared to their peers. This investment correlation directly translates to enhanced operational performance and sustained competitive advantages.
 
-## The Strategic Landscape
+Transformation within the sector continues accelerating, driven primarily by technological advancement and evolving stakeholder expectations. Companies adapting to these dynamics report strengthened market positions, while those maintaining traditional approaches experience declining relevance.
 
-### Current Market Dynamics
+${brand.name} has collaborated with over 200 organizations globally to enhance their ${storyline} capabilities. The outcomes demonstrate remarkable consistency: participating companies achieve average ROI improvements of 290% within 24 months of implementation.
 
-Today's ${audience.primary} face unprecedented challenges in ${storyline} implementation. Our research indicates that organizations achieving success share common characteristics:
+Implementation success depends on methodical execution across multiple phases. Organizations begin with comprehensive capability assessments, develop strategic frameworks aligned with business objectives, and execute through disciplined project management approaches.
 
-• **Strategic Vision**: Clear alignment between ${seo.primary_keyword} initiatives and business objectives
-• **Operational Excellence**: Systematic approaches to implementation and measurement
-• **Innovation Leadership**: Proactive adoption of emerging best practices
-• **Stakeholder Engagement**: Comprehensive change management and training programs
+Leadership engagement emerges as the critical success differentiator. Companies with active C-suite involvement in ${storyline} initiatives consistently outperform those lacking this commitment by significant margins.
 
-### Industry Transformation
+Geographic analysis reveals varying approaches to ${storyline} implementation. European organizations emphasize sustainability integration, while North American companies focus on operational efficiency. Asian markets prioritize scalability and innovation integration.
 
-The ${storyline} landscape continues evolving rapidly. ${brand.name} has identified several key trends reshaping how ${audience.primary} approach these challenges:
+${brand.name}'s methodology addresses these regional variations while maintaining core principles of strategic alignment, measurable outcomes, and sustainable implementation. This approach ensures relevance across diverse business environments and cultural contexts.
 
-1. **Data-Driven Decision Making**: Organizations leveraging ${seo.primary_keyword} analytics achieve 40% better outcomes
-2. **Integrated Solutions**: Holistic approaches deliver 3x more value than point solutions
-3. **Continuous Optimization**: Agile methodologies ensure sustained performance improvements
+Future market evolution indicates ${storyline} will become increasingly central to organizational strategy. Companies establishing robust capabilities now position themselves advantageously for emerging opportunities and challenges.
 
-## Implementation Framework
+The expertise ${brand.name} provides in ${seo.primary_keyword} enables organizations to transform strategic vision into operational reality. Through proven methodologies and tailored implementation support, sustainable competitive advantages become achievable outcomes.
 
-### Phase 1: Assessment and Planning
-
-**Strategic Analysis**
-- Comprehensive evaluation of current ${seo.primary_keyword} capabilities
-- Identification of optimization opportunities and risk factors
-- Development of customized implementation roadmaps
-- Resource allocation and timeline planning
-
-**Stakeholder Alignment**
-- Executive sponsorship and governance structure
-- Cross-functional team formation and training
-- Communication strategy and change management planning
-
-### Phase 2: Execution and Deployment
-
-**Implementation Strategy**
-
-Successful ${storyline} deployment requires systematic execution:
-
-• **${seo.secondary_keywords[0] || 'Foundation Building'}**: Establishing core capabilities and infrastructure
-• **${seo.secondary_keywords[1] || 'Process Integration'}**: Seamless integration with existing workflows
-• **${seo.secondary_keywords[2] || 'Performance Monitoring'}**: Real-time tracking and optimization protocols
-
-**Quality Assurance**
-
-${brand.name} implements rigorous quality control measures throughout deployment:
-- Continuous testing and validation protocols
-- Performance benchmarking against industry standards
-- Risk mitigation and contingency planning
-
-### Phase 3: Optimization and Scale
-
-**Performance Enhancement**
-
-Once foundational elements are established, organizations focus on optimization:
-
-1. **Data Analytics**: Leveraging insights for continuous improvement
-2. **Process Refinement**: Streamlining workflows for maximum efficiency
-3. **Capability Expansion**: Scaling successful approaches across the organization
-
-**Sustainable Growth**
-
-${brand.name}'s methodology ensures long-term success through:
-- Regular performance reviews and strategy adjustments
-- Ongoing training and capability development
-- Innovation pipeline management and future planning
-
-## Industry-Specific Applications
-
-### Sector Analysis
-
-For ${audience.primary}, ${storyline} applications vary significantly based on:
-
-**Organizational Maturity**
-- Assessment of current capabilities and readiness levels
-- Customized approach based on existing infrastructure
-- Phased implementation aligned with organizational capacity
-
-**Regulatory Environment**
-- Compliance requirements and industry standards
-- Risk management and governance considerations
-- Documentation and audit trail requirements
-
-**Competitive Landscape**
-- Market positioning and differentiation strategies
-- Competitive advantage development and protection
-- Innovation leadership and thought leadership opportunities
-
-## Success Metrics and ROI
-
-### Key Performance Indicators
-
-${brand.name} tracks comprehensive metrics to ensure success:
-
-**Operational Metrics**
-- Implementation timeline adherence (target: 95% on-time delivery)
-- Quality assurance scores (target: 98% compliance)
-- User adoption rates (target: 90% within 6 months)
-
-**Business Impact**
-- Cost reduction achievements (typical: 25-40% savings)
-- Productivity improvements (average: 35% efficiency gains)
-- Revenue impact (documented: 15-30% growth contribution)
-
-**Strategic Outcomes**
-- Market positioning improvements
-- Customer satisfaction enhancements
-- Innovation pipeline development
-
-### Case Study: Transformation Success
-
-A leading ${audience.primary} organization partnered with ${brand.name} to implement comprehensive ${storyline} capabilities. Results included:
-
-- 45% reduction in operational costs within 12 months
-- 60% improvement in process efficiency
-- 25% increase in customer satisfaction scores
-- ROI achievement of 340% by year two
-
-## Future Outlook and Recommendations
-
-### Emerging Trends
-
-The ${storyline} landscape will continue evolving. Key trends include:
-
-**Technology Integration**
-- AI and machine learning applications
-- Automation and process optimization
-- Real-time analytics and decision support
-
-**Ecosystem Approaches**
-- Collaborative partnerships and alliances
-- Platform-based business models
-- Network effects and value creation
-
-### Strategic Recommendations
-
-For ${audience.primary} preparing for the future:
-
-1. **Invest in Foundation**: Build robust ${seo.primary_keyword} capabilities now
-2. **Embrace Innovation**: Adopt emerging technologies and methodologies
-3. **Develop Talent**: Invest in team capabilities and expertise
-4. **Create Partnerships**: Collaborate with leading solution providers
-
-## Conclusion
-
-${storyline} represents both opportunity and imperative for ${audience.primary}. Organizations that embrace strategic implementation will achieve significant competitive advantages and operational excellence.
-
-${brand.name} stands ready to support your transformation journey with:
-- Proven methodologies and frameworks
-- Expert guidance and hands-on support
-- Innovative solutions tailored to your requirements
-- Measurable results and sustainable outcomes
-
-${mustUsePhrases}
-
-The future belongs to organizations that act decisively today. Contact ${brand.name} to begin your ${storyline} transformation and unlock your organization's full potential.
-
-${legal.disclaimer}${complianceNote}`;
+${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
 }
 
 function generateInstagramContent(brief: ContentBrief) {
