@@ -68,28 +68,49 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
     }
   }, [isOpen]);
 
-  // Listen for account changes
+  // Listen for account changes and network changes
   useEffect(() => {
-    if (typeof window.ethereum !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
       const handleAccountsChanged = (accounts: string[]) => {
+        console.log('🔄 Account change detected:', accounts);
         if (accounts.length > 0) {
           setWalletConnected(true);
           setWalletAddress(accounts[0]);
-          console.log('Account changed to:', accounts[0]);
+          console.log('✅ Account changed to:', accounts[0]);
         } else {
           setWalletConnected(false);
           setWalletAddress('');
-          console.log('Wallet disconnected');
+          console.log('❌ Wallet disconnected via account change');
         }
       };
 
+      const handleChainChanged = (chainId: string) => {
+        console.log('🌐 Network changed to:', chainId);
+        // Refresh account connection after network change
+        if (walletConnected) {
+          setTimeout(() => {
+            window.ethereum.request({ method: 'eth_accounts' }).then((accounts: string[]) => {
+              if (accounts.length > 0) {
+                setWalletAddress(accounts[0]);
+                console.log('✅ Account refreshed after network change:', accounts[0]);
+              }
+            });
+          }, 100);
+        }
+      };
+
+      // Add event listeners
       window.ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('chainChanged', handleChainChanged);
 
       return () => {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        if (window.ethereum.removeListener) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+          window.ethereum.removeListener('chainChanged', handleChainChanged);
+        }
       };
     }
-  }, []);
+  }, [walletConnected]);
 
   if (!isOpen) return null;
 
@@ -174,6 +195,31 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
     setWalletConnected(false);
     setWalletAddress('');
     console.log('Wallet disconnected by user');
+  };
+
+  const refreshWalletConnection = async () => {
+    console.log('🔄 Manually refreshing wallet connection...');
+    
+    if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        console.log('📄 Manual refresh - accounts found:', accounts);
+        
+        if (accounts.length > 0) {
+          setWalletConnected(true);
+          setWalletAddress(accounts[0]);
+          console.log('✅ Wallet connection refreshed:', accounts[0]);
+        } else {
+          setWalletConnected(false);
+          setWalletAddress('');
+          console.log('❌ No accounts found during refresh');
+        }
+      } catch (error) {
+        console.error('❌ Error refreshing wallet connection:', error);
+      }
+    } else {
+      console.log('❌ MetaMask not available for refresh');
+    }
   };
 
   const handleCryptoPayment = async () => {
@@ -425,18 +471,29 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                   
                   {/* MetaMask Detection Status */}
                   <div className="mb-6 p-4 bg-slate-700/50 rounded-lg border border-slate-600/30">
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <div className={`w-2 h-2 rounded-full ${
-                        typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' 
-                          ? 'bg-green-400' 
-                          : 'bg-red-400'
-                      }`}></div>
-                      <span className="text-sm text-slate-300">
-                        MetaMask {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' ? 'Detected' : 'Not Found'}
-                      </span>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex items-center justify-center space-x-2 mb-2">
+                        <div className={`w-2 h-2 rounded-full ${
+                          typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' 
+                            ? 'bg-green-400' 
+                            : 'bg-red-400'
+                        }`}></div>
+                        <span className="text-sm text-slate-300">
+                          MetaMask {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' ? 'Detected' : 'Not Found'}
+                        </span>
+                      </div>
+                      
+                      {/* Debug Info */}
+                      <div className="text-slate-400 text-xs space-y-1">
+                        <div>Wallet Connected: {walletConnected ? '✅ Yes' : '❌ No'}</div>
+                        <div>Wallet Address: {walletAddress || 'None'}</div>
+                        <div>Window Available: {typeof window !== 'undefined' ? '✅' : '❌'}</div>
+                        <div>Ethereum Available: {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' ? '✅' : '❌'}</div>
+                      </div>
                     </div>
+                    
                     {typeof window !== 'undefined' && typeof window.ethereum === 'undefined' && (
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-400 mt-2">
                         Please install MetaMask from{' '}
                         <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer" className="text-orange-400 underline">
                           metamask.io
@@ -445,16 +502,27 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                     )}
                   </div>
                   
-                  <button
-                    onClick={connectWallet}
-                    disabled={typeof window !== 'undefined' && typeof window.ethereum === 'undefined'}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {typeof window !== 'undefined' && typeof window.ethereum === 'undefined' 
-                      ? 'Install MetaMask' 
-                      : 'Connect MetaMask'
-                    }
-                  </button>
+                  <div className="flex flex-col space-y-3">
+                    <button
+                      onClick={connectWallet}
+                      disabled={typeof window !== 'undefined' && typeof window.ethereum === 'undefined'}
+                      className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {typeof window !== 'undefined' && typeof window.ethereum === 'undefined' 
+                        ? 'Install MetaMask' 
+                        : 'Connect MetaMask'
+                      }
+                    </button>
+                    
+                    {typeof window !== 'undefined' && typeof window.ethereum !== 'undefined' && (
+                      <button
+                        onClick={refreshWalletConnection}
+                        className="text-orange-400 hover:text-orange-300 text-sm underline"
+                      >
+                        🔄 Refresh Connection
+                      </button>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-6">
