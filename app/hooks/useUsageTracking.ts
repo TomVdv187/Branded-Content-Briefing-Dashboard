@@ -11,7 +11,7 @@ interface UsageData {
 }
 
 export function useUsageTracking() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { subscription, isActivePaidPlan } = useSubscription();
   const [usage, setUsage] = useState<UsageData>({
     monthlyGenerations: 0,
@@ -62,6 +62,12 @@ export function useUsageTracking() {
   const canGenerate = () => {
     if (!user) return false;
     
+    // ADMIN OVERRIDE: Admins have unlimited generation
+    if (isAdmin()) {
+      console.log('🔓 Admin unlimited generation access');
+      return true;
+    }
+    
     // Use subscription plan if available, fallback to user plan
     const effectivePlan = subscription.status === 'active' ? subscription.plan : user.plan;
     const limits = PLAN_LIMITS[effectivePlan];
@@ -70,6 +76,11 @@ export function useUsageTracking() {
 
   const getRemainingGenerations = () => {
     if (!user) return 0;
+    
+    // ADMIN OVERRIDE: Admins have unlimited generation
+    if (isAdmin()) {
+      return Infinity;
+    }
     
     const effectivePlan = subscription.status === 'active' ? subscription.plan : user.plan;
     const limits = PLAN_LIMITS[effectivePlan];
@@ -94,6 +105,12 @@ export function useUsageTracking() {
   };
 
   const getPlanFeatures = () => {
+    // ADMIN OVERRIDE: Admins get enterprise-level features
+    if (isAdmin()) {
+      console.log('🔓 Admin granted enterprise-level features');
+      return PLAN_LIMITS['enterprise'];
+    }
+    
     const effectivePlan = getEffectivePlan();
     return PLAN_LIMITS[effectivePlan];
   };

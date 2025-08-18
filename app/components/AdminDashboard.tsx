@@ -33,16 +33,16 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
   });
   const [showUserManagement, setShowUserManagement] = useState(false);
 
+  useEffect(() => {
+    if (isOpen && isAdmin()) {
+      loadAdminData();
+    }
+  }, [isOpen, isAdmin]);
+
   // Security check - only admins can access this dashboard
   if (!isAdmin()) {
     return null;
   }
-
-  useEffect(() => {
-    if (isOpen) {
-      loadAdminData();
-    }
-  }, [isOpen]);
 
   const loadAdminData = () => {
     // Load activity data
@@ -171,7 +171,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
               <div className="flex items-center space-x-3">
                 <UserPlus className="text-green-400" size={24} />
                 <div>
-                  <p className="text-slate-400 text-sm">Today's Signups</p>
+                  <p className="text-slate-400 text-sm">Today&apos;s Signups</p>
                   <p className="text-2xl font-bold text-white">{stats.todaySignups}</p>
                 </div>
               </div>
@@ -181,7 +181,7 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
               <div className="flex items-center space-x-3">
                 <UserCheck className="text-blue-400" size={24} />
                 <div>
-                  <p className="text-slate-400 text-sm">Today's Logins</p>
+                  <p className="text-slate-400 text-sm">Today&apos;s Logins</p>
                   <p className="text-2xl font-bold text-white">{stats.todayLogins}</p>
                 </div>
               </div>

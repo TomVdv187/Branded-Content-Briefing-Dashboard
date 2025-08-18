@@ -24,16 +24,16 @@ export default function AdminUserManagement({ isOpen, onClose }: AdminUserManage
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  useEffect(() => {
+    if (isOpen && isSuperAdmin()) {
+      loadAdminUsers();
+    }
+  }, [isOpen, isSuperAdmin]);
+
   // Security check - only super admins can manage admin users
   if (!isSuperAdmin()) {
     return null;
   }
-
-  useEffect(() => {
-    if (isOpen) {
-      loadAdminUsers();
-    }
-  }, [isOpen]);
 
   const loadAdminUsers = () => {
     const stored = localStorage.getItem('contentcraft_admin_users');

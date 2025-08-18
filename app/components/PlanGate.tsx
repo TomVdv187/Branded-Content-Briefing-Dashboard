@@ -18,10 +18,16 @@ const planHierarchy = {
 };
 
 export default function PlanGate({ requiredPlan, children, fallback, feature }: PlanGateProps) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   
   if (!user) {
     return null;
+  }
+
+  // ADMIN OVERRIDE: Admins have access to all features regardless of plan
+  if (isAdmin()) {
+    console.log('🔓 Admin access granted - bypassing plan restrictions for:', feature || 'feature');
+    return <>{children}</>;
   }
 
   const userPlanLevel = planHierarchy[user.plan];

@@ -109,6 +109,173 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
     }
   };
 
+  const exportToMarkdown = () => {
+    if (!planFeatures.exportFormats.includes('md')) {
+      alert(`Markdown export is available in Professional and Enterprise plans. Please upgrade to access this feature.`);
+      return;
+    }
+
+    if (!content.article) return;
+
+    const markdownContent = `# ${content.article.title}
+
+${content.article.content}
+
+## SEO Information
+- **Slug:** ${content.article.seo.slug}
+- **Meta Description:** ${content.article.seo.meta_description}
+- **Keywords:** ${content.article.seo.keywords.join(', ')}
+
+## Performance Metrics
+- **Novelty Score:** ${Math.round(content.novelty_score * 100)}%
+- **Word Count:** ${content.article.content.split(' ').length} words
+- **Reading Time:** ${Math.ceil(content.article.content.split(' ').length / 200)} minutes
+`;
+
+    const blob = new Blob([markdownContent], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${content.article.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportToHTML = () => {
+    if (!planFeatures.exportFormats.includes('html')) {
+      alert(`HTML export is available in Enterprise plans. Please upgrade to access this feature.`);
+      return;
+    }
+
+    if (!content.article) return;
+
+    const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${content.article.title}</title>
+    <meta name="description" content="${content.article.seo.meta_description}">
+    <meta name="keywords" content="${content.article.seo.keywords.join(', ')}">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.6; }
+        h1 { color: #1a202c; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+        h2 { color: #2d3748; margin-top: 2rem; }
+        h3 { color: #4a5568; }
+        .meta { background: #f7fafc; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; }
+        .keywords { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+        .keyword { background: #bee3f8; color: #2c5282; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <h1>${content.article.title}</h1>
+    <div class="meta">
+        <p><strong>Reading Time:</strong> ${Math.ceil(content.article.content.split(' ').length / 200)} minutes</p>
+        <p><strong>Word Count:</strong> ${content.article.content.split(' ').length} words</p>
+        <p><strong>Novelty Score:</strong> ${Math.round(content.novelty_score * 100)}%</p>
+    </div>
+    
+    ${content.article.content.split('\n').map(line => {
+      if (line.startsWith('# ')) return `<h1>${line.substring(2)}</h1>`;
+      if (line.startsWith('## ')) return `<h2>${line.substring(3)}</h2>`;
+      if (line.startsWith('### ')) return `<h3>${line.substring(4)}</h3>`;
+      if (line.startsWith('**') && line.endsWith('**')) return `<p><strong>${line.slice(2, -2)}</strong></p>`;
+      if (line.startsWith('• ')) return `<ul><li>${line.substring(2)}</li></ul>`;
+      if (line.trim()) return `<p>${line}</p>`;
+      return '<br>';
+    }).join('\n')}
+    
+    <div class="meta">
+        <h3>SEO Information</h3>
+        <p><strong>Slug:</strong> ${content.article.seo.slug}</p>
+        <p><strong>Meta Description:</strong> ${content.article.seo.meta_description}</p>
+        <p><strong>Keywords:</strong></p>
+        <div class="keywords">
+            ${content.article.seo.keywords.map(keyword => `<span class="keyword">${keyword}</span>`).join('')}
+        </div>
+    </div>
+</body>
+</html>`;
+
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${content.article.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportToText = () => {
+    if (!content.article) return;
+
+    const textContent = `${content.article.title}
+
+${content.article.content}
+
+---
+SEO Information:
+Slug: ${content.article.seo.slug}
+Meta Description: ${content.article.seo.meta_description}
+Keywords: ${content.article.seo.keywords.join(', ')}
+
+Performance Metrics:
+Novelty Score: ${Math.round(content.novelty_score * 100)}%
+Word Count: ${content.article.content.split(' ').length} words
+Reading Time: ${Math.ceil(content.article.content.split(' ').length / 200)} minutes
+`;
+
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${content.article.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportToJSON = () => {
+    if (!planFeatures.exportFormats.includes('json')) {
+      alert(`JSON export is available in Enterprise plans. Please upgrade to access this feature.`);
+      return;
+    }
+
+    const jsonContent = {
+      title: content.article?.title,
+      content: content.article?.content,
+      seo: content.article?.seo,
+      social_media: {
+        instagram: content.instagram,
+        facebook: content.facebook,
+        linkedin: content.linkedin,
+        tiktok: content.tiktok,
+        youtube: content.youtube,
+        newsletter: content.newsletter
+      },
+      image_prompts: content.image_packs,
+      novelty_score: content.novelty_score,
+      word_count: content.article?.content.split(' ').length,
+      reading_time_minutes: Math.ceil((content.article?.content.split(' ').length || 0) / 200),
+      exported_at: new Date().toISOString()
+    };
+
+    const blob = new Blob([JSON.stringify(jsonContent, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${content.article?.title?.toLowerCase().replace(/[^a-z0-9]/g, '-') || 'content'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const TabButton = ({ id, label, icon: Icon }: { id: string, label: string, icon: React.ComponentType<any> }) => {
     // Check if this feature is available for the current plan
     const isRestricted = (id === 'analytics' && !planFeatures.analytics) || 
@@ -382,19 +549,91 @@ export default function GeneratedContentDisplay({ content, onEdit, onExport }: G
             <div className="bg-white/20 px-3 py-1 rounded-full text-sm">
               Novelty Score: {Math.round(content.novelty_score * 100)}%
             </div>
-            <button
-              onClick={exportToPDF}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                planFeatures.exportFormats.includes('pdf')
-                  ? 'bg-white/20 text-white hover:bg-white/30'
-                  : 'bg-gray-500/20 text-gray-400 cursor-not-allowed opacity-60'
-              }`}
-              disabled={!planFeatures.exportFormats.includes('pdf')}
-            >
-              <Download size={16} />
-              <span>Export PDF</span>
-              {!planFeatures.exportFormats.includes('pdf') && <Lock size={14} className="text-yellow-400" />}
-            </button>
+            
+            {/* Export Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center space-x-2 bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-colors">
+                <Download size={16} />
+                <span>Export</span>
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {/* Dropdown Menu */}
+              <div className="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl border border-slate-600/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="p-2 space-y-1">
+                  {/* Text Export - Always Available */}
+                  <button
+                    onClick={exportToText}
+                    className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-white hover:bg-slate-700 rounded transition-colors"
+                  >
+                    <FileText size={14} />
+                    <span>Text (.txt)</span>
+                  </button>
+                  
+                  {/* Markdown Export */}
+                  <button
+                    onClick={exportToMarkdown}
+                    className={`w-full flex items-center space-x-2 px-3 py-2 text-sm rounded transition-colors ${
+                      planFeatures.exportFormats.includes('md')
+                        ? 'text-white hover:bg-slate-700'
+                        : 'text-gray-400 cursor-not-allowed opacity-60'
+                    }`}
+                    disabled={!planFeatures.exportFormats.includes('md')}
+                  >
+                    <FileText size={14} />
+                    <span>Markdown (.md)</span>
+                    {!planFeatures.exportFormats.includes('md') && <Lock size={12} className="text-yellow-400 ml-auto" />}
+                  </button>
+                  
+                  {/* PDF Export */}
+                  <button
+                    onClick={exportToPDF}
+                    className={`w-full flex items-center space-x-2 px-3 py-2 text-sm rounded transition-colors ${
+                      planFeatures.exportFormats.includes('pdf')
+                        ? 'text-white hover:bg-slate-700'
+                        : 'text-gray-400 cursor-not-allowed opacity-60'
+                    }`}
+                    disabled={!planFeatures.exportFormats.includes('pdf')}
+                  >
+                    <FileText size={14} />
+                    <span>PDF (.pdf)</span>
+                    {!planFeatures.exportFormats.includes('pdf') && <Lock size={12} className="text-yellow-400 ml-auto" />}
+                  </button>
+                  
+                  {/* HTML Export */}
+                  <button
+                    onClick={exportToHTML}
+                    className={`w-full flex items-center space-x-2 px-3 py-2 text-sm rounded transition-colors ${
+                      planFeatures.exportFormats.includes('html')
+                        ? 'text-white hover:bg-slate-700'
+                        : 'text-gray-400 cursor-not-allowed opacity-60'
+                    }`}
+                    disabled={!planFeatures.exportFormats.includes('html')}
+                  >
+                    <Globe size={14} />
+                    <span>HTML (.html)</span>
+                    {!planFeatures.exportFormats.includes('html') && <Lock size={12} className="text-yellow-400 ml-auto" />}
+                  </button>
+                  
+                  {/* JSON Export */}
+                  <button
+                    onClick={exportToJSON}
+                    className={`w-full flex items-center space-x-2 px-3 py-2 text-sm rounded transition-colors ${
+                      planFeatures.exportFormats.includes('json')
+                        ? 'text-white hover:bg-slate-700'
+                        : 'text-gray-400 cursor-not-allowed opacity-60'
+                    }`}
+                    disabled={!planFeatures.exportFormats.includes('json')}
+                  >
+                    <FileText size={14} />
+                    <span>JSON (.json)</span>
+                    {!planFeatures.exportFormats.includes('json') && <Lock size={12} className="text-yellow-400 ml-auto" />}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

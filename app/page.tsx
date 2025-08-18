@@ -88,8 +88,18 @@ function MainApp() {
             
             {/* User Menu */}
             <div className="flex items-center space-x-4">
-              {/* Usage Indicator */}
-              {user?.plan === 'free' && (
+              {/* Admin Status Indicator */}
+              {isAdmin() && (
+                <div className="flex items-center space-x-2 backdrop-blur-sm px-3 py-2 rounded-lg border bg-purple-500/10 border-purple-500/20">
+                  <Shield className="text-purple-400" size={16} />
+                  <span className="text-sm font-medium text-purple-300">
+                    Admin • Unlimited Access
+                  </span>
+                </div>
+              )}
+              
+              {/* Usage Indicator - Only show for non-admin free users */}
+              {!isAdmin() && user?.plan === 'free' && (
                 <div className={`flex items-center space-x-2 backdrop-blur-sm px-3 py-2 rounded-lg border ${
                   getRemainingGenerations() <= 1 
                     ? 'bg-red-500/10 border-red-500/20' 
@@ -220,7 +230,7 @@ function MainApp() {
                     <Target className="text-green-400" size={28} />
                   </div>
                   <h3 className="font-bold text-white mb-3 text-lg">Story-First SEO</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">SEO optimization that doesn't sacrifice storytelling - rank higher with engaging content</p>
+                  <p className="text-slate-300 text-sm leading-relaxed">SEO optimization that doesn&apos;t sacrifice storytelling - rank higher with engaging content</p>
                 </div>
                 
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all">

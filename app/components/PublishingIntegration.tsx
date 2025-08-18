@@ -89,10 +89,18 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
   ]);
 
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['wordpress']);
-  const [scheduleOption, setScheduleOption] = useState<'now' | 'schedule'>('now');
+  const [scheduleOption, setScheduleOption] = useState<'now' | 'schedule' | 'draft'>('now');
   const [scheduledDate, setScheduledDate] = useState('');
   const [scheduledTime, setScheduledTime] = useState('');
   const [isPublishing, setIsPublishing] = useState(false);
+  const [publishingQueue, setPublishingQueue] = useState<Array<{
+    id: string;
+    platforms: string[];
+    scheduledFor: string;
+    status: 'pending' | 'published' | 'failed';
+    title: string;
+  }>>([]);
+  const [showQueue, setShowQueue] = useState(false);
 
   const handlePlatformToggle = (platformId: string) => {
     const platform = platforms.find(p => p.id === platformId);
@@ -108,8 +116,32 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
   const handlePublish = async () => {
     if (selectedPlatforms.length === 0) return;
 
+    if (scheduleOption === 'draft') {
+      // Save as draft
+      alert('Content saved as draft. You can access it from your drafts folder.');
+      return;
+    }
+
     setIsPublishing(true);
 
+    if (scheduleOption === 'schedule') {
+      // Schedule for later
+      const scheduledDateTime = `${scheduledDate}T${scheduledTime}`;
+      const newQueueItem = {
+        id: `scheduled-${Date.now()}`,
+        platforms: selectedPlatforms,
+        scheduledFor: scheduledDateTime,
+        status: 'pending' as const,
+        title: content.article?.title || 'Untitled Content'
+      };
+      
+      setPublishingQueue(prev => [...prev, newQueueItem]);
+      setIsPublishing(false);
+      alert(`Content scheduled for ${new Date(scheduledDateTime).toLocaleString()}`);
+      return;
+    }
+
+    // Publish immediately
     // Update platform statuses to 'pending'
     setPlatforms(prev => prev.map(p => 
       selectedPlatforms.includes(p.id) 
@@ -135,6 +167,16 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
         onPublish(selectedPlatforms);
       }
     }, 3000);
+  };
+
+  const handleCancelScheduled = (queueId: string) => {
+    setPublishingQueue(prev => prev.filter(item => item.id !== queueId));
+  };
+
+  const getMinDateTime = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + 10); // Minimum 10 minutes from now
+    return now.toISOString().slice(0, 16);
   };
 
   const getStatusIcon = (status: string) => {
@@ -165,10 +207,10 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
   if (!isVisible) return null;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
+    <div className="bg-slate-800/90 backdrop-blur-xl rounded-xl shadow-lg border border-slate-600/30 p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <Send className="text-blue-600" size={24} />
+          <Send className="text-blue-400" size={24} />
           <div>
             <h3 className="text-lg font-semibold text-white">Publishing & Distribution</h3>
             <p className="text-sm text-slate-400">Publish to multiple platforms simultaneously</p>
@@ -176,7 +218,7 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
         </div>
         
         <div className="flex items-center space-x-2">
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-slate-300">
             {selectedPlatforms.length} platform{selectedPlatforms.length !== 1 ? 's' : ''} selected
           </div>
         </div>
@@ -184,7 +226,7 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
 
       {/* Platform Selection */}
       <div className="mb-6">
-        <h4 className="font-medium text-gray-900 mb-3">Select Publishing Platforms</h4>
+        <h4 className="font-medium text-white mb-3">Select Publishing Platforms</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {platforms.map(platform => {
             const IconComponent = platform.icon;
@@ -269,6 +311,18 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
             <span className="text-gray-700">Schedule for later</span>
           </label>
           
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="schedule"
+              value="draft"
+              checked={scheduleOption === 'draft'}
+              onChange={(e) => setScheduleOption(e.target.value as 'draft')}
+              className="text-blue-600"
+            />
+            <span className="text-gray-700">Save as draft</span>
+          </label>
+          
           {scheduleOption === 'schedule' && (
             <div className="ml-6 flex items-center space-x-3">
               <input
@@ -304,29 +358,86 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
         </div>
       </div>
 
+      {/* Publishing Queue */}
+      {publishingQueue.length > 0 && (
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="font-medium text-gray-900">Publishing Queue</h4>
+            <button
+              onClick={() => setShowQueue(!showQueue)}
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
+              {showQueue ? 'Hide' : 'Show'} ({publishingQueue.length})
+            </button>
+          </div>
+          
+          {showQueue && (
+            <div className="space-y-2">
+              {publishingQueue.map(item => (
+                <div key={item.id} className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium text-gray-900 text-sm">{item.title}</div>
+                      <div className="text-xs text-gray-600">
+                        Scheduled for {new Date(item.scheduledFor).toLocaleString()}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        Platforms: {item.platforms.map(p => platforms.find(platform => platform.id === p)?.name).join(', ')}
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        item.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        item.status === 'published' ? 'bg-green-100 text-green-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {item.status}
+                      </span>
+                      {item.status === 'pending' && (
+                        <button
+                          onClick={() => handleCancelScheduled(item.id)}
+                          className="text-red-600 hover:text-red-700 text-xs underline"
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Publish Button */}
       <div className="flex items-center justify-between">
         <div className="text-sm text-gray-500">
-          {selectedPlatforms.length === 0 
-            ? 'Select at least one platform to publish'
-            : scheduleOption === 'schedule' && (!scheduledDate || !scheduledTime)
-              ? 'Please set date and time for scheduled publishing'
-              : `Ready to publish to ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`
+          {scheduleOption === 'draft'
+            ? 'Content will be saved as draft'
+            : selectedPlatforms.length === 0 
+              ? 'Select at least one platform to publish'
+              : scheduleOption === 'schedule' && (!scheduledDate || !scheduledTime)
+                ? 'Please set date and time for scheduled publishing'
+                : `Ready to publish to ${selectedPlatforms.length} platform${selectedPlatforms.length !== 1 ? 's' : ''}`
           }
         </div>
         
         <button
           onClick={handlePublish}
           disabled={
-            selectedPlatforms.length === 0 || 
+            (scheduleOption !== 'draft' && selectedPlatforms.length === 0) || 
             isPublishing ||
             (scheduleOption === 'schedule' && (!scheduledDate || !scheduledTime))
           }
           className={`flex items-center space-x-2 px-6 py-2 rounded-md font-medium transition-colors ${
-            selectedPlatforms.length === 0 || isPublishing ||
-            (scheduleOption === 'schedule' && (!scheduledDate || !scheduledTime))
+            ((scheduleOption !== 'draft' && selectedPlatforms.length === 0) || 
+             isPublishing ||
+             (scheduleOption === 'schedule' && (!scheduledDate || !scheduledTime)))
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
+              : scheduleOption === 'draft'
+                ? 'bg-green-600 text-white hover:bg-green-700'
+                : 'bg-blue-600 text-white hover:bg-blue-700'
           }`}
         >
           {isPublishing ? (
@@ -338,7 +449,9 @@ export default function PublishingIntegration({ content, onPublish, isVisible }:
             <>
               <Send size={16} />
               <span>
-                {scheduleOption === 'now' ? 'Publish Now' : 'Schedule Publish'}
+                {scheduleOption === 'now' ? 'Publish Now' : 
+                 scheduleOption === 'schedule' ? 'Schedule Publish' : 
+                 'Save Draft'}
               </span>
             </>
           )}
