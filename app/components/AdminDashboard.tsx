@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Users, Activity, Eye, Clock, Globe, UserCheck, UserPlus, BarChart3, X, Filter } from 'lucide-react';
+import { Shield, Users, Activity, Eye, Clock, Globe, UserCheck, UserPlus, BarChart3, X, Filter, Crown } from 'lucide-react';
+import { useAuth } from './AuthContext';
+import AdminUserManagement from './AdminUserManagement';
 
 interface UserActivity {
   userId: string;
@@ -20,6 +22,7 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps) {
+  const { isAdmin, isSuperAdmin } = useAuth();
   const [activities, setActivities] = useState<UserActivity[]>([]);
   const [filter, setFilter] = useState<'all' | 'signup' | 'login'>('all');
   const [stats, setStats] = useState({
@@ -28,6 +31,12 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
     todayLogins: 0,
     planBreakdown: { free: 0, professional: 0, enterprise: 0 }
   });
+  const [showUserManagement, setShowUserManagement] = useState(false);
+
+  // Security check - only admins can access this dashboard
+  if (!isAdmin()) {
+    return null;
+  }
 
   useEffect(() => {
     if (isOpen) {
@@ -124,12 +133,24 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
                 <p className="text-orange-200">User Activity & Analytics</p>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
-            >
-              <X size={24} />
-            </button>
+            <div className="flex items-center space-x-3">
+              {isSuperAdmin() && (
+                <button
+                  onClick={() => setShowUserManagement(true)}
+                  className="flex items-center space-x-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg transition-colors border border-purple-500/30"
+                  title="Manage Admin Users"
+                >
+                  <Crown size={18} />
+                  <span className="text-sm font-medium">Manage Admins</span>
+                </button>
+              )}
+              <button
+                onClick={onClose}
+                className="text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+              >
+                <X size={24} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -313,6 +334,12 @@ export default function AdminDashboard({ isOpen, onClose }: AdminDashboardProps)
           </div>
         </div>
       </div>
+
+      {/* Admin User Management Modal */}
+      <AdminUserManagement 
+        isOpen={showUserManagement} 
+        onClose={() => setShowUserManagement(false)} 
+      />
     </div>
   );
 }

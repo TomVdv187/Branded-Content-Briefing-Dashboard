@@ -9,6 +9,7 @@ interface User {
   email: string;
   name: string;
   plan: 'free' | 'professional' | 'enterprise';
+  role: 'user' | 'admin' | 'super_admin';
 }
 
 interface AuthContextType {
@@ -16,6 +17,8 @@ interface AuthContextType {
   login: (email: string, password: string, isNewUser?: boolean) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
+  isAdmin: () => boolean;
+  isSuperAdmin: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -73,11 +76,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         plan = 'free';
       }
 
+      // Determine role - load from admin user management system
+      let role: 'user' | 'admin' | 'super_admin' = 'user';
+      
+      try {
+        const adminUsers = JSON.parse(localStorage.getItem('contentcraft_admin_users') || '[]');
+        const adminUser = adminUsers.find((admin: any) => admin.email === email.toLowerCase().trim());
+        
+        if (adminUser) {
+          role = adminUser.role;
+        } else if (email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
+          // Fallback: ensure primary admin always has super_admin access
+          role = 'super_admin';
+        }
+      } catch (error) {
+        // Fallback for primary admin if localStorage fails
+        if (email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
+          role = 'super_admin';
+        }
+      }
+
       const user: User = {
         id: Math.random().toString(36).substr(2, 9),
         email: email.trim(),
         name,
-        plan
+        plan,
+        role
       };
 
       // Log user activity for admin monitoring
@@ -142,8 +166,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Note: We keep subscription data in case user logs back in
   };
 
+  const isAdmin = () => {
+    return user?.role === 'admin' || user?.role === 'super_admin';
+  };
+
+  const isSuperAdmin = () => {
+    return user?.role === 'super_admin';
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading, isAdmin, isSuperAdmin }}>
       {children}
     </AuthContext.Provider>
   );

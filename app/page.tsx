@@ -15,7 +15,7 @@ import { Sparkles, ArrowLeft, Brain, Zap, FileText, Target, Rocket, LogOut, User
 import AdminDashboard from './components/AdminDashboard';
 
 function MainApp() {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { usage, incrementUsage, canGenerate, getRemainingGenerations, getUsagePercentage } = useUsageTracking();
   const [currentStep, setCurrentStep] = useState<'briefing' | 'content'>('briefing');
   const [briefData, setBriefData] = useState<ContentBrief | null>(null);
@@ -137,15 +137,17 @@ function MainApp() {
                 </div>
               </div>
               
-              {/* Admin Dashboard Button (for demo - in production, check user permissions) */}
-              <button
-                onClick={() => setShowAdminDashboard(true)}
-                className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors bg-orange-500/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/40"
-                title="Admin Dashboard"
-              >
-                <Shield size={18} />
-                <span className="text-sm font-medium">Admin</span>
-              </button>
+              {/* Admin Dashboard Button - Only for authorized admins */}
+              {isAdmin() && (
+                <button
+                  onClick={() => setShowAdminDashboard(true)}
+                  className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors bg-orange-500/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-orange-500/30 hover:border-orange-400/40"
+                  title="Admin Dashboard"
+                >
+                  <Shield size={18} />
+                  <span className="text-sm font-medium">Admin</span>
+                </button>
+              )}
               
               <button
                 onClick={logout}
