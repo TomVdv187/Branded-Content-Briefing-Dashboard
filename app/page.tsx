@@ -3,12 +3,16 @@
 import { useState } from 'react';
 import ContentBriefForm from './components/ContentBriefForm';
 import GeneratedContentDisplay from './components/GeneratedContentDisplay';
+import LoginForm from './components/LoginForm';
+import PricingPage from './components/PricingPage';
+import { AuthProvider, useAuth } from './components/AuthContext';
 import { ContentBrief, GeneratedContent } from './types';
 import { generateContent } from './utils/contentGenerator';
 import { generateStoryContent } from './utils/storyContentGenerator';
-import { Sparkles, ArrowLeft, Brain, Zap, FileText, Target, Rocket } from 'lucide-react';
+import { Sparkles, ArrowLeft, Brain, Zap, FileText, Target, Rocket, LogOut, User } from 'lucide-react';
 
-export default function Home() {
+function MainApp() {
+  const { user, logout } = useAuth();
   const [currentStep, setCurrentStep] = useState<'briefing' | 'content'>('briefing');
   const [briefData, setBriefData] = useState<ContentBrief | null>(null);
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent | null>(null);
@@ -56,6 +60,29 @@ export default function Home() {
                 <p className="text-sm text-gray-500">AI-Powered Content Creation for Publishers</p>
               </div>
             </div>
+            
+            {/* User Menu */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-gray-700">
+                <User size={16} />
+                <span className="text-sm">{user?.name}</span>
+                <span className={`px-2 py-1 text-xs rounded-full ${
+                  user?.plan === 'enterprise' ? 'bg-purple-100 text-purple-800' :
+                  user?.plan === 'professional' ? 'bg-blue-100 text-blue-800' :
+                  'bg-gray-100 text-gray-800'
+                }`}>
+                  {user?.plan}
+                </span>
+              </div>
+              <button
+                onClick={logout}
+                className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <LogOut size={16} />
+                <span className="text-sm">Logout</span>
+              </button>
+            </div>
+            
             {currentStep === 'content' && (
               <div className="flex items-center space-x-4">
                 <button
@@ -211,4 +238,51 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export default function Home() {
+  const [showPricing, setShowPricing] = useState(false);
+  
+  return (
+    <AuthProvider>
+      <AuthenticatedApp 
+        showPricing={showPricing} 
+        setShowPricing={setShowPricing}
+      />
+    </AuthProvider>
+  );
+}
+
+function AuthenticatedApp({ 
+  showPricing, 
+  setShowPricing 
+}: { 
+  showPricing: boolean; 
+  setShowPricing: (show: boolean) => void; 
+}) {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading StoryForge...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show pricing page if requested
+  if (showPricing && !user) {
+    return <PricingPage onBackToLogin={() => setShowPricing(false)} />;
+  }
+
+  // Show login if not authenticated
+  if (!user) {
+    return <LoginForm onShowPricing={() => setShowPricing(true)} />;
+  }
+
+  // Show main app if authenticated
+  return <MainApp />;
 }
