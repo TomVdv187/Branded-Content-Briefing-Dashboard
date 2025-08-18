@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useSubscription } from '../hooks/useSubscription';
 
 interface User {
   id: string;
@@ -24,9 +25,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check if user is already logged in (from localStorage)
-    const savedUser = localStorage.getItem('storyforge_user');
+    const savedUser = localStorage.getItem('contentcraft_user'); // Updated key
+    const savedSubscription = localStorage.getItem('contentcraft_subscription');
+    
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      let userData = JSON.parse(savedUser);
+      
+      // Sync user plan with subscription if available
+      if (savedSubscription) {
+        try {
+          const subscription = JSON.parse(savedSubscription);
+          if (subscription.status === 'active' && subscription.plan !== userData.plan) {
+            userData.plan = subscription.plan;
+            localStorage.setItem('contentcraft_user', JSON.stringify(userData));
+          }
+        } catch (error) {
+          console.error('Error parsing subscription:', error);
+        }
+      }
+      
+      setUser(userData);
     }
     setIsLoading(false);
   }, []);
@@ -62,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
 
       setUser(user);
-      localStorage.setItem('storyforge_user', JSON.stringify(user));
+      localStorage.setItem('contentcraft_user', JSON.stringify(user));
       setIsLoading(false);
       return true;
     }
@@ -73,7 +91,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('storyforge_user');
+    localStorage.removeItem('contentcraft_user');
+    // Note: We keep subscription data in case user logs back in
   };
 
   return (

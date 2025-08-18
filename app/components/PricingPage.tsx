@@ -1,12 +1,40 @@
 'use client';
 
 import { Check, Rocket, ArrowLeft, Zap, Crown, Building2, Star, Users, TrendingUp, Shield, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import PaymentModal from './PaymentModal';
+import { useSubscription } from '../hooks/useSubscription';
 
 interface PricingPageProps {
   onBackToLogin: () => void;
 }
 
 export default function PricingPage({ onBackToLogin }: PricingPageProps) {
+  const { upgradeSubscription } = useSubscription();
+  const [paymentModal, setPaymentModal] = useState<{
+    isOpen: boolean;
+    planName: string;
+    price: string;
+  }>({
+    isOpen: false,
+    planName: '',
+    price: ''
+  });
+
+  const handlePaymentSuccess = (method: 'card' | 'crypto') => {
+    // Update user's subscription status
+    const plan = paymentModal.planName.toLowerCase() as 'professional' | 'enterprise';
+    const subscription = upgradeSubscription(plan, method);
+    
+    console.log(`Payment successful via ${method} for ${paymentModal.planName} plan`, subscription);
+    
+    // Show success message and redirect
+    setTimeout(() => {
+      alert(`🎉 Welcome to ContentCraft ${paymentModal.planName}! Your account has been upgraded with full access to all features.`);
+      onBackToLogin(); // Redirect back to login/dashboard
+    }, 1000);
+  };
+
   const plans = [
     {
       name: 'Free',
@@ -204,9 +232,17 @@ export default function PricingPage({ onBackToLogin }: PricingPageProps) {
                 }`}
                 onClick={() => {
                   if (plan.name === 'Enterprise') {
-                    window.open('mailto:sales@storyforge.com?subject=Enterprise Plan Inquiry', '_blank');
-                  } else {
+                    window.open('mailto:sales@contentcraft.com?subject=Enterprise Plan Inquiry', '_blank');
+                  } else if (plan.name === 'Free') {
+                    // For free plan, just redirect to registration/login
                     onBackToLogin();
+                  } else {
+                    // Open payment modal for paid plans
+                    setPaymentModal({
+                      isOpen: true,
+                      planName: plan.name,
+                      price: plan.price
+                    });
                   }
                 }}
               >
@@ -306,6 +342,15 @@ export default function PricingPage({ onBackToLogin }: PricingPageProps) {
           </div>
         </div>
       </footer>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={paymentModal.isOpen}
+        onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
+        planName={paymentModal.planName}
+        price={paymentModal.price}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }
