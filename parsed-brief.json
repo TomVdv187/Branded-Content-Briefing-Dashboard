@@ -1,0 +1,23 @@
+{
+  "brand": {
+    "name": "GrillMaster",
+    "voice_tone": ["warm", "expert", "playful"],
+    "must_use_phrases": ["heat zones", "resting the meat"],
+    "banned_phrases": ["cheap", "limited time", "buy now", "% off"]
+  },
+  "audience": {
+    "primary": "First-time hosts, casual BBQ enthusiasts",
+    "reading_level": "B2",
+    "locale": "en-US"
+  },
+  "storyline": "Guide home hosts through creating the perfect BBQ experience for mixed crowds (kids + adults)",
+  "platforms": ["article", "instagram", "facebook", "tiktok", "newsletter", "linkedin", "youtube"],
+  "seo": {
+    "primary_keyword": "perfect BBQ guide",
+    "secondary_keywords": ["grill heat zones", "BBQ menu planning", "backyard grilling", "BBQ for beginners"]
+  },
+  "legal": {
+    "disclaimer": "Sponsored by GrillMaster, editorial guidelines apply"
+  },
+  "angle_hint": "checklist-first"
+}

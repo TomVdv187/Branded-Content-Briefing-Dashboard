@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Content Studio - Storyline-First Publisher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Claude Content Studio</h1>
+            <p class="text-xl text-gray-600">Storyline-First Publisher Playbook</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <!-- Generated Content -->
+            <div class="glass rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span class="text-green-500 mr-3">✅</span>
+                    Generated Content Package
+                </h2>
+                
+                <div class="space-y-6">
+                    <div class="bg-white/50 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Article Title:</h3>
+                        <p class="text-gray-700">"The Ultimate BBQ Checklist: Host the Perfect Backyard Gathering for Kids and Adults"</p>
+                    </div>
+
+                    <div class="bg-white/50 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Brand:</h3>
+                        <p class="text-gray-700">GrillMaster - Premium BBQ Gear</p>
+                    </div>
+
+                    <div class="bg-white/50 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Platforms:</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Article</span>
+                            <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Instagram</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Facebook</span>
+                            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">TikTok</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">LinkedIn</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Newsletter</span>
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">YouTube</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/50 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Content Approach:</h3>
+                        <p class="text-gray-700">Checklist-first angle with story-over-promo strategy</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex gap-3">
+                    <a href="article.md" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" download>
+                        Download Article
+                    </a>
+                    <a href="generated-package.json" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors" download>
+                        Download JSON
+                    </a>
+                </div>
+            </div>
+
+            <!-- QA Report -->
+            <div class="glass rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <span class="text-green-500 mr-3">🛡️</span>
+                    Quality Assurance
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between bg-green-50 rounded-lg p-3">
+                        <span class="text-gray-700">Story over Promo</span>
+                        <span class="text-green-600 font-semibold">✓ PASS</span>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-green-50 rounded-lg p-3">
+                        <span class="text-gray-700">Banned Phrases</span>
+                        <span class="text-green-600 font-semibold">✓ PASS</span>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-green-50 rounded-lg p-3">
+                        <span class="text-gray-700">Required Phrases</span>
+                        <span class="text-green-600 font-semibold">✓ PASS</span>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-green-50 rounded-lg p-3">
+                        <span class="text-gray-700">Accessibility</span>
+                        <span class="text-green-600 font-semibold">✓ PASS</span>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-green-50 rounded-lg p-3">
+                        <span class="text-gray-700">Platform Coverage</span>
+                        <span class="text-green-600 font-semibold">✓ PASS</span>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-green-50 rounded-lg p-3">
+                        <span class="text-gray-700">Novelty Guard</span>
+                        <span class="text-green-600 font-semibold">✓ PASS</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-green-100 border border-green-300 rounded-lg p-4">
+                    <p class="text-green-800 font-medium">Overall Status: APPROVED</p>
+                    <p class="text-green-700 text-sm mt-1">Content ready for publication across all platforms</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Pack Preview -->
+        <div class="glass rounded-2xl p-8 shadow-xl mt-8 max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <span class="text-purple-500 mr-3">🖼️</span>
+                Image Pack Preview
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white/50 rounded-lg p-4">
+                    <div class="aspect-video bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg mb-3 flex items-center justify-center">
+                        <span class="text-orange-600 font-medium">Hero Image</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-800">Family BBQ Gathering</h4>
+                    <p class="text-sm text-gray-600 mt-1">Warm, inviting backyard scene</p>
+                </div>
+
+                <div class="bg-white/50 rounded-lg p-4">
+                    <div class="aspect-video bg-gradient-to-br from-red-100 to-red-200 rounded-lg mb-3 flex items-center justify-center">
+                        <span class="text-red-600 font-medium">Step Visual</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-800">Heat Zone Setup</h4>
+                    <p class="text-sm text-gray-600 mt-1">Grill zones demonstration</p>
+                </div>
+
+                <div class="bg-white/50 rounded-lg p-4">
+                    <div class="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg mb-3 flex items-center justify-center">
+                        <span class="text-blue-600 font-medium">How-to</span>
+                    </div>
+                    <h4 class="font-semibold text-gray-800">Timeline Checklist</h4>
+                    <p class="text-sm text-gray-600 mt-1">Visual timeline guide</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-gray-600">
+            <p class="mb-2">Generated by Claude Content Studio</p>
+            <p class="text-sm">Storyline-first publisher pipeline with GitOps workflow</p>
+            <div class="mt-4">
+                <a href="https://github.com/TomVdv187/Branded-Content" class="text-blue-600 hover:text-blue-800 transition-colors" target="_blank">
+                    View on GitHub →
+                </a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

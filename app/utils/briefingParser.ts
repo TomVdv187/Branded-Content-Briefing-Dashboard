@@ -190,12 +190,20 @@ function extractLocale(text: string): string {
     'french': 'fr-FR',
     'german': 'de-DE',
     'dutch': 'nl-NL',
+    'nederlands': 'nl-NL',
+    'nederland': 'nl-NL',
+    'belgian': 'nl-BE',
+    'vlaams': 'nl-BE',
     'italian': 'it-IT',
     'portuguese': 'pt-PT',
     'uk': 'en-GB',
     'britain': 'en-GB',
     'america': 'en-US',
-    'usa': 'en-US'
+    'usa': 'en-US',
+    'krant': 'nl-NL',
+    'nieuwsartikel': 'nl-NL',
+    'bedrijf': 'nl-NL',
+    'organisatie': 'nl-NL'
   };
   
   for (const [key, locale] of Object.entries(localeMap)) {

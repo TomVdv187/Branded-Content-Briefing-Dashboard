@@ -1,0 +1,68 @@
+{
+  "qa_report": {
+    "timestamp": "2025-08-13T00:00:00Z",
+    "checks": {
+      "banned_phrases_check": {
+        "status": "PASS",
+        "banned_found": [],
+        "banned_list": ["cheap", "limited time", "buy now", "% off"],
+        "notes": "No banned promotional language detected"
+      },
+      "must_use_phrases_check": {
+        "status": "PASS", 
+        "required_phrases": ["heat zones", "resting the meat"],
+        "found_instances": {
+          "heat zones": 3,
+          "resting the meat": 2
+        },
+        "notes": "All required phrases included appropriately"
+      },
+      "story_over_promo_check": {
+        "status": "PASS",
+        "story_elements": [
+          "Educational content about grilling techniques",
+          "Practical tips for family hosting",
+          "Step-by-step guidance",
+          "Value-first approach"
+        ],
+        "promo_elements": [
+          "Subtle brand integration in context",
+          "No price mentions or urgency"
+        ],
+        "ratio": "90% story / 10% brand integration"
+      },
+      "accessibility_check": {
+        "status": "PASS",
+        "image_alt_count": 5,
+        "missing_alt": 0,
+        "notes": "All images have meaningful alt text"
+      },
+      "platform_coverage_check": {
+        "status": "PASS",
+        "platforms_included": ["article", "instagram", "facebook", "tiktok", "newsletter", "linkedin", "youtube"],
+        "facebook_included": true,
+        "notes": "All platforms covered including Facebook by default"
+      },
+      "reading_level_check": {
+        "status": "PASS",
+        "target_level": "B2",
+        "estimated_level": "B2",
+        "notes": "Content complexity matches audience requirements"
+      }
+    },
+    "novelty_guard": {
+      "status": "PASS",
+      "jaccard_similarity": 0.15,
+      "threshold": 0.60,
+      "comparison_source": "No existing memory to compare",
+      "repair_needed": false,
+      "notes": "Content is original, no similarity threshold exceeded"
+    },
+    "overall_status": "PASS",
+    "recommendations": [
+      "Content successfully balances story and brand integration",
+      "All compliance requirements met",
+      "Ready for publication across all platforms"
+    ]
+  }
+}

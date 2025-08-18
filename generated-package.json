@@ -1,0 +1,156 @@
+{
+  "version": "1.0",
+  "angle": "checklist-first",
+  "package": {
+    "headline": "The Ultimate BBQ Checklist: Host the Perfect Backyard Gathering for Kids and Adults",
+    "dek": "Transform your backyard into the ultimate entertaining space with this step-by-step guide to grilling success",
+    "slug": "ultimate-bbq-checklist-perfect-backyard-gathering",
+    "storyline": "Guide home hosts through creating the perfect BBQ experience for mixed crowds (kids + adults)",
+    "sections": [
+      {
+        "heading": "Pre-Party Planning (48 Hours Before)",
+        "body": "Start by creating your guest list and menu. Consider dietary restrictions and age groups. Plan your shopping list around crowd-pleasers: burgers and hot dogs for kids, plus elevated options like marinated chicken or vegetable skewers for adults. Don't forget sides that work at room temperature."
+      },
+      {
+        "heading": "Grill Setup and Heat Zones",
+        "body": "The secret to BBQ success lies in mastering heat zones. Create a two-zone fire: high heat for searing and low heat for gentle cooking. This technique lets you handle multiple foods simultaneously while preventing overcooking. Test your zones with the hand method - high heat allows 2-3 seconds of hand-hovering, medium allows 4-5 seconds."
+      },
+      {
+        "heading": "The Essential Grilling Timeline",
+        "body": "Start with items that take longest: thick cuts of meat first, then chicken, followed by burgers and hot dogs. Remember that resting the meat for 5-10 minutes after cooking allows juices to redistribute, ensuring every bite is perfectly tender. Use this time to warm buns and prep final garnishes."
+      },
+      {
+        "heading": "Kid-Friendly Zone Setup",
+        "body": "Create a dedicated space away from the grill with activities and easy-to-eat foods. Pre-cut fruits, cheese cubes, and individual drink cups prevent spills and keep little ones happy while adults enjoy the main event."
+      },
+      {
+        "heading": "Finishing Touches That Wow",
+        "body": "Presentation matters. Use colorful plates, set up a DIY topping station, and create ambient lighting with string lights or lanterns. These details transform a simple cookout into a memorable gathering that guests will talk about long after the last burger is served."
+      }
+    ],
+    "brand_integration": {
+      "moments": [
+        {
+          "where": "Heat zones section",
+          "how_it_helps": "Professional-grade grills make creating consistent heat zones effortless",
+          "disclosure_note": "Quality equipment enhances your grilling experience"
+        },
+        {
+          "where": "Timeline section", 
+          "how_it_helps": "Reliable temperature control helps you nail the timing every time",
+          "disclosure_note": "Consistent results come from dependable tools"
+        }
+      ],
+      "disclaimer": "Sponsored by GrillMaster, editorial guidelines apply"
+    },
+    "platform_variants": [
+      {
+        "platform": "article",
+        "format_notes": "Full-length guide with detailed explanations",
+        "copy": "Complete checklist format with actionable steps and pro tips",
+        "cta_soft": "Ready to become the neighborhood's BBQ hero? Start with these fundamentals."
+      },
+      {
+        "platform": "instagram",
+        "format_notes": "Carousel post with key checklist items",
+        "copy": "🔥 BBQ Checklist for Mixed Crowds\n\n✅ Master heat zones\n✅ Plan your timeline\n✅ Create kid-friendly space\n✅ Remember resting the meat\n✅ Set up topping station\n\nSwipe for details →",
+        "cta_soft": "Tag someone who needs to see this!"
+      },
+      {
+        "platform": "facebook",
+        "format_notes": "Engaging post with community discussion starter",
+        "copy": "Planning a backyard BBQ for the whole family? Here's your foolproof checklist for hosting a gathering that keeps kids happy and adults impressed. The secret? Creating proper heat zones and timing everything perfectly. What's your go-to BBQ crowd-pleaser?",
+        "cta_soft": "Share your best BBQ hosting tip in the comments!"
+      },
+      {
+        "platform": "tiktok",
+        "format_notes": "Quick tips format with visual demonstrations",
+        "copy": "POV: You're hosting the perfect family BBQ ✨\n\n#BBQChecklist #GrillingTips #BackyardParty #HostingHacks",
+        "cta_soft": "Follow for more grilling secrets"
+      },
+      {
+        "platform": "newsletter",
+        "format_notes": "Email-friendly with clear sections",
+        "copy": "This week's spotlight: Your complete BBQ hosting checklist. From setting up heat zones to timing that perfect burger, we've got everything you need to impress guests of all ages.",
+        "cta_soft": "Forward this to your most BBQ-obsessed friend"
+      },
+      {
+        "platform": "linkedin",
+        "format_notes": "Professional angle on hosting skills",
+        "copy": "Hosting skills transfer everywhere - even to backyard BBQs. The same planning, timing, and attention to detail that makes you successful at work creates memorable experiences at home. Here's how to nail your next family gathering.",
+        "cta_soft": "What hosting skills have you transferred from work to life?"
+      },
+      {
+        "platform": "youtube",
+        "format_notes": "Video guide with demonstrations",
+        "copy": "Join us as we walk through the ultimate BBQ checklist for hosting mixed crowds. Watch as we demonstrate heat zones, share timing secrets, and show you how to create a kid-friendly space that keeps everyone happy.",
+        "cta_soft": "Subscribe for more backyard hosting guides"
+      }
+    ],
+    "seo": {
+      "primary_keyword": "perfect BBQ guide",
+      "secondary_keywords": ["grill heat zones", "BBQ menu planning", "backyard grilling", "BBQ for beginners"],
+      "meta_title": "Ultimate BBQ Checklist: Perfect Backyard Gathering Guide",
+      "meta_description": "Master the art of hosting with our complete BBQ checklist. Learn heat zones, timing secrets, and kid-friendly setup tips for memorable backyard gatherings."
+    },
+    "image_pack": [
+      {
+        "role": "hero",
+        "title": "Family BBQ Gathering",
+        "prompt": "Warm, inviting backyard BBQ scene with families enjoying food, kids playing in background, grill with perfect heat zones visible, golden hour lighting, lifestyle photography style",
+        "alt": "Happy families enjoying a backyard BBQ gathering with children playing and adults socializing around a well-organized grilling area",
+        "composition": "Wide shot, rule of thirds, warm lighting",
+        "base64_svg": "PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQ1MCIgdmlld0JveD0iMCAwIDgwMCA0NTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNDUwIiBmaWxsPSIjRjdGQUZDIi8+CjxyZWN0IHg9IjEwMCIgeT0iMjAwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjgwIiByeD0iOCIgZmlsbD0iIzM3NEE1MSIvPgo8Y2lyY2xlIGN4PSIxNjAiIGN5PSIyNDAiIHI9IjQiIGZpbGw9IiNGRjYzNDciLz4KPHJlY3QgeD0iMzAwIiB5PSIxNTAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiByeD0iMTAiIGZpbGw9IiNFNkZGRkEiLz4KPGNpcmNsZSBjeD0iNTUwIiBjeT0iMTAwIiByPSI0MCIgZmlsbD0iI0ZGRUQwMCIvPgo8dGV4dCB4PSI0MDAiIHk9IjM4MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMzc0QTUxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5GYW1pbHkgQkJRIEdhdGhlcmluZzwvdGV4dD4KPC9zdmc+"
+      },
+      {
+        "role": "step",
+        "title": "Heat Zone Setup",
+        "prompt": "Close-up of grill grates showing clearly defined heat zones, one side glowing hot with visible heat waves, other side cooler, professional food photography, clean composition",
+        "alt": "Detailed view of BBQ grill showing proper heat zone setup with high heat and low heat areas clearly marked",
+        "composition": "Close-up, sharp focus, dramatic lighting",
+        "base64_svg": "PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjMjAyMDIwIi8+CjxyZWN0IHg9IjUwIiB5PSIxMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjAwIiByeD0iMTAiIGZpbGw9IiNGRjYzNDciLz4KPHJlY3QgeD0iMzEwIiB5PSIxMDAiIHdpZHRoPSIyNDAiIGhlaWdodD0iMjAwIiByeD0iMTAiIGZpbGw9IiM2MzdCRjEiLz4KPHRleHQgeD0iMTcwIiB5PSIzNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SGlnaCBIZWF0PC90ZXh0Pgo8dGV4dCB4PSI0MzAiIHk9IjM0MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Mb3cgSGVhdDwvdGV4dD4KPC9zdmc+"
+      },
+      {
+        "role": "howto",
+        "title": "Timeline Checklist Visual",
+        "prompt": "Clean, modern checklist graphic showing BBQ timeline steps, checkboxes, icons for different foods, organized layout, bright colors, infographic style",
+        "alt": "Visual timeline checklist showing the optimal order for grilling different foods during a BBQ",
+        "composition": "Vertical layout, clear hierarchy, branded colors",
+        "base64_svg": "PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDQwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRkZGRkZGIi8+CjxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1MDAiIHJ4PSIxNSIgZmlsbD0iI0Y5RkJGRiIgc3Ryb2tlPSIjRTVFN0VCIiBzdHJva2Utd2lkdGg9IjIiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSIxMjAiIHI9IjE1IiBmaWxsPSIjMTA5OTgxIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTI4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMzNzRBNTEiPjEuIFN0YXJ0IHRoaWNrIGN1dHM8L3RleHQ+CjxjaXJjbGUgY3g9IjcwIiBjeT0iMTgwIiByPSIxNSIgZmlsbD0iIzEwOTk4MSIvPgo8dGV4dCB4PSIxMDAiIHk9IjE4OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMzc0QTUxIj4yLiBBZGQgY2hpY2tlbjwvdGV4dD4KPGNpcmNsZSBjeD0iNzAiIGN5PSIyNDAiIHI9IjE1IiBmaWxsPSIjMTA5OTgxIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMjQ4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMzNzRBNTEiPjMuIEJ1cmdlcnMgJiBkb2dzPC90ZXh0Pgo8Y2lyY2xlIGN4PSI3MCIgY3k9IjMwMCIgcj0iMTUiIGZpbGw9IiMxMDk5ODEiLz4KPHRleHQgeD0iMTAwIiB5PSIzMDgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzM3NEE1MSI+NC4gUmVzdCB0aGUgbWVhdDwvdGV4dD4KPC9zdmc+"
+      },
+      {
+        "role": "people",
+        "title": "Kids and Adults Together",
+        "prompt": "Heartwarming scene of children and adults at BBQ, kids with safe activities in foreground, adults grilling safely in background, natural interactions, documentary style",
+        "alt": "Multi-generational BBQ scene showing children engaged in safe activities while adults handle grilling responsibilities",
+        "composition": "Split composition, natural poses, warm tones",
+        "base64_svg": "PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDcwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRkVGM0UyIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjI1MCIgcj0iMzAiIGZpbGw9IiNGRkQ3Q0MiLz4KPGNpcmNsZSBjeD0iMjIwIiBjeT0iMjcwIiByPSIyNSIgZmlsbD0iI0ZGRDE5RSIvPgo8Y2lyY2xlIGN4PSI1MDAiIGN5PSIyMDAiIHI9IjQwIiBmaWxsPSIjMzc0QTUxIi8+CjxyZWN0IHg9IjQ1MCIgeT0iMjUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjYwIiByeD0iOCIgZmlsbD0iIzM3NEE1MSIvPgo8dGV4dCB4PSIzNTAiIHk9IjM2MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMzc0QTUxIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5LaWRzICYgQWR1bHRzIFRvZ2V0aGVyPC90ZXh0Pgo8L3N2Zz4="
+      },
+      {
+        "role": "detail",
+        "title": "Perfectly Rested Meat",
+        "prompt": "Close-up of beautifully cooked meat resting on cutting board, visible juices, professional food styling, shallow depth of field, appetizing presentation",
+        "alt": "Close-up view of perfectly grilled meat resting on a wooden cutting board, showing proper cooking technique",
+        "composition": "Macro shot, shallow DOF, warm lighting",
+        "base64_svg": "PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDUwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjM0YyODE4Ii8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIHJ4PSIxNSIgZmlsbD0iI0Q5N0Q0QSIvPgo8ZWxsaXBzZSBjeD0iMjUwIiBjeT0iMTUwIiByeD0iMTUwIiByeT0iNjAiIGZpbGw9IiM5ODQzMzMiLz4KPHR4dCB4PSIyNTAiIHk9IjI4MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSIjRkZGRkZGIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QZXJMZWN0bHkgUmVzdGVkIE1lYXQ8L3RleHQ+Cjwvc3ZnPg=="
+      }
+    ],
+    "checks": {
+      "is_story_over_promo": true,
+      "banned_ads_language_found": [],
+      "angle_applied": true,
+      "reading_level_hint": "B2"
+    }
+  },
+  "notes": {
+    "assumptions": [
+      "Host has basic grill and outdoor space",
+      "Mixed age group includes children under 12",
+      "Event duration is 3-4 hours"
+    ],
+    "risks": [
+      "Weather dependency for outdoor events",
+      "Food safety considerations with extended outdoor time"
+    ]
+  }
+}
