@@ -39,34 +39,34 @@ function generateDutchStoryTitle(brief: ContentBrief, storyType: string): string
   
   const titleTemplates = {
     'generational-shift': [
-      `Hoe Nederlandse ${audience.primary} hun dag anders inrichten dan hun ouders`,
-      `De stille revolutie in Nederlandse studentenhuizen en gezinswoningen`,
-      `Waarom een hele generatie Nederland opnieuw uitvindt hoe ze leeft`,
-      `Het verhaal van Nederlandse ${audience.primary} die controle terugnemen`
+      `Hoe Belgische ${audience.primary} hun dag anders inrichten dan hun ouders`,
+      `De stille revolutie in Belgische studentenhuizen en gezinswoningen`,
+      `Waarom een hele generatie België opnieuw uitvindt hoe ze leeft`,
+      `Het verhaal van Belgische ${audience.primary} die controle terugnemen`
     ],
     'lifestyle-evolution': [
-      `Van chaos naar rust: Nederlandse huishoudens herontdekken hun ochtend`,
-      `Hoe Nederlandse ${audience.primary} hun prioriteiten hertekenen`,
-      `De nieuwe Nederlandse dagindeling die iedereen stil wil houden`,
-      `Waarom Nederlandse gezinnen hun hele routine ombouwen`
+      `Van chaos naar rust: Belgische huishoudens herontdekken hun ochtend`,
+      `Hoe Belgische ${audience.primary} hun prioriteiten hertekenen`,
+      `De nieuwe Belgische dagindeling die iedereen stil wil houden`,
+      `Waarom Belgische gezinnen hun hele routine ombouwen`
     ],
     'cultural-observation': [
-      `Het Nederlandse karakter in een digitale tijd`,
-      `Hoe Nederlandse ${audience.primary} balans vinden in een hectische wereld`,
-      `De stille kracht van Nederlandse nuchtere technologiekeuzes`,
-      `Nederlandse efficiëntie krijgt een modern gezicht`
+      `Het Belgische karakter in een digitale tijd`,
+      `Hoe Belgische ${audience.primary} balans vinden in een hectische wereld`,
+      `De stille kracht van Belgische nuchtere technologiekeuzes`,
+      `Belgische efficiëntie krijgt een modern gezicht`
     ],
     'behavioral-trend': [
-      `Waarom Nederlandse ${audience.primary} bewuster worden in hun keuzes`,
-      `De opkomst van 'intentioneel leven' onder Nederlandse jongeren`,
-      `Hoe Nederlandse studenten en professionals focus terugwinnen`,
-      `Nederlandse ${audience.primary} kiezen kwaliteit boven kwantiteit`
+      `Waarom Belgische ${audience.primary} bewuster worden in hun keuzes`,
+      `De opkomst van 'intentioneel leven' onder Belgische jongeren`,
+      `Hoe Belgische studenten en professionals focus terugwinnen`,
+      `Belgische ${audience.primary} kiezen kwaliteit boven kwantiteit`
     ],
     'social-change': [
-      `Een generatie Nederlandse ${audience.primary} die anders denkt over succes`,
-      `Hoe Nederlandse huishoudens hun relatiepatronen veranderen`,
-      `De nieuwe Nederlandse definitie van een goed leven`,
-      `Nederlandse ${audience.primary} schrijven nieuwe regels voor productiviteit`
+      `Een generatie Belgische ${audience.primary} die anders denkt over succes`,
+      `Hoe Belgische huishoudens hun relatiepatronen veranderen`,
+      `De nieuwe Belgische definitie van een goed leven`,
+      `Belgische ${audience.primary} schrijven nieuwe regels voor productiviteit`
     ]
   };
   
@@ -94,25 +94,25 @@ function generateDutchStoryContent(brief: ContentBrief, storyType: string): stri
   
   return `${selectedIntro}
 
-Het fenomeen dat zich hier afspeelt, speelt zich af in duizenden Nederlandse huishoudens, studentenhuizen en kantoren. Er is een stille revolutie gaande in hoe ${audience.primary} omgaan met hun dagelijkse routine, hun technologiekeuzes, en uiteindelijk hun leven.
+Het fenomeen dat zich hier afspeelt, speelt zich af in duizenden Belgische huishoudens, studentenhuizen en kantoren. Er is een stille revolutie gaande in hoe ${audience.primary} omgaan met hun dagelijkse routine, hun technologiekeuzes, en uiteindelijk hun leven.
 
-Dr. Marijke Visser, gedragswetenschapper aan de Vrije Universiteit, heeft deze verschuiving van dichtbij bestudeerd. "We zien een generationele omslag waarin jongere Nederlanders veel bewuster worden in hun keuzes," legt ze uit tijdens ons gesprek in haar kantoor. "Het gaat niet meer om het hebben van de nieuwste spullen, maar om het creëren van een leven dat echt bij je past."
+Dr. Marijke Visser, gedragswetenschapper aan de Vrije Universiteit Brussel, heeft deze verschuiving van dichtbij bestudeerd. "We zien een generationele omslag waarin jongere Belgen veel bewuster worden in hun keuzes," legt ze uit tijdens ons gesprek in haar kantoor. "Het gaat niet meer om het hebben van de nieuwste spullen, maar om het creëren van een leven dat echt bij je past."
 
-Deze mentaliteitsverandering heeft concrete gevolgen. Nederlandse ${audience.primary} selecteren zorgvuldiger welke hulpmiddelen ze in hun leven toelaten. Ze stellen andere vragen: niet 'wat kan dit?' maar 'helpt dit me om te worden wie ik wil zijn?'
+Deze mentaliteitsverandering heeft concrete gevolgen. Belgische ${audience.primary} selecteren zorgvuldiger welke hulpmiddelen ze in hun leven toelaten. Ze stellen andere vragen: niet 'wat kan dit?' maar 'helpt dit me om te worden wie ik wil zijn?'
 
-Kevin Morales, net afgestudeerd econoom uit Rotterdam, illustreert dit perfect. "Mijn ouders kochten vroeger gewoon het goedkoopste dat werkte, of juist het duurste omdat dat het beste moest zijn," vertelt hij. "Ik kijk veel meer naar hoe verschillende dingen met elkaar samenwerken en of ze me helpen om gefocust te blijven op wat belangrijk is."
+Kevin Morales, net afgestudeerd econoom uit Antwerpen, illustreert dit perfect. "Mijn ouders kochten vroeger gewoon het goedkoopste dat werkte, of juist het duurste omdat dat het beste moest zijn," vertelt hij. "Ik kijk veel meer naar hoe verschillende dingen met elkaar samenwerken en of ze me helpen om gefocust te blijven op wat belangrijk is."
 
 Deze houding heeft ook de aandacht getrokken van bedrijven. Waar tech-merken zoals ${brand.name} vroeger vooral focusten op specs en features, moeten ze nu veel meer nadenken over hoe hun producten passen in de bredere levensstijl van gebruikers.
 
-Het interessante is dat deze trend niet beperkt blijft tot individuele keuzes. Nederlandse onderwijsinstellingen passen hun aanpak aan, werkgevers heroverwegen hun digitale werkplekken, en zelfs beleidsmakers beginnen na te denken over de implicaties van deze verschuiving.
+Het interessante is dat deze trend niet beperkt blijft tot individuele keuzes. Belgische onderwijsinstellingen passen hun aanpak aan, werkgevers heroverwegen hun digitale werkplekken, en zelfs beleidsmakers beginnen na te denken over de implicaties van deze verschuiving.
 
-"Het gaat uiteindelijk om intentionaliteit," zegt Emma Hendriks, masterstudent psychologie aan de UvA. "Elke keuze die ik maak, doe ik bewust. Ik vraag mezelf af: brengt dit me dichter bij mijn doelen, of leidt het me juist af?"
+"Het gaat uiteindelijk om intentionaliteit," zegt Emma Hendriks, masterstudent psychologie aan de KU Leuven. "Elke keuze die ik maak, doe ik bewust. Ik vraag mezelf af: brengt dit me dichter bij mijn doelen, of leidt het me juist af?"
 
-Deze filosofie begint door te werken in verschillende aspecten van het Nederlandse leven. In studentenhuizen ontstaan nieuwe afspraken over technologie-gebruik. Gezinnen experimenteren met manieren om rustiger samen te leven. Werkplekken herontwerken hun digitale infrastructuur om echt ondersteunend te zijn.
+Deze filosofie begint door te werken in verschillende aspecten van het Belgische leven. In studentenhuizen ontstaan nieuwe afspraken over technologie-gebruik. Gezinnen experimenteren met manieren om rustiger samen te leven. Werkplekken herontwerken hun digitale infrastructuur om echt ondersteunend te zijn.
 
-Prof. dr. Joep Fransen van het Sociaal en Cultureel Planbureau ziet in deze ontwikkeling iets typisch Nederlands. "We hebben altijd gehouden van pragmatische oplossingen," observeert hij. "Wat we nu zien is een nieuwe vorm van Nederlandse praktische wijsheid, toegepast op de digitale wereld."
+Prof. dr. Joep Fransen van het Vlaams Instituut voor Onderzoek ziet in deze ontwikkeling iets typisch Belgisch. "We hebben altijd gehouden van pragmatische oplossingen," observeert hij. "Wat we nu zien is een nieuwe vorm van Belgische praktische wijsheid, toegepast op de digitale wereld."
 
-De gevolgen reiken verder dan technologiekeuzes alleen. Nederlandse ${audience.primary} herdefiniëren wat productiviteit betekent, hoe succes eruitziet, en wat een goed leven inhoudt. Ze kiezen bewust voor eenvoud boven complexiteit, voor focus boven afleiding.
+De gevolgen reiken verder dan technologiekeuzes alleen. Belgische ${audience.primary} herdefiniëren wat productiviteit betekent, hoe succes eruitziet, en wat een goed leven inhoudt. Ze kiezen bewust voor eenvoud boven complexiteit, voor focus boven afleiding.
 
 Voor bedrijven betekent dit een fundamentele verschuiving. Succesvolle spelers zoals ${brand.name} moeten niet alleen excellente producten maken, maar ook begrijpen hoe deze passen in de bredere levensverhalen van hun gebruikers.
 

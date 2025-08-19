@@ -187,10 +187,10 @@ export default function ContentOptimizationSuggestions({ content, onApplySuggest
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'border-red-200 bg-red-50';
-      case 'medium': return 'border-yellow-200 bg-yellow-50';
-      case 'low': return 'border-green-200 bg-green-50';
-      default: return 'border-gray-200 bg-gray-50';
+      case 'high': return 'border-red-500/30 bg-red-500/10';
+      case 'medium': return 'border-yellow-500/30 bg-yellow-500/10';
+      case 'low': return 'border-blue-500/30 bg-blue-500/10';
+      default: return 'border-slate-600/30 bg-slate-700/10';
     }
   };
 
@@ -218,10 +218,10 @@ export default function ContentOptimizationSuggestions({ content, onApplySuggest
   if (!isVisible) return null;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+    <div className="bg-slate-800/90 backdrop-blur-xl rounded-xl shadow-lg border border-slate-600/30 p-6 mb-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <Brain className="text-purple-600" size={24} />
+          <Brain className="text-purple-400" size={24} />
           <div>
             <h3 className="text-lg font-semibold text-white">AI Content Optimization</h3>
             <p className="text-sm text-slate-400">
@@ -229,12 +229,18 @@ export default function ContentOptimizationSuggestions({ content, onApplySuggest
             </p>
           </div>
         </div>
+        
+        {/* AI Status Indicator */}
+        <div className="flex items-center space-x-2 bg-green-500/10 border border-green-500/20 px-3 py-2 rounded-lg">
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span className="text-sm text-green-300 font-medium">AI Active</span>
+        </div>
 
         <div className="flex items-center space-x-2">
           <select
             value={selectedFilter}
             onChange={(e) => setSelectedFilter(e.target.value as typeof selectedFilter)}
-            className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="bg-slate-700 border border-slate-600 rounded-md px-3 py-1 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
             <option value="all">All Suggestions</option>
             <option value="seo">SEO</option>
@@ -247,8 +253,8 @@ export default function ContentOptimizationSuggestions({ content, onApplySuggest
 
       {isAnalyzing ? (
         <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">AI is analyzing your content for optimization opportunities...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400 mx-auto mb-4"></div>
+          <p className="text-slate-300">AI is analyzing your content for optimization opportunities...</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -257,7 +263,7 @@ export default function ContentOptimizationSuggestions({ content, onApplySuggest
               key={suggestion.id}
               className={`border rounded-lg p-4 transition-all duration-200 ${
                 suggestion.applied 
-                  ? 'border-green-200 bg-green-50' 
+                  ? 'border-green-500/30 bg-green-500/10' 
                   : getPriorityColor(suggestion.priority)
               }`}
             >

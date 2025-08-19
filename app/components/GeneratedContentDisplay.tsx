@@ -759,15 +759,13 @@ Reading Time: ${Math.ceil(content.article.content.split(' ').length / 200)} minu
 
         {activeTab === 'optimize' && (
           <div className="space-y-6">
-            <PlanGate requiredPlan="professional" feature="AI Content Optimization">
-              <ContentOptimizationSuggestions 
-                content={content}
-                isVisible={activeTab === 'optimize'}
-                onApplySuggestion={(suggestionId, updatedContent) => {
-                  if (onEdit) onEdit(updatedContent);
-                }}
-              />
-            </PlanGate>
+            <ContentOptimizationSuggestions 
+              content={content}
+              isVisible={activeTab === 'optimize'}
+              onApplySuggestion={(suggestionId, updatedContent) => {
+                if (onEdit) onEdit(updatedContent);
+              }}
+            />
           </div>
         )}
 

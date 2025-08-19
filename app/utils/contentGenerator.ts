@@ -108,18 +108,18 @@ function generateArticleTitle(brief: ContentBrief): string {
   
   if (isNL) {
     const dutchTemplates = {
-      'how-to': `Nederlandse bedrijven omarmen ${storyline} voor concurrentievoordeel`,
-      'list': `${storyline} transformeert bedrijfsvoering in Nederland`,
+      'how-to': `Belgische bedrijven omarmen ${storyline} voor concurrentievoordeel`,
+      'list': `${storyline} transformeert bedrijfsvoering in België`,
       'comparison': `Marktanalyse toont voordelen ${storyline} voor ${audience}`,
       'news': `${brand} presenteert doorbraak in ${storyline}`,
-      'case-study': `Succesverhaal: Nederlandse organisatie realiseert 300% ROI met ${storyline}`,
-      'trend': `${storyline} trends bepalen Nederlandse business strategie in 2024`,
-      'research': `Onderzoek: ${storyline} cruciaal voor Nederlandse ${audience}`,
-      'opinion': `Waarom ${storyline} de toekomst van Nederlandse bedrijven bepaalt`,
-      'informative-guide': `Nederlandse organisaties investeren massaal in ${storyline}`
+      'case-study': `Succesverhaal: Belgische organisatie realiseert 300% ROI met ${storyline}`,
+      'trend': `${storyline} trends bepalen Belgische business strategie in 2024`,
+      'research': `Onderzoek: ${storyline} cruciaal voor Belgische ${audience}`,
+      'opinion': `Waarom ${storyline} de toekomst van Belgische bedrijven bepaalt`,
+      'informative-guide': `Belgische organisaties investeren massaal in ${storyline}`
     };
     
-    return dutchTemplates[brief.angle_hint as keyof typeof dutchTemplates] || `${storyline} revolutioneert Nederlandse bedrijfsvoering`;
+    return dutchTemplates[brief.angle_hint as keyof typeof dutchTemplates] || `${storyline} revolutioneert Belgische bedrijfsvoering`;
   } else {
     const englishTemplates = {
       'how-to': `Industry Leaders Embrace ${storyline} for Competitive Edge`,
@@ -153,27 +153,27 @@ function generateDutchArticle(brief: ContentBrief): string {
   const { storyline, brand, audience, seo, legal } = brief;
   
   // Professional Dutch journalism style - no bullet points, flowing narrative
-  return `${brand.name} heeft een uitgebreide analyse uitgevoerd naar ${storyline} binnen de Nederlandse markt. De bevindingen tonen aan dat organisaties die succesvol zijn in deze sector een duidelijke strategische benadering hanteren.
+  return `${brand.name} heeft een uitgebreide analyse uitgevoerd naar ${storyline} binnen de Belgische markt. De bevindingen tonen aan dat organisaties die succesvol zijn in deze sector een duidelijke strategische benadering hanteren.
 
-De huidige marktdynamiek laat zien dat ${audience.primary} geconfronteerd worden met complexe uitdagingen op het gebied van ${seo.primary_keyword}. Nederlandse bedrijven die vooroplopen in deze ontwikkeling onderscheiden zich door hun methodische aanpak en focus op meetbare resultaten.
+De huidige marktdynamiek laat zien dat ${audience.primary} geconfronteerd worden met complexe uitdagingen op het gebied van ${seo.primary_keyword}. Belgische bedrijven die vooroplopen in deze ontwikkeling onderscheiden zich door hun methodische aanpak en focus op meetbare resultaten.
 
 Volgens onderzoek van ${brand.name} investeren succesvolle organisaties gemiddeld 25% meer in ${storyline} dan hun concurrenten, wat resulteert in aanzienlijk betere prestaties. Deze investering vertaalt zich direct in operationele verbeteringen en concurrentievoordelen.
 
 De transformatie binnen de sector wordt vooral gedreven door technologische vooruitgang en veranderende klantverwachtingen. Organisaties die zich aanpassen aan deze nieuwe realiteit zien hun marktpositie verstevigen, terwijl bedrijven die achterblijven marktaandeel verliezen.
 
-Een opmerkelijk aspect van de Nederlandse markt is de nadruk op duurzaamheid en maatschappelijke verantwoordelijkheid binnen ${storyline} initiatieven. Dit onderscheidt Nederlandse bedrijven van hun internationale concurrenten en creëert unieke kansen voor groei.
+Een opmerkelijk aspect van de Belgische markt is de nadruk op duurzaamheid en maatschappelijke verantwoordelijkheid binnen ${storyline} initiatieven. Dit onderscheidt Belgische bedrijven van hun internationale concurrenten en creëert unieke kansen voor groei.
 
-${brand.name} heeft samengewerkt met meer dan 150 Nederlandse organisaties om hun ${storyline} capaciteiten te versterken. De resultaten zijn indrukwekkend: gemiddeld realiseren deelnemende bedrijven een ROI van 280% binnen 18 maanden.
+${brand.name} heeft samengewerkt met meer dan 150 Belgische organisaties om hun ${storyline} capaciteiten te versterken. De resultaten zijn indrukwekkend: gemiddeld realiseren deelnemende bedrijven een ROI van 280% binnen 18 maanden.
 
 De implementatie vereist een gefaseerde benadering waarbij organisaties eerst hun huidige capaciteiten evalueren, vervolgens een strategisch plan ontwikkelen, en ten slotte de uitvoering systematisch aanpakken. Deze methodiek heeft bewezen effectief te zijn in diverse sectoren.
 
 Een belangrijk succesfactor is de betrokkenheid van het senior management. Organisaties waarbij de directie actief betrokken is bij ${storyline} initiatieven behalen systematisch betere resultaten dan bedrijven waar deze betrokkenheid ontbreekt.
 
-De Nederlandse markt toont een sterke voorkeur voor leveranciers die lokale expertise combineren met internationale beste praktijken. ${brand.name} speelt hierop in door lokale teams te combineren met wereldwijde kennis en ervaring.
+De Belgische markt toont een sterke voorkeur voor leveranciers die lokale expertise combineren met internationale beste praktijken. ${brand.name} speelt hierop in door lokale teams te combineren met wereldwijde kennis en ervaring.
 
-Kijkend naar de toekomst verwacht ${brand.name} dat ${storyline} een nog centralere rol gaat spelen in de Nederlandse bedrijfsvoering. Organisaties die nu investeren, positioneren zich optimaal voor de komende uitdagingen en kansen.
+Kijkend naar de toekomst verwacht ${brand.name} dat ${storyline} een nog centralere rol gaat spelen in de Belgische bedrijfsvoering. Organisaties die nu investeren, positioneren zich optimaal voor de komende uitdagingen en kansen.
 
-De expertise van ${brand.name} op het gebied van ${seo.primary_keyword} stelt Nederlandse bedrijven in staat om hun ambities waar te maken. Door proven methodologieën te combineren met lokale marktkennis, wordt duurzame groei en concurrentievoordeel gerealiseerd.
+De expertise van ${brand.name} op het gebied van ${seo.primary_keyword} stelt Belgische bedrijven in staat om hun ambities waar te maken. Door proven methodologieën te combineren met lokale marktkennis, wordt duurzame groei en concurrentievoordeel gerealiseerd.
 
 ${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
 }
