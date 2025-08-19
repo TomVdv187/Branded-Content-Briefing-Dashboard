@@ -17,15 +17,15 @@ function generateDutchNewsTitle(brief: ContentBrief): string {
   
   // Educational storytelling headlines - focus on trends, insights, human stories
   const storyTemplates = [
-    `Hoe Nederlandse ${audience.primary} hun dagelijkse routine veranderen`,
-    `De stille revolutie in Nederlandse huiskamers en studiekamers`,
+    `Hoe Belgische ${audience.primary} hun dagelijkse routine veranderen`,
+    `De stille revolutie in Belgische huiskamers en studiekamers`,
     `Waarom ${audience.primary} anders denken over technologie`,
-    `De nieuwe realiteit voor Nederlandse studenten en gezinnen`,
-    `Hoe een generatie Nederland digitaal opnieuw uitvindt`,
+    `De nieuwe realiteit voor Belgische studenten en gezinnen`,
+    `Hoe een generatie België digitaal opnieuw uitvindt`,
     `Het verhaal achter veranderende gewoontes bij ${audience.primary}`,
-    `Nederlandse levensstijl in transitie: een generatie zoekt balans`,
-    `Van chaos naar controle: hoe Nederlandse huishoudens hun dag herwinnen`,
-    `De stille kracht van bewuste technologiekeuzes in Nederland`,
+    `Belgische levensstijl in transitie: een generatie zoekt balans`,
+    `Van chaos naar controle: hoe Belgische huishoudens hun dag herwinnen`,
+    `De stille kracht van bewuste technologiekeuzes in België`,
     `Waarom efficiëntie het nieuwe statussymbool is geworden`
   ];
   
@@ -36,29 +36,29 @@ function generateDutchNewsArticle(brief: ContentBrief): string {
   const { storyline, brand, audience, seo } = brief;
   
   // Professional Dutch journalism - flowing narrative, no lists
-  const article = `${brand.name} heeft aangekondigd dat het bedrijf zijn ${storyline}-aanbod uitbreidt om beter aan te sluiten bij de behoeften van Nederlandse consumenten. De nieuwe strategie richt zich specifiek op ${audience.primary} die op zoek zijn naar kwalitatieve technologische oplossingen.
+  const article = `${brand.name} heeft aangekondigd dat het bedrijf zijn ${storyline}-aanbod uitbreidt om beter aan te sluiten bij de behoeften van Belgische consumenten. De nieuwe strategie richt zich specifiek op ${audience.primary} die op zoek zijn naar kwalitatieve technologische oplossingen.
 
-De ontwikkeling komt voort uit uitgebreid marktonderzoek dat ${brand.name} de afgelopen maanden heeft uitgevoerd. Volgens het onderzoek zoeken Nederlandse gebruikers naar producten die niet alleen technologisch geavanceerd zijn, maar ook aansluiten bij hun dagelijkse routine en werkwijze.
+De ontwikkeling komt voort uit uitgebreid marktonderzoek dat ${brand.name} de afgelopen maanden heeft uitgevoerd. Volgens het onderzoek zoeken Belgische gebruikers naar producten die niet alleen technologisch geavanceerd zijn, maar ook aansluiten bij hun dagelijkse routine en werkwijze.
 
 "We zien een duidelijke trend waarbij ${audience.primary} steeds meer waarde hechten aan ${seo.primary_keyword}," aldus een woordvoerder van ${brand.name}. "Onze nieuwe aanpak speelt daar optimaal op in door functionaliteit te combineren met gebruiksgemak."
 
-Het bedrijf heeft de afgelopen periode intensief samengewerkt met Nederlandse retailers en distributeurs om de uitrol van ${storyline} soepel te laten verlopen. Deze samenwerking heeft geleid tot een uitgebreid netwerk van verkooppunten waar consumenten de producten kunnen ervaren en aanschaffen.
+Het bedrijf heeft de afgelopen periode intensief samengewerkt met Belgische retailers en distributeurs om de uitrol van ${storyline} soepel te laten verlopen. Deze samenwerking heeft geleid tot een uitgebreid netwerk van verkooppunten waar consumenten de producten kunnen ervaren en aanschaffen.
 
 Marktanalisten zijn positief over de nieuwe koers van ${brand.name}. Het bedrijf wordt geprezen om zijn vermogen om snel in te spelen op veranderende consumentenbehoeften en technologische ontwikkelingen. Deze flexibiliteit heeft ${brand.name} in het verleden al vaker concurrentievoordeel opgeleverd.
 
-De timing van de lancering is strategisch gekozen. Met de huidige marktomstandigheden en de toenemende vraag naar ${seo.primary_keyword}, verwacht ${brand.name} dat ${storyline} goed zal worden ontvangen door de Nederlandse doelgroep.
+De timing van de lancering is strategisch gekozen. Met de huidige marktomstandigheden en de toenemende vraag naar ${seo.primary_keyword}, verwacht ${brand.name} dat ${storyline} goed zal worden ontvangen door de Belgische doelgroep.
 
-Nederlandse consumenten hebben de afgelopen jaren laten zien dat ze openstaan voor innovatieve technologieën, mits deze echte meerwaarde bieden. ${brand.name} heeft daar in zijn ontwikkelingsproces rekening mee gehouden door uitgebreid feedback te verzamelen van gebruikers uit verschillende leeftijdscategorieën.
+Belgische consumenten hebben de afgelopen jaren laten zien dat ze openstaan voor innovatieve technologieën, mits deze echte meerwaarde bieden. ${brand.name} heeft daar in zijn ontwikkelingsproces rekening mee gehouden door uitgebreid feedback te verzamelen van gebruikers uit verschillende leeftijdscategorieën.
 
-Het bedrijf plant een geleidelijke uitrol van ${storyline} over verschillende kanalen. Daarbij wordt ingezet op zowel online als offline verkoop, met speciale aandacht voor de service en ondersteuning die Nederlandse klanten gewend zijn.
+Het bedrijf plant een geleidelijke uitrol van ${storyline} over verschillende kanalen. Daarbij wordt ingezet op zowel online als offline verkoop, met speciale aandacht voor de service en ondersteuning die Belgische klanten gewend zijn.
 
-De verwachtingen voor ${storyline} zijn hooggespannen. ${brand.name} heeft aangegeven dat het succes van deze lancering bepalend zal zijn voor verdere investeringen in de Nederlandse markt. Het bedrijf ziet Nederland als een strategisch belangrijke markt binnen Europa.
+De verwachtingen voor ${storyline} zijn hooggespannen. ${brand.name} heeft aangegeven dat het succes van deze lancering bepalend zal zijn voor verdere investeringen in de Belgische markt. Het bedrijf ziet België als een strategisch belangrijke markt binnen Europa.
 
 Retailpartners tonen zich enthousiast over de samenwerking met ${brand.name}. Verschillende grote ketens hebben al toegezegd dat ze ${storyline} prominent zullen positioneren in hun winkels en online platforms.
 
 Voor ${audience.primary} betekent dit dat ze binnenkort toegang krijgen tot een uitgebreider aanbod van ${seo.primary_keyword}-oplossingen. ${brand.name} heeft benadrukt dat klanttevredenheid en service centraal staan in de nieuwe strategie.
 
-Het bedrijf verwacht dat ${storyline} een belangrijke bijdrage zal leveren aan de groei van ${brand.name} in Nederland en mogelijk ook in andere Europese markten waar vergelijkbare trends zichtbaar zijn.`;
+Het bedrijf verwacht dat ${storyline} een belangrijke bijdrage zal leveren aan de groei van ${brand.name} in België en mogelijk ook in andere Europese markten waar vergelijkbare trends zichtbaar zijn.`;
 
   return article;
 }

@@ -421,7 +421,7 @@ Message: How AI transforms workplace productivity..."
                 <option value="es-ES">Spanish</option>
                 <option value="fr-FR">French</option>
                 <option value="de-DE">German</option>
-                <option value="nl-NL">Dutch</option>
+                <option value="nl-BE">Dutch (Belgian)</option>
                 <option value="it-IT">Italian</option>
               </select>
             </div>

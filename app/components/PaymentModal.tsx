@@ -53,41 +53,33 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
           console.log('📄 eth_accounts response:', accounts);
           console.log('📄 Accounts length:', accounts?.length || 0);
           
+          // Check both accounts array and selectedAddress
+          const selectedAddress = window.ethereum.selectedAddress;
+          console.log('📍 ethereum.selectedAddress:', selectedAddress);
+          
           if (accounts && accounts.length > 0) {
-            // MetaMask has connected accounts
+            // MetaMask has connected accounts with permissions
             setWalletConnected(true);
             setWalletAddress(accounts[0]);
             localStorage.setItem('contentcraft_wallet_connected', 'true');
             localStorage.setItem('contentcraft_wallet_address', accounts[0]);
-            console.log('✅ Wallet auto-connected:', accounts[0]);
+            console.log('✅ Wallet auto-connected with permissions:', accounts[0]);
+          } else if (selectedAddress) {
+            // MetaMask is connected but no account permissions - this is the issue you're experiencing
+            console.log('⚠️ Wallet connected but no account access permissions');
+            console.log('🔧 Setting connected state with selectedAddress:', selectedAddress);
+            setWalletConnected(true);
+            setWalletAddress(selectedAddress);
+            localStorage.setItem('contentcraft_wallet_connected', 'true');
+            localStorage.setItem('contentcraft_wallet_address', selectedAddress);
+            console.log('✅ Wallet connected via selectedAddress:', selectedAddress);
           } else {
-            // No accounts returned
-            console.log('❌ No accounts returned from eth_accounts');
-            console.log('🔍 Checking if this is a permissions issue...');
-            
-            // Try to get the current account another way
-            try {
-              const selectedAddress = window.ethereum.selectedAddress;
-              console.log('📍 ethereum.selectedAddress:', selectedAddress);
-              
-              if (selectedAddress) {
-                setWalletConnected(true);
-                setWalletAddress(selectedAddress);
-                localStorage.setItem('contentcraft_wallet_connected', 'true');
-                localStorage.setItem('contentcraft_wallet_address', selectedAddress);
-                console.log('✅ Wallet connected via selectedAddress:', selectedAddress);
-              } else {
-                setWalletConnected(false);
-                setWalletAddress('');
-                localStorage.removeItem('contentcraft_wallet_connected');
-                localStorage.removeItem('contentcraft_wallet_address');
-                console.log('ℹ️ No wallet connection found');
-              }
-            } catch (selectedAddressError) {
-              console.log('❌ Error checking selectedAddress:', selectedAddressError);
-              setWalletConnected(false);
-              setWalletAddress('');
-            }
+            // No connection at all
+            setWalletConnected(false);
+            setWalletAddress('');
+            localStorage.removeItem('contentcraft_wallet_connected');
+            localStorage.removeItem('contentcraft_wallet_address');
+            console.log('ℹ️ No wallet connection found');
           }
         } catch (error: any) {
           console.error('❌ Error during wallet connection check:', error);
@@ -443,6 +435,7 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                     placeholder="your.email@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    autoComplete="email"
                   />
                 </div>
 
@@ -454,6 +447,7 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    autoComplete="cc-name"
                   />
                 </div>
 
@@ -466,6 +460,7 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                     maxLength={19}
                     value={formData.cardNumber}
                     onChange={(e) => setFormData({...formData, cardNumber: formatCardNumber(e.target.value)})}
+                    autoComplete="cc-number"
                   />
                 </div>
 
@@ -479,6 +474,7 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                       maxLength={5}
                       value={formData.expiryDate}
                       onChange={(e) => setFormData({...formData, expiryDate: formatExpiryDate(e.target.value)})}
+                      autoComplete="cc-exp"
                     />
                   </div>
                   <div>
@@ -490,6 +486,7 @@ export default function PaymentModal({ isOpen, onClose, planName, price, onPayme
                       maxLength={4}
                       value={formData.cvv}
                       onChange={(e) => setFormData({...formData, cvv: e.target.value.replace(/\D/g, '')})}
+                      autoComplete="cc-csc"
                     />
                   </div>
                 </div>

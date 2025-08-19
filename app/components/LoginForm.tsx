@@ -148,6 +148,7 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
                         onChange={(e) => setName(e.target.value)}
                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm transition-all"
                         placeholder="Enter your full name"
+                        autoComplete="name"
                         required
                       />
                     </div>
@@ -167,6 +168,7 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm transition-all"
                       placeholder="Enter your email"
+                      autoComplete="email"
                       required
                     />
                   </div>
@@ -185,6 +187,7 @@ export default function LoginForm({ onShowPricing }: LoginFormProps) {
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm transition-all"
                       placeholder="Enter your password"
+                      autoComplete={isLogin ? "current-password" : "new-password"}
                       required
                     />
                     <button
