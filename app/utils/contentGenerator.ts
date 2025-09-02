@@ -139,11 +139,19 @@ function generateArticleTitle(brief: ContentBrief): string {
 
 function generateArticleBody(brief: ContentBrief): string {
   const { storyline, brand, audience, seo, legal } = brief;
-  const isNL = brief.audience.locale.startsWith('nl');
+  const locale = brief.audience.locale;
   
   // Generate professional journalism content based on locale
-  if (isNL) {
+  if (locale.startsWith('nl')) {
     return generateDutchArticle(brief);
+  } else if (locale.startsWith('fr')) {
+    return generateFrenchArticle(brief);
+  } else if (locale.startsWith('es')) {
+    return generateSpanishArticle(brief);
+  } else if (locale.startsWith('de')) {
+    return generateGermanArticle(brief);
+  } else if (locale.startsWith('it')) {
+    return generateItalianArticle(brief);
   } else {
     return generateEnglishArticle(brief);
   }
@@ -174,6 +182,86 @@ De Belgische markt toont een sterke voorkeur voor leveranciers die lokale expert
 Kijkend naar de toekomst verwacht ${brand.name} dat ${storyline} een nog centralere rol gaat spelen in de Belgische bedrijfsvoering. Organisaties die nu investeren, positioneren zich optimaal voor de komende uitdagingen en kansen.
 
 De expertise van ${brand.name} op het gebied van ${seo.primary_keyword} stelt Belgische bedrijven in staat om hun ambities waar te maken. Door proven methodologieën te combineren met lokale marktkennis, wordt duurzame groei en concurrentievoordeel gerealiseerd.
+
+${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
+}
+
+function generateFrenchArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
+  
+  // Professional French journalism style
+  return `${brand.name} a mené une analyse approfondie sur ${storyline} au sein du marché français. Les conclusions révèlent que les organisations prospères dans ce secteur adoptent une approche stratégique claire et méthodique.
+
+La dynamique actuelle du marché montre que ${audience.primary} font face à des défis complexes dans le domaine de ${seo.primary_keyword}. Les entreprises françaises qui dominent ce développement se distinguent par leur approche méthodique et leur focus sur des résultats mesurables.
+
+Selon les recherches de ${brand.name}, les organisations performantes investissent en moyenne 25% de plus dans ${storyline} que leurs concurrents, ce qui se traduit par des améliorations significatives des performances. Cet investissement se traduit directement par des améliorations opérationnelles et des avantages concurrentiels.
+
+La transformation au sein du secteur est principalement motivée par les avancées technologiques et l'évolution des attentes clients. Les organisations qui s'adaptent à cette nouvelle réalité voient leur position sur le marché se renforcer, tandis que les entreprises qui tardent perdent des parts de marché.
+
+Un aspect remarquable du marché français est l'accent mis sur la durabilité et la responsabilité sociale dans les initiatives ${storyline}. Cela distingue les entreprises françaises de leurs concurrents internationaux et crée des opportunités uniques de croissance.
+
+${brand.name} a collaboré avec plus de 120 organisations françaises pour renforcer leurs capacités ${storyline}. Les résultats sont impressionnants : les entreprises participantes réalisent en moyenne un ROI de 280% dans les 18 mois.
+
+La mise en œuvre nécessite une approche progressive où les organisations évaluent d'abord leurs capacités actuelles, développent ensuite un plan stratégique, et enfin abordent l'exécution de manière systématique. Cette méthodologie s'est avérée efficace dans divers secteurs.
+
+Un facteur de succès important est l'engagement de la direction générale. Les organisations où la direction est activement impliquée dans les initiatives ${storyline} obtiennent systématiquement de meilleurs résultats que les entreprises où cet engagement fait défaut.
+
+Le marché français montre une forte préférence pour les fournisseurs qui combinent l'expertise locale avec les meilleures pratiques internationales. ${brand.name} répond à cela en combinant des équipes locales avec des connaissances et une expérience mondiales.
+
+En regardant vers l'avenir, ${brand.name} s'attend à ce que ${storyline} joue un rôle encore plus central dans les opérations commerciales françaises. Les organisations qui investissent maintenant se positionnent de manière optimale pour les défis et opportunités à venir.
+
+L'expertise de ${brand.name} dans le domaine de ${seo.primary_keyword} permet aux entreprises françaises de réaliser leurs ambitions. En combinant des méthodologies éprouvées avec une connaissance du marché local, une croissance durable et un avantage concurrentiel sont réalisés.
+
+${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
+}
+
+function generateSpanishArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
+  
+  // Professional Spanish journalism style
+  return `${brand.name} ha realizado un análisis exhaustivo sobre ${storyline} dentro del mercado español. Los hallazgos revelan que las organizaciones exitosas en este sector adoptan un enfoque estratégico claro y metódico.
+
+La dinámica actual del mercado muestra que ${audience.primary} enfrentan desafíos complejos en el ámbito de ${seo.primary_keyword}. Las empresas españolas que lideran este desarrollo se distinguen por su enfoque metódico y su enfoque en resultados medibles.
+
+Según la investigación de ${brand.name}, las organizaciones exitosas invierten en promedio un 25% más en ${storyline} que sus competidores, lo que resulta en mejoras significativas en el rendimiento. Esta inversión se traduce directamente en mejoras operacionales y ventajas competitivas.
+
+La transformación dentro del sector está impulsada principalmente por el avance tecnológico y las expectativas cambiantes de los clientes. Las organizaciones que se adaptan a esta nueva realidad ven fortalecida su posición en el mercado, mientras que las empresas que se retrasan pierden cuota de mercado.
+
+Un aspecto notable del mercado español es el énfasis en la sostenibilidad y la responsabilidad social dentro de las iniciativas ${storyline}. Esto distingue a las empresas españolas de sus competidores internacionales y crea oportunidades únicas de crecimiento.
+
+${brand.name} ha colaborado con más de 100 organizaciones españolas para fortalecer sus capacidades ${storyline}. Los resultados son impresionantes: las empresas participantes logran en promedio un ROI del 280% dentro de 18 meses.
+
+La experiencia de ${brand.name} en el campo de ${seo.primary_keyword} permite a las empresas españolas realizar sus ambiciones. Al combinar metodologías probadas con conocimiento del mercado local, se logra un crecimiento sostenible y una ventaja competitiva.
+
+${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
+}
+
+function generateGermanArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
+  
+  // Professional German journalism style
+  return `${brand.name} hat eine umfassende Analyse zu ${storyline} innerhalb des deutschen Marktes durchgeführt. Die Erkenntnisse zeigen, dass erfolgreiche Organisationen in diesem Sektor einen klaren strategischen Ansatz verfolgen.
+
+Die aktuelle Marktdynamik zeigt, dass ${audience.primary} mit komplexen Herausforderungen im Bereich ${seo.primary_keyword} konfrontiert sind. Deutsche Unternehmen, die diese Entwicklung anführen, zeichnen sich durch ihre methodische Herangehensweise und ihren Fokus auf messbare Ergebnisse aus.
+
+Laut ${brand.name}'s Forschung investieren erfolgreiche Organisationen durchschnittlich 25% mehr in ${storyline} als ihre Mitbewerber, was zu erheblichen Leistungsverbesserungen führt. Diese Investition übersetzt sich direkt in operative Verbesserungen und Wettbewerbsvorteile.
+
+Die Expertise von ${brand.name} im Bereich ${seo.primary_keyword} ermöglicht es deutschen Unternehmen, ihre Ambitionen zu verwirklichen. Durch die Kombination bewährter Methodologien mit lokalem Marktwissen werden nachhaltiges Wachstum und Wettbewerbsvorteile realisiert.
+
+${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
+}
+
+function generateItalianArticle(brief: ContentBrief): string {
+  const { storyline, brand, audience, seo, legal } = brief;
+  
+  // Professional Italian journalism style
+  return `${brand.name} ha condotto un'analisi approfondita su ${storyline} all'interno del mercato italiano. I risultati rivelano che le organizzazioni di successo in questo settore adottano un approccio strategico chiaro e metodico.
+
+La dinamica attuale del mercato mostra che ${audience.primary} affrontano sfide complesse nel campo di ${seo.primary_keyword}. Le aziende italiane che guidano questo sviluppo si distinguono per il loro approccio metodico e la loro attenzione ai risultati misurabili.
+
+Secondo la ricerca di ${brand.name}, le organizzazioni di successo investono in media il 25% in più in ${storyline} rispetto ai loro concorrenti, il che si traduce in miglioramenti significativi delle prestazioni. Questo investimento si traduce direttamente in miglioramenti operativi e vantaggi competitivi.
+
+L'esperienza di ${brand.name} nel campo di ${seo.primary_keyword} consente alle aziende italiane di realizzare le loro ambizioni. Combinando metodologie comprovate con la conoscenza del mercato locale, si ottengono crescita sostenibile e vantaggio competitivo.
 
 ${legal.disclaimer ? `\n\n${legal.disclaimer}` : ''}`;
 }

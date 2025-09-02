@@ -109,12 +109,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
         .join(' ');
       
-      // Determine plan based on email domain or default to professional
-      let plan: 'free' | 'professional' | 'enterprise' = 'professional';
-      if (email.toLowerCase().includes('enterprise') || email.toLowerCase().includes('business')) {
+      // Determine plan based on email domain or default to enterprise for owner
+      let plan: 'free' | 'professional' | 'enterprise' = 'enterprise';
+      if (email.toLowerCase().trim() === 'tomvdvenne@gmail.com') {
+        plan = 'enterprise'; // Owner gets full enterprise plan
+      } else if (email.toLowerCase().includes('enterprise') || email.toLowerCase().includes('business')) {
         plan = 'enterprise';
       } else if (email.toLowerCase().includes('free') || email.toLowerCase().includes('trial')) {
         plan = 'free';
+      } else {
+        plan = 'professional';
       }
 
       // Determine role - load from admin user management system
