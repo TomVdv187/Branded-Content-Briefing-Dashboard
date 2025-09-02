@@ -60,59 +60,91 @@ function generateDutchStoryTitle(brief: ContentBrief, storyType: string): string
 function generateDutchStoryContent(brief: ContentBrief, storyType: string): string {
   const { storyline, brand, audience, seo } = brief;
   
-  return `Een nieuwe generatie Belgische ${audience.primary} transformeert stilletjes hun dagelijkse benadering van ${storyline}. Wat begon als individuele keuzes, groeit uit tot een bredere beweging die de sector hervormt.
+  // Determine appropriate demographic terms based on audience type
+  const getAudienceDemographic = (audienceType: string) => {
+    const lower = audienceType.toLowerCase();
+    if (lower.includes('student') || lower.includes('étudiant')) {
+      return { demographic: 'jonge professionals', persona: 'student uit Gent', role: 'afgestudeerde' };
+    } else if (lower.includes('entrepreneur') || lower.includes('executive') || lower.includes('ceo')) {
+      return { demographic: 'bedrijfsleiders', persona: 'ondernemer uit Antwerpen', role: 'CEO' };
+    } else if (lower.includes('developer') || lower.includes('tech')) {
+      return { demographic: 'technologie professionals', persona: 'developer uit Brussel', role: 'tech lead' };
+    } else {
+      return { demographic: 'professionals', persona: 'specialist uit Gent', role: 'professional' };
+    }
+  };
+  
+  const audienceProfile = getAudienceDemographic(audience.primary);
+  
+  return `Een nieuwe generatie Belgische ${audienceProfile.demographic} transformeert stilletjes hun dagelijkse benadering van ${storyline}. Wat begon als individuele keuzes, groeit uit tot een bredere beweging die de sector hervormt.
 
-De transformatie is zichtbaar in de ciffers: onderzoek toont aan dat 73% van de ${audience.primary} in België fundamenteel andere criteria hanteert bij het evalueren van ${seo.primary_keyword} dan nog vijf jaar geleden. Waar vroeger prijs en functionaliteit domineerden, staan nu duurzaamheid, transparantie en ethische overwegingen centraal.
+De transformatie is zichtbaar in de cijfers: onderzoek toont aan dat 73% van de organisaties in België fundamenteel andere criteria hanteren bij het evalueren van ${seo.primary_keyword} dan nog vijf jaar geleden. Waar vroeger prijs en functionaliteit domineerden, staan nu duurzaamheid, transparantie en ethische overwegingen centraal.
 
-Marie Vandenberghe, onderzoeker aan de KU Leuven, volgt deze ontwikkeling nauw op. "We zien een generationele verschuiving naar bewust consumeren," legt ze uit. "Jonge professionals zijn niet langer passieve gebruikers van technologie—ze kureren actief hun digitale omgeving."
+Marie Vandenberghe, onderzoeker aan de KU Leuven, volgt deze ontwikkeling nauw op. "We zien een generationele verschuiving naar bewust handelen," legt ze uit. "Mensen zijn niet langer passieve gebruikers—ze kureren actief hun keuzes en prioriteiten."
 
-Deze nieuwe mentaliteit manifesteert zich op concrete manieren. In plaats van de nieuwste gadgets te verzamelen, evalueren ${audience.primary} zorgvuldig hoe elk instrument past in hun bredere levensdoelen. Ze geven prioriteit aan integratie en eenvoud boven functies en specificaties.
+Deze nieuwe mentaliteit manifesteert zich op concrete manieren. In plaats van de nieuwste trends blindelings te volgen, evalueren organisaties zorgvuldig hoe elke beslissing past in hun bredere strategische doelen. Ze geven prioriteit aan waardecreatie en duurzaamheid boven korte termijn voordelen.
 
-"Ik upgradeete vroeger constant alles," deelt Pieter Janssens, een afgestudeerde student uit Gent. "Nu vraag ik mezelf af of iets mijn leven werkelijk verbetert voordat ik een aankoop doe. Het heeft alles veranderd over hoe ik technologie benader."
+"Ik nam vroeger beslissingen veel impulsiever," deelt Pieter Janssens, een ${audienceProfile.role} uit Gent. "Nu vraag ik mezelf af of iets werkelijk bijdraagt aan onze langetermijn visie voordat we investeren. Het heeft onze hele benadering veranderd."
 
-Belgische bedrijven nemen hiervan notitie. Organisaties zoals ${brand.name} verschuiven hun focus van pure innovatie naar doordachte integratie. De uitdaging bestaat er niet in de meest geavanceerde producten te creëren, maar oplossingen te ontwerpen die het leven van gebruikers verbeteren in plaats van compliceren.
+Belgische bedrijven nemen hiervan notitie. Organisaties zoals ${brand.name} verschuiven hun focus van pure product ontwikkeling naar holistische oplossingen. De uitdaging bestaat er niet in de meest geavanceerde technologie te creëren, maar ecosystemen te ontwerpen die echte waarde toevoegen.
 
-Deze evolutie strekt zich uit voorbij individuele keuzes. Onderwijsinstellingen herdenken hun digitale infrastructuur, werkplekken bevragen hun gereedschapsselectie, en zelfs beleidsmakers beginnen de implicaties van deze verschuiving te overwegen.
+Deze evolutie strekt zich uit voorbij individuele organisaties. Sectoren herdenken hun standaarden, netwerken bevragen hun samenwerkingsmodellen, en zelfs beleidsmakers beginnen de implicaties van deze verschuiving te overwegen.
 
-Emma De Clerck, die vanuit Antwerpen werkt, vat de essentie van deze verandering samen: "Het gaat over bewust zijn met je tijd en aandacht. Elke technologische keuze wordt een levenskeuze."
+Emma De Clerck, die vanuit Antwerpen werkt, vat de essentie van deze verandering samen: "Het gaat over intentioneel zijn met je resources en focus. Elke strategische keuze wordt een definitie van wie je bent en waar je naartoe wilt."
 
-Deze bewuste benadering herdefinieert geleidelijk de normen voor productiviteit, welzijn en succes. Het suggereert de opkomst van een meer volwassen, mensgerichte relatie met technologie—een die verbetering verkiest boven verstoring.
+Deze bewuste benadering herdefinieert geleidelijk de normen voor succes en impact. Het suggereert de opkomst van een meer volwassen, waardegedreven manier van opereren—een die duurzame groei verkiest boven snelle winsten.
 
-De impact op de Belgische markt is merkbaar: bedrijven die zich aanpassen aan deze nieuwe verwachtingen zien hun klanttevredenheid stijgen met gemiddeld 34%, terwijl organisaties die vasthouden aan traditionele benaderingen marktaandeel verliezen.
+De impact op de Belgische markt is merkbaar: organisaties die zich aanpassen aan deze nieuwe realiteit zien hun resultaten verbeteren met gemiddeld 34%, terwijl entiteiten die vasthouden aan verouderde modellen relevantie verliezen.
 
-Deze shift wordt gedreven door een generatie die opgroeide met technologie maar nu de macht ervan bewuster wil benutten. Het resultaat is een voorzichtiger, meer selectieve consumentenmentaliteit die waarde en betekenis verkiest boven nieuwheid en volume.
+Deze shift wordt gedreven door een generatie die opgroeide met toegang tot informatie maar nu de wijsheid ontwikkelt om die gericht in te zetten. Het resultaat is een meer selectieve, strategische mentaliteit die betekenis en impact verkiest boven volume en zichtbaarheid.
 
-Voor bedrijven betekent dit een fundamentele heroriëntatie: van product-gecentreerd naar gebruiker-gecentreerd, van verkoop-gedreven naar waarde-gedreven. Organisaties die deze evolutie begrijpen en erop inspelen, positioneren zich sterk voor de toekomst van de Belgische markt.`;
+Voor organisaties betekent dit een fundamentele heroriëntatie: van output-gecentreerd naar impact-gecentreerd, van transactie-gedreven naar relatie-gedreven. Entiteiten die deze evolutie begrijpen en erop anticiperen, positioneren zich sterk voor de toekomst van de Belgische markt.`;
 }
 
 function generateFrenchStoryArticle(brief: ContentBrief): { title: string; content: string } {
   const { storyline, brand, audience, seo } = brief;
   
-  const title = `Comment les ${audience.primary} transforment silencieusement leurs habitudes quotidiennes`;
+  const title = `Comment une nouvelle génération transforme silencieusement ses habitudes quotidiennes`;
   
-  const content = `Une nouvelle génération de ${audience.primary} belges transforme discrètement leur approche quotidienne de ${storyline}. Ce qui a commencé comme des choix individuels se développe en un mouvement plus large qui reshape le secteur.
+  // Determine appropriate demographic terms based on audience type
+  const getAudienceDemographic = (audienceType: string) => {
+    const lower = audienceType.toLowerCase();
+    if (lower.includes('student') || lower.includes('étudiant')) {
+      return { demographic: 'jeunes professionnels', persona: 'diplômé universitaire de Bruxelles', role: 'jeune diplômé' };
+    } else if (lower.includes('entrepreneur') || lower.includes('executive') || lower.includes('ceo')) {
+      return { demographic: 'dirigeants d\'entreprise', persona: 'entrepreneur de Liège', role: 'dirigeant' };
+    } else if (lower.includes('developer') || lower.includes('tech')) {
+      return { demographic: 'professionnels de la technologie', persona: 'développeur de Bruxelles', role: 'tech lead' };
+    } else {
+      return { demographic: 'professionnels', persona: 'spécialiste de Gand', role: 'professionnel' };
+    }
+  };
+  
+  const audienceProfile = getAudienceDemographic(audience.primary);
+  
+  const content = `Une nouvelle génération de ${audienceProfile.demographic} belges transforme discrètement leur approche quotidienne de ${storyline}. Ce qui a commencé comme des choix individuels se développe en un mouvement plus large qui redéfinit le secteur.
 
-La transformation se reflète dans les données : des recherches montrent que 73% des ${audience.primary} en Belgique appliquent des critères fondamentalement différents lors de l'évaluation de ${seo.primary_keyword} par rapport à il y a cinq ans. Là où le prix et la fonctionnalité dominaient auparavant, la durabilité, la transparence et les considérations éthiques sont maintenant centrales.
+La transformation se reflète dans les données : des recherches montrent que 73% des organisations en Belgique appliquent des critères fondamentalement différents lors de l'évaluation de ${seo.primary_keyword} par rapport à il y a cinq ans. Là où le prix et la fonctionnalité dominaient auparavant, la durabilité, la transparence et les considérations éthiques sont maintenant centrales.
 
-Dr. Sophie Delattre, chercheuse à l'ULB, suit de près cette évolution. "Nous observons un changement générationnel vers une consommation consciente", explique-t-elle. "Les jeunes professionnels ne sont plus des utilisateurs passifs de technologie—ils curent activement leur environnement numérique."
+Dr. Sophie Delattre, chercheuse à l'ULB, suit de près cette évolution. "Nous observons un changement générationnel vers une approche consciente", explique-t-elle. "Les gens ne sont plus des utilisateurs passifs—ils curent activement leurs décisions et priorités."
 
-Cette nouvelle mentalité se manifeste de manières concrètes. Plutôt que de collectionner les derniers gadgets, les ${audience.primary} évaluent soigneusement comment chaque outil s'intègre dans leurs objectifs de vie plus larges. Ils privilégient l'intégration et la simplicité plutôt que les fonctionnalités et les spécifications.
+Cette nouvelle mentalité se manifeste de manières concrètes. Plutôt que de suivre aveuglément les dernières tendances, les organisations évaluent soigneusement comment chaque décision s'intègre dans leurs objectifs stratégiques plus larges. Ils privilégient la création de valeur et la durabilité plutôt que les gains à court terme.
 
-"Je mettais à jour constamment tout auparavant", partage Thomas Dubois, un diplômé universitaire de Bruxelles. "Maintenant, je me demande si quelque chose améliore véritablement ma vie avant de faire tout achat. Cela a tout changé dans ma façon d'aborder la technologie."
+"Je prenais des décisions beaucoup plus impulsives auparavant", partage Thomas Dubois, un ${audienceProfile.role} de Bruxelles. "Maintenant, je me demande si quelque chose contribue véritablement à notre vision à long terme avant d'investir. Cela a complètement changé notre approche."
 
-Les entreprises belges prennent note de cette évolution. Des organisations comme ${brand.name} déplacent leur focus de l'innovation pure vers l'intégration réfléchie. Le défi ne consiste pas à créer les produits les plus avancés, mais à concevoir des solutions qui améliorent plutôt que compliquent la vie des utilisateurs.
+Les entreprises belges prennent note de cette évolution. Des organisations comme ${brand.name} déplacent leur focus du développement de produits pur vers des solutions holistiques. Le défi ne consiste pas à créer la technologie la plus avancée, mais à concevoir des écosystèmes qui ajoutent une valeur réelle.
 
-Cette évolution s'étend au-delà des choix individuels. Les institutions éducatives repensent leur infrastructure numérique, les lieux de travail questionnent leur sélection d'outils, et même les décideurs politiques commencent à considérer les implications de ce changement.
+Cette évolution s'étend au-delà des organisations individuelles. Les secteurs repensent leurs standards, les réseaux questionnent leurs modèles de collaboration, et même les décideurs politiques commencent à considérer les implications de ce changement.
 
-Marie van de Berg, qui travaille à distance depuis Liège, capture l'essence de ce changement : "Il s'agit d'être délibéré avec votre temps et votre attention. Chaque choix technologique devient un choix de vie."
+Marie van de Berg, qui travaille à distance depuis Liège, capture l'essence de ce changement : "Il s'agit d'être intentionnel avec vos ressources et votre focus. Chaque choix stratégique devient une définition de qui vous êtes et où vous voulez aller."
 
-Cette approche consciente redéfinit graduellement les standards de productivité, de bien-être et de succès. Elle suggère l'émergence d'une relation plus mature et centrée sur l'humain avec la technologie—une qui privilégie l'amélioration plutôt que la disruption.
+Cette approche consciente redéfinit graduellement les normes de succès et d'impact. Elle suggère l'émergence d'une manière plus mature et axée sur la valeur d'opérer—une qui privilégie la croissance durable plutôt que les profits rapides.
 
-L'impact sur le marché belge est notable : les entreprises qui s'adaptent à ces nouvelles attentes voient leur satisfaction client augmenter de 34% en moyenne, tandis que les organisations qui s'accrochent aux approches traditionnelles perdent des parts de marché.
+L'impact sur le marché belge est notable : les organisations qui s'adaptent à cette nouvelle réalité voient leurs résultats s'améliorer de 34% en moyenne, tandis que les entités qui s'accrochent aux modèles obsolètes perdent en pertinence.
 
-Ce changement est porté par une génération qui a grandi avec la technologie mais souhaite maintenant exploiter son pouvoir de manière plus consciente. Le résultat est une mentalité de consommation plus prudente et sélective qui privilégie la valeur et la signification plutôt que la nouveauté et le volume.
+Ce changement est porté par une génération qui a grandi avec l'accès à l'information mais développe maintenant la sagesse de l'utiliser de manière ciblée. Le résultat est une mentalité plus sélective et stratégique qui privilégie la signification et l'impact plutôt que le volume et la visibilité.
 
-Pour les entreprises, cela signifie une réorientation fondamentale : de centré sur le produit à centré sur l'utilisateur, de axé sur la vente à axé sur la valeur. Les organisations qui comprennent et s'adaptent à cette évolution se positionnent fortement pour l'avenir du marché belge.`;
+Pour les organisations, cela signifie une réorientation fondamentale : de centré sur l'output à centré sur l'impact, de axé sur les transactions à axé sur les relations. Les entités qui comprennent et anticipent cette évolution se positionnent fortement pour l'avenir du marché belge.`;
   
   return { title, content };
 }
@@ -120,25 +152,60 @@ Pour les entreprises, cela signifie une réorientation fondamentale : de centré
 function generateEnglishStoryArticle(brief: ContentBrief): { title: string; content: string } {
   const { storyline, brand, audience, seo } = brief;
   
-  const title = `How ${audience.primary} Are Quietly Transforming Their Daily Lives`;
+  // Determine appropriate demographic terms and tone based on audience type
+  const getAudienceProfile = (audienceType: string) => {
+    const lower = audienceType.toLowerCase();
+    if (lower.includes('student') || lower.includes('étudiant')) {
+      return { 
+        demographic: 'young professionals',
+        persona: 'graduate student',
+        setting: 'university district',
+        tone: 'accessible and aspirational'
+      };
+    } else if (lower.includes('entrepreneur') || lower.includes('executive') || lower.includes('ceo')) {
+      return { 
+        demographic: 'business leaders',
+        persona: 'executive',
+        setting: 'corporate environment', 
+        tone: 'strategic and analytical'
+      };
+    } else if (lower.includes('developer') || lower.includes('tech')) {
+      return { 
+        demographic: 'technology professionals',
+        persona: 'senior developer',
+        setting: 'tech hub',
+        tone: 'technical yet human-centered'
+      };
+    } else {
+      return { 
+        demographic: 'professionals',
+        persona: 'industry professional',
+        setting: 'business district',
+        tone: 'professional and insightful'
+      };
+    }
+  };
   
-  const content = `In a bustling coffee shop near the university district, Sarah watches her fellow students with growing fascination. What strikes her most isn't what they're doing, but how differently they approach their daily routines compared to just a few years ago.
+  const audienceProfile = getAudienceProfile(audience.primary);
+  const title = `How Organizations Are Quietly Transforming Their Approach to Innovation`;
+  
+  const content = `In a bustling coffee shop near the ${audienceProfile.setting}, Sarah observes the changing patterns around her with growing fascination. What strikes her most isn't what people are doing, but how differently they approach their strategic decisions compared to just a few years ago.
 
-This personal observation reflects a broader transformation taking place among ${audience.primary} across the country. A quiet revolution in how they structure their days, select their tools, and define what matters most to them.
+This personal observation reflects a broader transformation taking place across organizations nationwide. A quiet revolution in how they structure their operations, select their solutions, and define what constitutes real value.
 
-Dr. Michael Chen, a behavioral researcher, has been tracking these changes closely. "We're witnessing a generational shift toward intentional living," he explains. "Young adults are no longer passive consumers of technology—they're active curators of their digital environment."
+Dr. Michael Chen, a behavioral researcher, has been tracking these changes closely. "We're witnessing an organizational shift toward intentional strategy," he explains. "Decision-makers are no longer passive adopters of technology—they're active architects of their operational environment."
 
-This new mindset manifests in very practical ways. Rather than collecting the latest gadgets, ${audience.primary} carefully evaluate how each tool fits into their broader life goals. They prioritize integration and simplicity over features and specs.
+This new mindset manifests in very practical ways. Rather than implementing the latest trends, organizations carefully evaluate how each initiative fits into their broader strategic goals. They prioritize sustainable impact and integration over immediate features and capabilities.
 
-"I used to upgrade everything constantly," shares Alex Thompson, a graduate student. "Now I ask myself whether something genuinely improves my life before making any purchase. It's changed everything about how I approach technology."
+"We used to chase every innovation constantly," shares Alex Thompson, a ${audienceProfile.persona}. "Now we ask ourselves whether something genuinely advances our mission before making any investment. It's fundamentally changed how we approach transformation."
 
-Companies like ${brand.name} are taking notice, shifting their focus from pure innovation to thoughtful integration. The challenge isn't creating the most advanced products, but designing solutions that enhance rather than complicate users' lives.
+Companies like ${brand.name} are taking notice, shifting their focus from pure innovation to meaningful integration. The challenge isn't creating the most advanced solutions, but designing ecosystems that enhance rather than complicate organizational effectiveness.
 
-This evolution extends beyond individual choices. Educational institutions are rethinking their digital infrastructure, workplaces are questioning their tool selections, and even policymakers are beginning to consider the implications of this shift.
+This evolution extends beyond individual organizations. Entire industries are rethinking their standards, networks are questioning their collaboration models, and even policymakers are beginning to consider the implications of this shift.
 
-Emma Rodriguez, who works remotely from Portland, captures the essence of this change: "It's about being deliberate with your time and attention. Every technology choice becomes a life choice."
+Emma Rodriguez, who leads strategy remotely, captures the essence of this change: "It's about being intentional with your resources and focus. Every strategic choice becomes a definition of who you are as an organization."
 
-This conscious approach is gradually redefining standards for productivity, well-being, and success. It suggests the emergence of a more mature, human-centered relationship with technology—one that prioritizes enhancement over disruption.`;
+This conscious approach is gradually redefining standards for success, sustainability, and impact. It suggests the emergence of a more mature, value-centered relationship with innovation—one that prioritizes meaningful advancement over disruptive change.`;
   
   return { title, content };
 }
