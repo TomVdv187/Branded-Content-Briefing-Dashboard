@@ -759,28 +759,28 @@ Reading Time: ${Math.ceil(content.article.content.split(' ').length / 200)} minu
 
         {activeTab === 'optimize' && (
           <div className="space-y-6">
-            <ContentOptimizationSuggestions 
-              content={content}
-              isVisible={activeTab === 'optimize'}
-              onApplySuggestion={(suggestionId, updatedContent) => {
-                if (onEdit) onEdit(updatedContent);
-              }}
-            />
+            <PlanGate requiredPlan="professional" feature="AI Content Optimization">
+              <ContentOptimizationSuggestions 
+                content={content}
+                isVisible={activeTab === 'optimize'}
+                onApplySuggestion={(suggestionId, updatedContent) => {
+                  if (onEdit) onEdit(updatedContent);
+                }}
+              />
+            </PlanGate>
           </div>
         )}
 
         {activeTab === 'publish' && (
           <div className="space-y-6">
-            <PlanGate requiredPlan="professional" feature="Multi-Platform Publishing">
-              <PublishingIntegration 
-                content={content}
-                isVisible={activeTab === 'publish'}
-                onPublish={(platforms) => {
-                  console.log(`Published to: ${platforms.join(', ')}`);
-                  // You could add success notification here
-                }}
-              />
-            </PlanGate>
+            <PublishingIntegration 
+              content={content}
+              isVisible={activeTab === 'publish'}
+              onPublish={(platforms) => {
+                console.log(`Published to: ${platforms.join(', ')}`);
+                // You could add success notification here
+              }}
+            />
           </div>
         )}
 

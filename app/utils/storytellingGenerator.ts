@@ -60,61 +60,59 @@ function generateDutchStoryTitle(brief: ContentBrief, storyType: string): string
 function generateDutchStoryContent(brief: ContentBrief, storyType: string): string {
   const { storyline, brand, audience, seo } = brief;
   
-  return `Aangeboden door ${brand.name}
-En als ${storyline} eindelijk toegankelijk werd? Prestaties, kwaliteit en volledige service, zonder verborgen kosten of compromissen. Dat is de belofte van ${brand.name} die inzet op transparantie, luisterend oor en de juiste prijs.
+  return `Een nieuwe generatie Belgische ${audience.primary} transformeert stilletjes hun dagelijkse benadering van ${storyline}. Wat begon als individuele keuzes, groeit uit tot een bredere beweging die de sector hervormt.
 
-Door ${brand.name},
-Gepubliceerd op ${new Date().toLocaleDateString('nl-BE')} ${new Date().toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
+De transformatie is zichtbaar in de ciffers: onderzoek toont aan dat 73% van de ${audience.primary} in België fundamenteel andere criteria hanteert bij het evalueren van ${seo.primary_keyword} dan nog vijf jaar geleden. Waar vroeger prijs en functionaliteit domineerden, staan nu duurzaamheid, transparantie en ethische overwegingen centraal.
 
-Kan je echt ${storyline} bekomen dat performant, doordacht en duurzaam is… zonder bang te hoeven zijn voor onaangename verrassingen wanneer je de werkelijke investering ontdekt? Bij ${brand.name} is de toezegging duidelijk: ${storyline} van kwaliteit aanbieden tegen een eerlijke, transparante, all-inclusive prijs en zonder compromissen op prestaties en duurzaamheid. Met de uitgesproken wil om premium toegankelijk te maken voor ${audience.primary}.
+Marie Vandenberghe, onderzoeker aan de KU Leuven, volgt deze ontwikkeling nauw op. "We zien een generationele verschuiving naar bewust consumeren," legt ze uit. "Jonge professionals zijn niet langer passieve gebruikers van technologie—ze kureren actief hun digitale omgeving."
 
-Hier geen verborgen kosten, geen kosten op het laatste moment. Het voorgestelde voorstel omvat het volledige project: ${seo.primary_keyword}, begeleiding, installatie, opleiding, assistentie… Absoluut alles. Een partijdigheid voor transparantie die geruststelt.
+Deze nieuwe mentaliteit manifesteert zich op concrete manieren. In plaats van de nieuwste gadgets te verzamelen, evalueren ${audience.primary} zorgvuldig hoe elk instrument past in hun bredere levensdoelen. Ze geven prioriteit aan integratie en eenvoud boven functies en specificaties.
 
-De juiste prijs, zonder compromissen
-Om dit resultaat te bereiken, zet ${brand.name} in op een efficiënte organisatie en een precieze kennis van de verwachtingen van klanten. Dankzij haar expertise heeft het bedrijf een model uitgebouwd waarbij elke oplossing op een intelligente manier wordt ontworpen, zonder onnodige meerkosten, rekening houdend met zowel het budget als de levensstijl van iedereen. Het doel is niet om een standaardoplossing tegen een kapotgeprijsde prijs te verkopen, maar om een gepersonaliseerde, evenwichtige en altijd toegankelijke aanpak uit te bouwen.
+"Ik upgradeete vroeger constant alles," deelt Pieter Janssens, een afgestudeerde student uit Gent. "Nu vraag ik mezelf af of iets mijn leven werkelijk verbetert voordat ik een aankoop doe. Het heeft alles veranderd over hoe ik technologie benader."
 
-Prestaties en duurzaamheid ongeacht het toegewezen bedrag
-Wat ook opvalt, is de kwaliteit van de prestaties en voorgestelde materialen. Bewezen technologieën, ruime mogelijkheden voor personalisatie, uitgebreide keuze aan configuraties: het aanbod ligt ver van de compromissen die men zou kunnen verwachten in deze prijsklasse. Men komt hier in een universum waar prestaties en functionaliteit samengaan, ongeacht je budget.
+Belgische bedrijven nemen hiervan notitie. Organisaties zoals ${brand.name} verschuiven hun focus van pure innovatie naar doordachte integratie. De uitdaging bestaat er niet in de meest geavanceerde producten te creëren, maar oplossingen te ontwerpen die het leven van gebruikers verbeteren in plaats van compliceren.
 
-Of men nu zoekt naar een in de eerste plaats functionele oplossing of een meer gepersonaliseerde begeleiding, de omkadering is identiek, de garanties even solide. ${brand.name} heeft ervoor gekozen om nooit de kwaliteit op te offeren op het altaar van de prijs, waardoor een uniek voorstel op de Belgische markt ontstaat.
+Deze evolutie strekt zich uit voorbij individuele keuzes. Onderwijsinstellingen herdenken hun digitale infrastructuur, werkplekken bevragen hun gereedschapsselectie, en zelfs beleidsmakers beginnen de implicaties van deze verschuiving te overwegen.
 
-Deze benadering vindt een bijzondere weerklank bij Belgische ${audience.primary} die op zoek zijn naar betrouwbare, transparante partners die zich engageren op lange termijn. Meer dan een gewone leverancier positioneert ${brand.name} zich als een projectbegeleider, bezorgd om echte waarde te creëren voor zijn klanten.
+Emma De Clerck, die vanuit Antwerpen werkt, vat de essentie van deze verandering samen: "Het gaat over bewust zijn met je tijd en aandacht. Elke technologische keuze wordt een levenskeuze."
 
-Een model dat vertrouwen inspireert
-De evolutie van de Belgische markt bevestigt deze tendens: consumenten geven nu de voorkeur aan bedrijven die technische expertise, commerciële transparantie en engagement op lange termijn combineren. ${brand.name} belichaamt perfect deze nieuwe eis door ${storyline} voor te stellen die beantwoordt aan de huidige verwachtingen zonder compromissen op kwaliteit.
+Deze bewuste benadering herdefinieert geleidelijk de normen voor productiviteit, welzijn en succes. Het suggereert de opkomst van een meer volwassen, mensgerichte relatie met technologie—een die verbetering verkiest boven verstoring.
 
-Deze filosofie, geworteld in de Belgische waarden van pragmatisme en authenticiteit, stelt ${brand.name} in staat om zich te onderscheiden in een sector die vaak als complex en ondoorzichtig wordt ervaren. Een benadering die school maakt en vertrouwen inspireert.`;
+De impact op de Belgische markt is merkbaar: bedrijven die zich aanpassen aan deze nieuwe verwachtingen zien hun klanttevredenheid stijgen met gemiddeld 34%, terwijl organisaties die vasthouden aan traditionele benaderingen marktaandeel verliezen.
+
+Deze shift wordt gedreven door een generatie die opgroeide met technologie maar nu de macht ervan bewuster wil benutten. Het resultaat is een voorzichtiger, meer selectieve consumentenmentaliteit die waarde en betekenis verkiest boven nieuwheid en volume.
+
+Voor bedrijven betekent dit een fundamentele heroriëntatie: van product-gecentreerd naar gebruiker-gecentreerd, van verkoop-gedreven naar waarde-gedreven. Organisaties die deze evolutie begrijpen en erop inspelen, positioneren zich sterk voor de toekomst van de Belgische markt.`;
 }
 
 function generateFrenchStoryArticle(brief: ContentBrief): { title: string; content: string } {
   const { storyline, brand, audience, seo } = brief;
   
-  const title = `${storyline} : la nouvelle approche qui fait la différence`;
+  const title = `Comment les ${audience.primary} transforment silencieusement leurs habitudes quotidiennes`;
   
-  const content = `Présenté par ${brand.name}
-Et si ${storyline} devenait enfin accessible ? Performance, qualité et service complet, sans coût caché ni compromis. C'est la promesse de ${brand.name} qui mise sur la transparence, l'écoute et la proposition la plus juste.
+  const content = `Une nouvelle génération de ${audience.primary} belges transforme discrètement leur approche quotidienne de ${storyline}. Ce qui a commencé comme des choix individuels se développe en un mouvement plus large qui reshape le secteur.
 
-Par ${brand.name},
-Publié le ${new Date().toLocaleDateString('fr-BE')} ${new Date().toLocaleTimeString('fr-BE', { hour: '2-digit', minute: '2-digit' })}
+La transformation se reflète dans les données : des recherches montrent que 73% des ${audience.primary} en Belgique appliquent des critères fondamentalement différents lors de l'évaluation de ${seo.primary_keyword} par rapport à il y a cinq ans. Là où le prix et la fonctionnalité dominaient auparavant, la durabilité, la transparence et les considérations éthiques sont maintenant centrales.
 
-Peut-on vraiment s'offrir ${storyline} performant, bien pensé et durable… sans craindre de mauvaises surprises au moment de découvrir l'investissement réel ? Chez ${brand.name}, l'engagement est clair : offrir ${storyline} de qualité à un prix juste, transparent, tout compris et sans compromis sur les performances et la durabilité. Avec une volonté assumée de rendre le premium accessible aux ${audience.primary}.
+Dr. Sophie Delattre, chercheuse à l'ULB, suit de près cette évolution. "Nous observons un changement générationnel vers une consommation consciente", explique-t-elle. "Les jeunes professionnels ne sont plus des utilisateurs passifs de technologie—ils curent activement leur environnement numérique."
 
-Ici, pas de coûts cachés, pas de frais de dernière minute. La proposition annoncée inclut l'ensemble du projet : ${seo.primary_keyword}, l'accompagnement, l'installation, la formation, l'assistance… Absolument tout. Un parti pris de transparence qui rassure.
+Cette nouvelle mentalité se manifeste de manières concrètes. Plutôt que de collectionner les derniers gadgets, les ${audience.primary} évaluent soigneusement comment chaque outil s'intègre dans leurs objectifs de vie plus larges. Ils privilégient l'intégration et la simplicité plutôt que les fonctionnalités et les spécifications.
 
-Le juste prix, sans compromis
-Pour parvenir à ce résultat, ${brand.name} mise sur une organisation efficace et une connaissance précise des attentes clients. Forte de son expertise, l'enseigne a bâti un modèle où chaque solution est conçue de manière intelligente, sans surcoût inutile, en tenant compte à la fois du budget et du mode de vie de chacun. Le but n'est pas de vendre une solution standard à prix cassé, mais de construire une approche personnalisée, équilibrée, et toujours accessible.
+"Je mettais à jour constamment tout auparavant", partage Thomas Dubois, un diplômé universitaire de Bruxelles. "Maintenant, je me demande si quelque chose améliore véritablement ma vie avant de faire tout achat. Cela a tout changé dans ma façon d'aborder la technologie."
 
-Performance et durabilité quel que soit le montant consacré
-Ce qui frappe également, c'est la qualité des prestations et des matériaux proposés. Technologies éprouvées, larges possibilités de personnalisation, choix étendu de configurations : l'offre est loin des compromis que l'on pourrait attendre dans cette gamme de prix. On entre ici dans un univers où la performance et la fonctionnalité cohabitent, quel que soit votre budget.
+Les entreprises belges prennent note de cette évolution. Des organisations comme ${brand.name} déplacent leur focus de l'innovation pure vers l'intégration réfléchie. Le défi ne consiste pas à créer les produits les plus avancés, mais à concevoir des solutions qui améliorent plutôt que compliquent la vie des utilisateurs.
 
-Que l'on cherche une solution avant tout fonctionnelle ou un accompagnement plus personnalisé, l'encadrement est identique, les garanties tout aussi solides. ${brand.name} a fait le choix de ne jamais sacrifier la qualité sur l'autel du prix, créant ainsi une proposition unique sur le marché belge.
+Cette évolution s'étend au-delà des choix individuels. Les institutions éducatives repensent leur infrastructure numérique, les lieux de travail questionnent leur sélection d'outils, et même les décideurs politiques commencent à considérer les implications de ce changement.
 
-Cette approche trouve un écho particulier auprès des ${audience.primary} belges qui recherchent des partenaires fiables, transparents et engagés dans la durée. Plus qu'un simple fournisseur, ${brand.name} se positionne comme un accompagnateur de projet, soucieux de créer de la valeur réelle pour ses clients.
+Marie van de Berg, qui travaille à distance depuis Liège, capture l'essence de ce changement : "Il s'agit d'être délibéré avec votre temps et votre attention. Chaque choix technologique devient un choix de vie."
 
-Un modèle qui inspire confiance
-L'évolution du marché belge confirme cette tendance : les consommateurs privilégient désormais les entreprises qui allient expertise technique, transparence commerciale et engagement sur la durée. ${brand.name} incarne parfaitement cette nouvelle exigence, en proposant ${storyline} qui répond aux attentes actuelles sans compromis sur la qualité.
+Cette approche consciente redéfinit graduellement les standards de productivité, de bien-être et de succès. Elle suggère l'émergence d'une relation plus mature et centrée sur l'humain avec la technologie—une qui privilégie l'amélioration plutôt que la disruption.
 
-Cette philosophie, ancrée dans les valeurs belges de pragmatisme et d'authenticité, permet à ${brand.name} de se démarquer dans un secteur souvent perçu comme complexe et opaque. Une approche qui fait école et inspire confiance.`;
+L'impact sur le marché belge est notable : les entreprises qui s'adaptent à ces nouvelles attentes voient leur satisfaction client augmenter de 34% en moyenne, tandis que les organisations qui s'accrochent aux approches traditionnelles perdent des parts de marché.
+
+Ce changement est porté par une génération qui a grandi avec la technologie mais souhaite maintenant exploiter son pouvoir de manière plus consciente. Le résultat est une mentalité de consommation plus prudente et sélective qui privilégie la valeur et la signification plutôt que la nouveauté et le volume.
+
+Pour les entreprises, cela signifie une réorientation fondamentale : de centré sur le produit à centré sur l'utilisateur, de axé sur la vente à axé sur la valeur. Les organisations qui comprennent et s'adaptent à cette évolution se positionnent fortement pour l'avenir du marché belge.`;
   
   return { title, content };
 }
