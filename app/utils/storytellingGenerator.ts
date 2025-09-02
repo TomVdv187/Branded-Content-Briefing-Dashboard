@@ -6,12 +6,29 @@ import { ContentBrief } from '../types';
  * Focus on human stories, trends, insights - not promotion
  */
 
-export function generateStorytellingArticle(brief: ContentBrief, language: string = 'nl'): { title: string; content: string } {
-  if (language.startsWith('nl')) {
-    return generateDutchStoryArticle(brief);
-  } else if (language.startsWith('fr')) {
+export function generateStorytellingArticle(brief: ContentBrief, language: string = 'en'): { title: string; content: string } {
+  console.log('🌍 Storytelling generator called with language:', language, 'and locale:', brief.audience.locale);
+  
+  // Use explicit locale selection from brief if available
+  const selectedLocale = brief.audience.locale || language;
+  
+  if (selectedLocale.startsWith('fr') || language === 'fr') {
+    console.log('📝 Generating French story article');
     return generateFrenchStoryArticle(brief);
+  } else if (selectedLocale.startsWith('nl') || language === 'nl') {
+    console.log('📝 Generating Dutch story article'); 
+    return generateDutchStoryArticle(brief);
+  } else if (selectedLocale.startsWith('es') || language === 'es') {
+    console.log('📝 Generating Spanish story article');
+    return generateSpanishStoryArticle(brief);
+  } else if (selectedLocale.startsWith('de') || language === 'de') {
+    console.log('📝 Generating German story article');
+    return generateGermanStoryArticle(brief);
+  } else if (selectedLocale.startsWith('it') || language === 'it') {
+    console.log('📝 Generating Italian story article');
+    return generateItalianStoryArticle(brief);
   } else {
+    console.log('📝 Generating English story article (default)');
     return generateEnglishStoryArticle(brief);
   }
 }
@@ -167,6 +184,80 @@ This evolution extends beyond individual choices. Educational institutions are r
 Emma Rodriguez, who works remotely from Portland, captures the essence of this change: "It's about being deliberate with your time and attention. Every technology choice becomes a life choice."
 
 This conscious approach is gradually redefining standards for productivity, well-being, and success. It suggests the emergence of a more mature, human-centered relationship with technology—one that prioritizes enhancement over disruption.`;
+  
+  return { title, content };
+}
+
+function generateSpanishStoryArticle(brief: ContentBrief): { title: string; content: string } {
+  const { storyline, brand, audience, seo } = brief;
+  
+  const title = `Cómo los ${audience.primary} españoles están transformando su vida cotidiana`;
+  
+  const content = `En una cafetería del barrio de Malasaña en Madrid, Carmen Rodríguez observa las nuevas costumbres de su generación. A los 25 años, esta consultora de marketing ha notado que tanto ella como sus amigos abordan la tecnología de manera muy diferente a como lo hacían hace algunos años.
+
+Esta observación personal refleja un fenómeno más amplio que afecta a los ${audience.primary} en toda España. Una transformación silenciosa pero profunda en la forma de organizar su día a día, elegir sus herramientas y definir sus prioridades.
+
+Dr. Rafael Jiménez, sociólogo de la Universidad Complutense, estudia esta evolución desde hace tiempo. "Estamos siendo testigos de un cambio generacional importante en el enfoque español hacia la tecnología," explica desde su despacho. "Los jóvenes adultos ya no son consumidores pasivos, sino que eligen conscientemente."
+
+Esta nueva mentalidad se manifiesta en decisiones muy concretas. Los ${audience.primary} españoles priorizan ahora la coherencia global por encima del rendimiento individual de cada dispositivo. Buscan soluciones que se integren armoniosamente en su estilo de vida.
+
+"Crecí acumulando gadgets," cuenta Diego Martín, estudiante de máster en Barcelona. "Ahora siempre me pregunto si algo realmente va a mejorar mi vida antes de comprarlo. Es un enfoque completamente diferente."
+
+Esta evolución no pasa desapercibida para las empresas. Marcas como ${brand.name} adaptan su estrategia para responder a esta demanda de integración reflexiva más que de innovación pura. El desafío ya no es proponer la tecnología más avanzada, sino la que mejor se adapta al proyecto de vida de los usuarios.
+
+El impacto de este cambio trasciende el marco del consumo individual. Las universidades españolas repiensan sus espacios de aprendizaje, las empresas cuestionan su equipamiento digital, e incluso las políticas públicas empiezan a integrar esta nueva realidad.
+
+Ana López, que termina sus estudios en la Universidad de Sevilla, resume esta filosofía: "Se trata de recuperar el control de tu tiempo y tu atención. Cada elección tecnológica se convierte en una elección de vida."
+
+Este enfoque consciente redefine progresivamente los estándares españoles en materia de calidad de vida, productividad y bienestar digital.`;
+  
+  return { title, content };
+}
+
+function generateGermanStoryArticle(brief: ContentBrief): { title: string; content: string } {
+  const { storyline, brand, audience, seo } = brief;
+  
+  const title = `Wie deutsche ${audience.primary} ihren Alltag neu gestalten`;
+  
+  const content = `In einem Café in Berlin-Mitte beobachtet Julia Schmidt die Gewohnheiten ihrer Generation. Die 27-jährige Beraterin hat bemerkt, dass sie und ihre Freunde einen völlig anderen Umgang mit Technologie entwickelt haben als noch vor wenigen Jahren.
+
+Diese persönliche Beobachtung spiegelt ein breiteres Phänomen wider, das deutsche ${audience.primary} im ganzen Land betrifft. Eine stille, aber tiefgreifende Transformation in der Art, wie sie ihren Alltag strukturieren, ihre Werkzeuge auswählen und ihre Prioritäten definieren.
+
+Dr. Thomas Weber, Soziologe an der Humboldt-Universität, erforscht diese Entwicklung seit mehreren Jahren. "Wir erleben einen wichtigen Generationswandel im deutschen Umgang mit Technologie," erklärt er in seinem Universitätsbüro. "Junge Erwachsene sind keine passiven Konsumenten mehr, sondern bewusste Gestalter ihrer digitalen Umgebung."
+
+Diese neue Denkweise zeigt sich in sehr konkreten Entscheidungen. Deutsche ${audience.primary} bevorzugen mittlerweile Gesamtkohärenz statt der individuellen Leistung einzelner Geräte. Sie suchen Lösungen, die sich harmonisch in ihren Lebensstil integrieren.
+
+"Ich bin damit aufgewachsen, ständig die neuesten Gadgets zu sammeln," erzählt Michael Müller, Masterstudent in München. "Jetzt frage ich mich immer, ob etwas wirklich mein Leben verbessert, bevor ich es kaufe. Das ist ein völlig anderer Ansatz."
+
+Diese Entwicklung bleibt Unternehmen nicht verborgen. Marken wie ${brand.name} passen ihre Strategie an, um dieser Nachfrage nach durchdachter Integration statt reiner Innovation zu entsprechen. Die Herausforderung besteht nicht mehr darin, die fortschrittlichste Technologie anzubieten, sondern die, die am besten zum Lebenskonzept der Nutzer passt.
+
+Die Auswirkungen dieses Wandels gehen über den individuellen Konsum hinaus. Deutsche Universitäten überdenken ihre Lernräume, Unternehmen hinterfragen ihre digitale Ausstattung, und sogar die Politik beginnt, diese neue Realität zu berücksichtigen.
+
+Lisa Wagner, die ihr Studium an der TU Dresden abschließt, fasst diese Philosophie zusammen: "Es geht darum, die Kontrolle über Zeit und Aufmerksamkeit zurückzugewinnen. Jede technologische Entscheidung wird zu einer Lebensentscheidung."`;
+  
+  return { title, content };
+}
+
+function generateItalianStoryArticle(brief: ContentBrief): { title: string; content: string } {
+  const { storyline, brand, audience, seo } = brief;
+  
+  const title = `Come gli ${audience.primary} italiani stanno trasformando la loro quotidianità`;
+  
+  const content = `In un caffè del quartiere Navigli a Milano, Francesca Rossi osserva le nuove abitudini della sua generazione. A 26 anni, questa consulente di comunicazione ha notato che lei e i suoi amici affrontano la tecnologia in modo molto diverso rispetto a qualche anno fa.
+
+Questa osservazione personale riflette un fenomeno più ampio che coinvolge gli ${audience.primary} in tutta Italia. Una trasformazione silenziosa ma profonda nel modo di organizzare la giornata, scegliere gli strumenti e definire le priorità.
+
+Prof. Marco Bianchi, sociologo alla Bocconi, studia questa evoluzione da diversi anni. "Stiamo assistendo a un cambiamento generazionale importante nell'approccio italiano alla tecnologia," spiega dal suo ufficio universitario. "I giovani adulti non subiscono più i loro strumenti, li scelgono consapevolmente."
+
+Questa nuova mentalità si manifesta in scelte molto concrete. Gli ${audience.primary} italiani privilegiano ora la coerenza d'insieme rispetto alle prestazioni individuali di ogni dispositivo. Cercano soluzioni che si integrino armoniosamente nel loro stile di vita.
+
+"Sono cresciuto accumulando gadget," racconta Lorenzo Ferrari, studente magistrale a Roma. "Ora mi chiedo sempre se qualcosa migliorerà davvero la mia vita prima di comprarlo. È un approccio completamente diverso."
+
+Questa evoluzione non sfugge alle aziende. Marchi come ${brand.name} adattano la loro strategia per rispondere a questa domanda di integrazione ragionata piuttosto che di pura innovazione. La sfida non è più proporre la tecnologia più avanzata, ma quella che si adatta meglio al progetto di vita degli utenti.
+
+L'impatto di questo cambiamento supera il quadro del consumo individuale. Le università italiane ripensano i loro spazi di apprendimento, le aziende mettono in discussione la loro dotazione digitale, e persino le politiche pubbliche iniziano a integrare questa nuova realtà.
+
+Elena Conti, che sta terminando gli studi alla Statale di Milano, riassume questa filosofia: "Si tratta di riprendere il controllo del proprio tempo e della propria attenzione. Ogni scelta tecnologica diventa una scelta di vita."`;
   
   return { title, content };
 }
