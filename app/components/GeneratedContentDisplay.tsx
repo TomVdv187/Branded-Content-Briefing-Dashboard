@@ -279,8 +279,8 @@ Reading Time: ${Math.ceil(content.article.content.split(' ').length / 200)} minu
   const TabButton = ({ id, label, icon: Icon }: { id: string, label: string, icon: React.ComponentType<any> }) => {
     // Check if this feature is available for the current plan
     const isRestricted = (id === 'analytics' && !planFeatures.analytics) || 
-                        (id === 'optimize' && effectivePlan === 'free') || 
-                        (id === 'publish' && effectivePlan === 'free');
+                        (id === 'optimize' && effectivePlan !== 'enterprise') || 
+                        (id === 'publish' && effectivePlan !== 'enterprise');
     
     return (
       <button
