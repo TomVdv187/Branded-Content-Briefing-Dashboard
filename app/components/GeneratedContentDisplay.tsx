@@ -278,9 +278,7 @@ Reading Time: ${Math.ceil(content.article.content.split(' ').length / 200)} minu
 
   const TabButton = ({ id, label, icon: Icon }: { id: string, label: string, icon: React.ComponentType<any> }) => {
     // Check if this feature is available for the current plan
-    const isRestricted = (id === 'analytics' && !planFeatures.analytics) || 
-                        (id === 'optimize' && effectivePlan !== 'enterprise') || 
-                        (id === 'publish' && effectivePlan !== 'enterprise');
+    const isRestricted = (id === 'analytics' && !planFeatures.analytics);
     
     return (
       <button
@@ -759,15 +757,13 @@ Reading Time: ${Math.ceil(content.article.content.split(' ').length / 200)} minu
 
         {activeTab === 'optimize' && (
           <div className="space-y-6">
-            <PlanGate requiredPlan="professional" feature="AI Content Optimization">
-              <ContentOptimizationSuggestions 
-                content={content}
-                isVisible={activeTab === 'optimize'}
-                onApplySuggestion={(suggestionId, updatedContent) => {
-                  if (onEdit) onEdit(updatedContent);
-                }}
-              />
-            </PlanGate>
+            <ContentOptimizationSuggestions 
+              content={content}
+              isVisible={activeTab === 'optimize'}
+              onApplySuggestion={(suggestionId, updatedContent) => {
+                if (onEdit) onEdit(updatedContent);
+              }}
+            />
           </div>
         )}
 
