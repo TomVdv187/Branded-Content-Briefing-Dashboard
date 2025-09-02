@@ -52,112 +52,69 @@ function generateDutchStoryArticle(brief: ContentBrief): { title: string; conten
 }
 
 function generateDutchStoryTitle(brief: ContentBrief, storyType: string): string {
-  const { audience } = brief;
+  const { storyline } = brief;
   
-  const titleTemplates = {
-    'generational-shift': [
-      `Hoe Belgische ${audience.primary} hun dag anders inrichten dan hun ouders`,
-      `De stille revolutie in Belgische studentenhuizen en gezinswoningen`,
-      `Waarom een hele generatie België opnieuw uitvindt hoe ze leeft`,
-      `Het verhaal van Belgische ${audience.primary} die controle terugnemen`
-    ],
-    'lifestyle-evolution': [
-      `Van chaos naar rust: Belgische huishoudens herontdekken hun ochtend`,
-      `Hoe Belgische ${audience.primary} hun prioriteiten hertekenen`,
-      `De nieuwe Belgische dagindeling die iedereen stil wil houden`,
-      `Waarom Belgische gezinnen hun hele routine ombouwen`
-    ],
-    'cultural-observation': [
-      `Het Belgische karakter in een digitale tijd`,
-      `Hoe Belgische ${audience.primary} balans vinden in een hectische wereld`,
-      `De stille kracht van Belgische nuchtere technologiekeuzes`,
-      `Belgische efficiëntie krijgt een modern gezicht`
-    ],
-    'behavioral-trend': [
-      `Waarom Belgische ${audience.primary} bewuster worden in hun keuzes`,
-      `De opkomst van 'intentioneel leven' onder Belgische jongeren`,
-      `Hoe Belgische studenten en professionals focus terugwinnen`,
-      `Belgische ${audience.primary} kiezen kwaliteit boven kwantiteit`
-    ],
-    'social-change': [
-      `Een generatie Belgische ${audience.primary} die anders denkt over succes`,
-      `Hoe Belgische huishoudens hun relatiepatronen veranderen`,
-      `De nieuwe Belgische definitie van een goed leven`,
-      `Belgische ${audience.primary} schrijven nieuwe regels voor productiviteit`
-    ]
-  };
-  
-  const templates = titleTemplates[storyType as keyof typeof titleTemplates] || titleTemplates['lifestyle-evolution'];
-  return templates[Math.floor(Math.random() * templates.length)];
+  return `${storyline} : de nieuwe aanpak die het verschil maakt`;
 }
 
 function generateDutchStoryContent(brief: ContentBrief, storyType: string): string {
   const { storyline, brand, audience, seo } = brief;
   
-  // Create human-centered stories that educate and engage
-  const storyIntros = [
-    `Het is dinsdagochtend, 7:30, in een rijtjeshuis in Utrecht. Waar vijf jaar geleden nog de chaos heerste van vergeten huiswerk en verloren telefoonladers, verloopt nu alles met een bijna Japanse sereniteit.`,
-    
-    `Sarah van der Berg (24) zit in de bibliotheek van de Universiteit van Amsterdam en observeert haar medestudenten. Wat haar opvalt is hoe anders iedereen werkt vergeleken met toen zij begon met studeren.`,
-    
-    `In het koffietentje naast de TU Delft zitten drie vrienden te discussiëren over iets wat hun ouders waarschijnlijk niet zouden begrijpen: hoe je bewust keuzes maakt over welke technologie je wel en niet gebruikt.`,
-    
-    `Familie Janssen uit Eindhoven heeft iets ontdekt wat hun leven fundamenteel heeft veranderd. Het is niet spectaculair, geen grote doorbraak, maar het heeft hun manier van samenleven getransformeerd.`,
-    
-    `Lisa de Jong werkt vanuit huis in Amsterdam-Noord en merkt dat ze de laatste twee jaar heel anders is gaan denken over hoe ze haar dag indeelt. Het is een verschuiving die ze ook bij vrienden en collega's ziet.`
-  ];
-  
-  const selectedIntro = storyIntros[Math.floor(Math.random() * storyIntros.length)];
-  
-  return `${selectedIntro}
+  return `Aangeboden door ${brand.name}
+En als ${storyline} eindelijk toegankelijk werd? Prestaties, kwaliteit en volledige service, zonder verborgen kosten of compromissen. Dat is de belofte van ${brand.name} die inzet op transparantie, luisterend oor en de juiste prijs.
 
-Het fenomeen dat zich hier afspeelt, speelt zich af in duizenden Belgische huishoudens, studentenhuizen en kantoren. Er is een stille revolutie gaande in hoe ${audience.primary} omgaan met hun dagelijkse routine, hun technologiekeuzes, en uiteindelijk hun leven.
+Door ${brand.name},
+Gepubliceerd op ${new Date().toLocaleDateString('nl-BE')} ${new Date().toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' })}
 
-Dr. Marijke Visser, gedragswetenschapper aan de Vrije Universiteit Brussel, heeft deze verschuiving van dichtbij bestudeerd. "We zien een generationele omslag waarin jongere Belgen veel bewuster worden in hun keuzes," legt ze uit tijdens ons gesprek in haar kantoor. "Het gaat niet meer om het hebben van de nieuwste spullen, maar om het creëren van een leven dat echt bij je past."
+Kan je echt ${storyline} bekomen dat performant, doordacht en duurzaam is… zonder bang te hoeven zijn voor onaangename verrassingen wanneer je de werkelijke investering ontdekt? Bij ${brand.name} is de toezegging duidelijk: ${storyline} van kwaliteit aanbieden tegen een eerlijke, transparante, all-inclusive prijs en zonder compromissen op prestaties en duurzaamheid. Met de uitgesproken wil om premium toegankelijk te maken voor ${audience.primary}.
 
-Deze mentaliteitsverandering heeft concrete gevolgen. Belgische ${audience.primary} selecteren zorgvuldiger welke hulpmiddelen ze in hun leven toelaten. Ze stellen andere vragen: niet 'wat kan dit?' maar 'helpt dit me om te worden wie ik wil zijn?'
+Hier geen verborgen kosten, geen kosten op het laatste moment. Het voorgestelde voorstel omvat het volledige project: ${seo.primary_keyword}, begeleiding, installatie, opleiding, assistentie… Absoluut alles. Een partijdigheid voor transparantie die geruststelt.
 
-Kevin Morales, net afgestudeerd econoom uit Antwerpen, illustreert dit perfect. "Mijn ouders kochten vroeger gewoon het goedkoopste dat werkte, of juist het duurste omdat dat het beste moest zijn," vertelt hij. "Ik kijk veel meer naar hoe verschillende dingen met elkaar samenwerken en of ze me helpen om gefocust te blijven op wat belangrijk is."
+De juiste prijs, zonder compromissen
+Om dit resultaat te bereiken, zet ${brand.name} in op een efficiënte organisatie en een precieze kennis van de verwachtingen van klanten. Dankzij haar expertise heeft het bedrijf een model uitgebouwd waarbij elke oplossing op een intelligente manier wordt ontworpen, zonder onnodige meerkosten, rekening houdend met zowel het budget als de levensstijl van iedereen. Het doel is niet om een standaardoplossing tegen een kapotgeprijsde prijs te verkopen, maar om een gepersonaliseerde, evenwichtige en altijd toegankelijke aanpak uit te bouwen.
 
-Deze houding heeft ook de aandacht getrokken van bedrijven. Waar tech-merken zoals ${brand.name} vroeger vooral focusten op specs en features, moeten ze nu veel meer nadenken over hoe hun producten passen in de bredere levensstijl van gebruikers.
+Prestaties en duurzaamheid ongeacht het toegewezen bedrag
+Wat ook opvalt, is de kwaliteit van de prestaties en voorgestelde materialen. Bewezen technologieën, ruime mogelijkheden voor personalisatie, uitgebreide keuze aan configuraties: het aanbod ligt ver van de compromissen die men zou kunnen verwachten in deze prijsklasse. Men komt hier in een universum waar prestaties en functionaliteit samengaan, ongeacht je budget.
 
-Het interessante is dat deze trend niet beperkt blijft tot individuele keuzes. Belgische onderwijsinstellingen passen hun aanpak aan, werkgevers heroverwegen hun digitale werkplekken, en zelfs beleidsmakers beginnen na te denken over de implicaties van deze verschuiving.
+Of men nu zoekt naar een in de eerste plaats functionele oplossing of een meer gepersonaliseerde begeleiding, de omkadering is identiek, de garanties even solide. ${brand.name} heeft ervoor gekozen om nooit de kwaliteit op te offeren op het altaar van de prijs, waardoor een uniek voorstel op de Belgische markt ontstaat.
 
-"Het gaat uiteindelijk om intentionaliteit," zegt Emma Hendriks, masterstudent psychologie aan de KU Leuven. "Elke keuze die ik maak, doe ik bewust. Ik vraag mezelf af: brengt dit me dichter bij mijn doelen, of leidt het me juist af?"
+Deze benadering vindt een bijzondere weerklank bij Belgische ${audience.primary} die op zoek zijn naar betrouwbare, transparante partners die zich engageren op lange termijn. Meer dan een gewone leverancier positioneert ${brand.name} zich als een projectbegeleider, bezorgd om echte waarde te creëren voor zijn klanten.
 
-Deze filosofie begint door te werken in verschillende aspecten van het Belgische leven. In studentenhuizen ontstaan nieuwe afspraken over technologie-gebruik. Gezinnen experimenteren met manieren om rustiger samen te leven. Werkplekken herontwerken hun digitale infrastructuur om echt ondersteunend te zijn.
+Een model dat vertrouwen inspireert
+De evolutie van de Belgische markt bevestigt deze tendens: consumenten geven nu de voorkeur aan bedrijven die technische expertise, commerciële transparantie en engagement op lange termijn combineren. ${brand.name} belichaamt perfect deze nieuwe eis door ${storyline} voor te stellen die beantwoordt aan de huidige verwachtingen zonder compromissen op kwaliteit.
 
-Prof. dr. Joep Fransen van het Vlaams Instituut voor Onderzoek ziet in deze ontwikkeling iets typisch Belgisch. "We hebben altijd gehouden van pragmatische oplossingen," observeert hij. "Wat we nu zien is een nieuwe vorm van Belgische praktische wijsheid, toegepast op de digitale wereld."
-
-De gevolgen reiken verder dan technologiekeuzes alleen. Belgische ${audience.primary} herdefiniëren wat productiviteit betekent, hoe succes eruitziet, en wat een goed leven inhoudt. Ze kiezen bewust voor eenvoud boven complexiteit, voor focus boven afleiding.
-
-Voor bedrijven betekent dit een fundamentele verschuiving. Succesvolle spelers zoals ${brand.name} moeten niet alleen excellente producten maken, maar ook begrijpen hoe deze passen in de bredere levensverhalen van hun gebruikers.
-
-De komende jaren zal deze trend waarschijnlijk alleen maar sterker worden, met mogelijk verstrekkende gevolgen voor hoe we als samenleving omgaan met technologie, werk, en welzijn. Het is een verhaal dat nog maar net begonnen is.`;
+Deze filosofie, geworteld in de Belgische waarden van pragmatisme en authenticiteit, stelt ${brand.name} in staat om zich te onderscheiden in een sector die vaak als complex en ondoorzichtig wordt ervaren. Een benadering die school maakt en vertrouwen inspireert.`;
 }
 
 function generateFrenchStoryArticle(brief: ContentBrief): { title: string; content: string } {
   const { storyline, brand, audience, seo } = brief;
   
-  const title = `Comment les ${audience.primary} français réinventent leur quotidien`;
+  const title = `${storyline} : la nouvelle approche qui fait la différence`;
   
-  const content = `Dans un café parisien du 11ème arrondissement, Claire Dubois observe avec attention les habitudes de sa génération. À 26 ans, cette consultante en communication a remarqué que ses amis et elle abordent différemment leur relation à la technologie par rapport à leurs aînés.
+  const content = `Présenté par ${brand.name}
+Et si ${storyline} devenait enfin accessible ? Performance, qualité et service complet, sans coût caché ni compromis. C'est la promesse de ${brand.name} qui mise sur la transparence, l'écoute et la proposition la plus juste.
 
-Cette observation personnelle reflète en réalité un phénomène plus large qui touche les ${audience.primary} à travers la France. Une transformation silencieuse mais profonde de la façon dont ils organisent leur quotidien, choisissent leurs outils, et définissent leurs priorités.
+Par ${brand.name},
+Publié le ${new Date().toLocaleDateString('fr-BE')} ${new Date().toLocaleTimeString('fr-BE', { hour: '2-digit', minute: '2-digit' })}
 
-Dr. Antoine Moreau, sociologue à la Sorbonne, étudie cette évolution comportementale depuis plusieurs années. "Nous assistons à un changement générationnel majeur dans l'approche française de la technologie," explique-t-il dans son bureau universitaire. "Les jeunes adultes ne subissent plus leurs outils, ils les choisissent consciemment."
+Peut-on vraiment s'offrir ${storyline} performant, bien pensé et durable… sans craindre de mauvaises surprises au moment de découvrir l'investissement réel ? Chez ${brand.name}, l'engagement est clair : offrir ${storyline} de qualité à un prix juste, transparent, tout compris et sans compromis sur les performances et la durabilité. Avec une volonté assumée de rendre le premium accessible aux ${audience.primary}.
 
-Cette mentalité nouvelle se manifeste dans des choix très concrets. Les ${audience.primary} français privilégient désormais la cohérence d'ensemble plutôt que la performance individuelle de chaque appareil. Ils recherchent des solutions qui s'intègrent harmonieusement dans leur mode de vie.
+Ici, pas de coûts cachés, pas de frais de dernière minute. La proposition annoncée inclut l'ensemble du projet : ${seo.primary_keyword}, l'accompagnement, l'installation, la formation, l'assistance… Absolument tout. Un parti pris de transparence qui rassure.
 
-"J'ai grandi en accumulant les gadgets," raconte Thomas Leclerc, étudiant en master à Lyon. "Maintenant, je me demande toujours si quelque chose va vraiment améliorer ma vie avant de l'acheter. C'est une approche complètement différente."
+Le juste prix, sans compromis
+Pour parvenir à ce résultat, ${brand.name} mise sur une organisation efficace et une connaissance précise des attentes clients. Forte de son expertise, l'enseigne a bâti un modèle où chaque solution est conçue de manière intelligente, sans surcoût inutile, en tenant compte à la fois du budget et du mode de vie de chacun. Le but n'est pas de vendre une solution standard à prix cassé, mais de construire une approche personnalisée, équilibrée, et toujours accessible.
 
-Cette évolution n'échappe pas aux entreprises. Des marques comme ${brand.name} adaptent leur stratégie pour répondre à cette demande d'intégration réfléchie plutôt que d'innovation pure. L'enjeu n'est plus de proposer la technologie la plus avancée, mais celle qui s'adapte le mieux au projet de vie des utilisateurs.
+Performance et durabilité quel que soit le montant consacré
+Ce qui frappe également, c'est la qualité des prestations et des matériaux proposés. Technologies éprouvées, larges possibilités de personnalisation, choix étendu de configurations : l'offre est loin des compromis que l'on pourrait attendre dans cette gamme de prix. On entre ici dans un univers où la performance et la fonctionnalité cohabitent, quel que soit votre budget.
 
-L'impact de ce changement dépasse le cadre de la consommation individuelle. Les universités françaises repensent leurs espaces d'apprentissage, les entreprises questionnent leur équipement numérique, et même les politiques publiques commencent à intégrer cette nouvelle donne.
+Que l'on cherche une solution avant tout fonctionnelle ou un accompagnement plus personnalisé, l'encadrement est identique, les garanties tout aussi solides. ${brand.name} a fait le choix de ne jamais sacrifier la qualité sur l'autel du prix, créant ainsi une proposition unique sur le marché belge.
 
-Marie Fontaine, qui termine ses études à Sciences Po, résume cette philosophie : "Il s'agit de reprendre le contrôle de son temps et de son attention. Chaque choix technologique devient un choix de vie."
+Cette approche trouve un écho particulier auprès des ${audience.primary} belges qui recherchent des partenaires fiables, transparents et engagés dans la durée. Plus qu'un simple fournisseur, ${brand.name} se positionne comme un accompagnateur de projet, soucieux de créer de la valeur réelle pour ses clients.
 
-Cette approche consciente redéfinit progressivement les standards français en matière de qualité de vie, de productivité et de bien-être numérique. Elle annonce peut-être l'émergence d'un nouveau modèle français de relation à la technologie, plus réfléchi et plus humaniste.`;
+Un modèle qui inspire confiance
+L'évolution du marché belge confirme cette tendance : les consommateurs privilégient désormais les entreprises qui allient expertise technique, transparence commerciale et engagement sur la durée. ${brand.name} incarne parfaitement cette nouvelle exigence, en proposant ${storyline} qui répond aux attentes actuelles sans compromis sur la qualité.
+
+Cette philosophie, ancrée dans les valeurs belges de pragmatisme et d'authenticité, permet à ${brand.name} de se démarquer dans un secteur souvent perçu comme complexe et opaque. Une approche qui fait école et inspire confiance.`;
   
   return { title, content };
 }
