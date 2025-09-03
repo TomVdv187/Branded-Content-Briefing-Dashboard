@@ -51,49 +51,92 @@ export function generateContent(brief: ContentBrief): GeneratedContent {
  * Generate high-quality article content
  */
 function generateArticleContent(brief: ContentBrief) {
-  // Detect language for content generation
+  // Use explicitly selected locale first, then detect language as fallback
+  const selectedLocale = brief.audience.locale;
   const detectedLang = detectLanguageFromBriefing(brief.storyline + ' ' + brief.brand.name + ' ' + brief.audience.primary);
-  const locale = brief.audience.locale || detectedLang;
+  const locale = selectedLocale || detectedLang;
   
-  console.log('🌐 Language detection:', { locale, detectedLang });
+  console.log('🌐 Language selection:', { selectedLocale, detectedLang, finalLocale: locale });
   
-  // Generate storytelling content based on detected language
-  if (locale.startsWith('nl') || detectedLang === 'nl-NL') {
-    console.log('📖 Generating Dutch storytelling article');
+  // Force content generation to match selected language
+  if (locale.startsWith('nl') || locale === 'nl-BE') {
+    console.log('📖 Generating Dutch article content for locale:', locale);
     const storyArticle = generateStorytellingArticle(brief, 'nl');
     return {
       title: storyArticle.title,
       content: storyArticle.content,
       seo: {
-        meta_description: generateMetaDescription(brief, storyArticle.title),
+        meta_description: generateMetaDescription(brief, storyArticle.title, locale),
         slug: generateSlug(storyArticle.title),
         keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
       }
     };
   }
   
-  if (locale.startsWith('fr') || detectedLang === 'fr-FR') {
-    console.log('📖 Generating French storytelling article');
+  if (locale.startsWith('fr') || locale === 'fr-FR') {
+    console.log('📖 Generating French article content for locale:', locale);
     const storyArticle = generateStorytellingArticle(brief, 'fr');
     return {
       title: storyArticle.title,
       content: storyArticle.content,
       seo: {
-        meta_description: generateMetaDescription(brief, storyArticle.title),
+        meta_description: generateMetaDescription(brief, storyArticle.title, locale),
         slug: generateSlug(storyArticle.title),
         keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
       }
     };
   }
   
-  // Fallback to English storytelling
-  console.log('📖 Generating English storytelling article');
+  if (locale.startsWith('es') || locale === 'es-ES') {
+    console.log('📖 Generating Spanish article content for locale:', locale);
+    const storyArticle = generateStorytellingArticle(brief, 'es');
+    return {
+      title: storyArticle.title,
+      content: storyArticle.content,
+      seo: {
+        meta_description: generateMetaDescription(brief, storyArticle.title, locale),
+        slug: generateSlug(storyArticle.title),
+        keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
+      }
+    };
+  }
+  
+  if (locale.startsWith('de') || locale === 'de-DE') {
+    console.log('📖 Generating German article content for locale:', locale);
+    const storyArticle = generateStorytellingArticle(brief, 'de');
+    return {
+      title: storyArticle.title,
+      content: storyArticle.content,
+      seo: {
+        meta_description: generateMetaDescription(brief, storyArticle.title, locale),
+        slug: generateSlug(storyArticle.title),
+        keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
+      }
+    };
+  }
+  
+  if (locale.startsWith('it') || locale === 'it-IT') {
+    console.log('📖 Generating Italian article content for locale:', locale);
+    const storyArticle = generateStorytellingArticle(brief, 'it');
+    return {
+      title: storyArticle.title,
+      content: storyArticle.content,
+      seo: {
+        meta_description: generateMetaDescription(brief, storyArticle.title, locale),
+        slug: generateSlug(storyArticle.title),
+        keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
+      }
+    };
+  }
+  
+  // Fallback to English only if locale is English or unknown
+  console.log('📖 Generating English article content for locale:', locale);
   const storyArticle = generateStorytellingArticle(brief, 'en');
   return {
     title: storyArticle.title,
     content: storyArticle.content,
     seo: {
-      meta_description: generateMetaDescription(brief, storyArticle.title),
+      meta_description: generateMetaDescription(brief, storyArticle.title, locale),
       slug: generateSlug(storyArticle.title),
       keywords: [brief.seo.primary_keyword, ...brief.seo.secondary_keywords]
     }
@@ -327,6 +370,59 @@ function generateInstagramContent(brief: ContentBrief) {
 }
 
 function generateInstagramCaption(brief: ContentBrief, index: number): string {
+  const locale = brief.audience.locale;
+  
+  if (locale.startsWith('nl') || locale === 'nl-BE') {
+    const dutchCaptions = [
+      `✨ ${brief.storyline} game-changers voor ${brief.audience.primary}!
+
+${brief.brand.name} onthult de strategieën die echt werken 👇
+
+Wat is jouw grootste uitdaging met ${brief.seo.primary_keyword}? Laat het weten! 💬
+
+#${brief.seo.primary_keyword.replace(/\s+/g, '')} #${brief.brand.name.replace(/\s+/g, '')}`,
+      
+      `🚀 Eerlijke praat over ${brief.storyline}...
+
+${brief.audience.primary} moeten dit zien! Bewaar voor later 📌
+
+Welk inzicht raakt je het meest? Tag iemand die dit zou waarderen! 👥`,
+      
+      `💡 Mind = blown door deze ${brief.storyline} doorbraak
+
+${brief.brand.name} heeft zojuist de strategie gedeeld waar iedereen over praat
+
+Klaar om te groeien? Link in bio 🔗`
+    ];
+    return dutchCaptions[index] || dutchCaptions[0];
+  }
+  
+  if (locale.startsWith('fr') || locale === 'fr-FR') {
+    const frenchCaptions = [
+      `✨ ${brief.storyline} révolutionnaire pour ${brief.audience.primary}!
+
+${brief.brand.name} révèle les stratégies qui fonctionnent vraiment 👇
+
+Quel est votre plus grand défi avec ${brief.seo.primary_keyword}? Dites-le nous! 💬
+
+#${brief.seo.primary_keyword.replace(/\s+/g, '')} #${brief.brand.name.replace(/\s+/g, '')}`,
+      
+      `🚀 Parlons franc de ${brief.storyline}...
+
+${brief.audience.primary} doivent voir ceci! Sauvegardez pour plus tard 📌
+
+Quel insight vous touche le plus? Taguez quelqu'un qui aimerait ceci! 👥`,
+      
+      `💡 Esprit = soufflé par cette percée ${brief.storyline}
+
+${brief.brand.name} vient de partager la stratégie dont tout le monde parle
+
+Prêt à évoluer? Lien en bio 🔗`
+    ];
+    return frenchCaptions[index] || frenchCaptions[0];
+  }
+  
+  // Default English captions
   const captions = [
     `✨ ${brief.storyline} game-changers for ${brief.audience.primary}!
 
@@ -709,7 +805,30 @@ function generateImagePacks(brief: ContentBrief): ImagePack[] {
   ];
 }
 
-function generateMetaDescription(brief: ContentBrief, title: string): string {
+function generateMetaDescription(brief: ContentBrief, title: string, locale?: string): string {
+  const selectedLocale = locale || brief.audience.locale;
+  
+  if (selectedLocale.startsWith('nl') || selectedLocale === 'nl-BE') {
+    return `${brief.storyline} gids voor ${brief.audience.primary}. ${brief.brand.name} deelt bewezen ${brief.seo.primary_keyword} strategieën en inzichten voor meetbare resultaten.`.substring(0, 160);
+  }
+  
+  if (selectedLocale.startsWith('fr') || selectedLocale === 'fr-FR') {
+    return `Guide ${brief.storyline} pour ${brief.audience.primary}. ${brief.brand.name} partage des stratégies ${brief.seo.primary_keyword} éprouvées et des insights pour des résultats mesurables.`.substring(0, 160);
+  }
+  
+  if (selectedLocale.startsWith('es') || selectedLocale === 'es-ES') {
+    return `Guía ${brief.storyline} para ${brief.audience.primary}. ${brief.brand.name} comparte estrategias ${brief.seo.primary_keyword} comprobadas e insights para resultados medibles.`.substring(0, 160);
+  }
+  
+  if (selectedLocale.startsWith('de') || selectedLocale === 'de-DE') {
+    return `${brief.storyline} Leitfaden für ${brief.audience.primary}. ${brief.brand.name} teilt bewährte ${brief.seo.primary_keyword} Strategien und Erkenntnisse für messbare Ergebnisse.`.substring(0, 160);
+  }
+  
+  if (selectedLocale.startsWith('it') || selectedLocale === 'it-IT') {
+    return `Guida ${brief.storyline} per ${brief.audience.primary}. ${brief.brand.name} condivide strategie ${brief.seo.primary_keyword} comprovate e insights per risultati misurabili.`.substring(0, 160);
+  }
+  
+  // Default English
   return `${brief.storyline} guide for ${brief.audience.primary}. ${brief.brand.name} shares proven ${brief.seo.primary_keyword} strategies and insights for measurable results.`.substring(0, 160);
 }
 

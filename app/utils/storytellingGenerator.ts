@@ -1,4 +1,5 @@
 import { ContentBrief } from '../types';
+import { generateProfessionalStoryContent } from './enhancedContentGenerator';
 
 /**
  * Storytelling Content Generator
@@ -7,30 +8,10 @@ import { ContentBrief } from '../types';
  */
 
 export function generateStorytellingArticle(brief: ContentBrief, language: string = 'en'): { title: string; content: string } {
-  console.log('🌍 Storytelling generator called with language:', language, 'and locale:', brief.audience.locale);
+  console.log('🌍 Professional content generator called with language:', language, 'and locale:', brief.audience.locale);
   
-  // Use explicit locale selection from brief if available
-  const selectedLocale = brief.audience.locale || language;
-  
-  if (selectedLocale.startsWith('fr') || language === 'fr') {
-    console.log('📝 Generating French story article');
-    return generateFrenchStoryArticle(brief);
-  } else if (selectedLocale.startsWith('nl') || language === 'nl') {
-    console.log('📝 Generating Dutch story article'); 
-    return generateDutchStoryArticle(brief);
-  } else if (selectedLocale.startsWith('es') || language === 'es') {
-    console.log('📝 Generating Spanish story article');
-    return generateSpanishStoryArticle(brief);
-  } else if (selectedLocale.startsWith('de') || language === 'de') {
-    console.log('📝 Generating German story article');
-    return generateGermanStoryArticle(brief);
-  } else if (selectedLocale.startsWith('it') || language === 'it') {
-    console.log('📝 Generating Italian story article');
-    return generateItalianStoryArticle(brief);
-  } else {
-    console.log('📝 Generating English story article (default)');
-    return generateEnglishStoryArticle(brief);
-  }
+  // Use the enhanced professional content generator for all languages
+  return generateProfessionalStoryContent(brief, language);
 }
 
 function generateDutchStoryArticle(brief: ContentBrief): { title: string; content: string } {
